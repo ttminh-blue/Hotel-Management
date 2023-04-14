@@ -3,8 +3,8 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 type Props = {};
 const data = [
    {
-      Name: "Nguyễn Phát GAY Thịnh",
-      PhoneNumber: "0707570549",
+      Name: "Nguyễn Phát Thịnh",
+      PhoneNumber: "11111111",
       TypeRoom: "Guarantee",
       CMND: "543654365",
       Total: 500,
@@ -12,8 +12,17 @@ const data = [
       Prepay: 30,
    },
    {
-      Name: "Nguyễn Phát GAY Thịnh",
-      PhoneNumber: "0707570549",
+      Name: "Nguyễn Văn A",
+      PhoneNumber: "0000000",
+      TypeRoom: "Not Guarantee",
+      CMND: "543654365",
+      Total: 500,
+      Date: "07/03/2023",
+      Prepay: 30,
+   },
+   {
+      Name: "Nguyễn Sanh Tài",
+      PhoneNumber: "2222222",
       TypeRoom: "Guarantee",
       CMND: "543654365",
       Total: 500,
@@ -21,17 +30,8 @@ const data = [
       Prepay: 30,
    },
    {
-      Name: "Nguyễn Phát GAY Thịnh",
-      PhoneNumber: "0707570549",
-      TypeRoom: "Guarantee",
-      CMND: "543654365",
-      Total: 500,
-      Date: "07/03/2023",
-      Prepay: 30,
-   },
-   {
-      Name: "Nguyễn Phát GAY Thịnh",
-      PhoneNumber: "0707570549",
+      Name: "Nguyễn Phát Đăng",
+      PhoneNumber: "555555555",
       TypeRoom: "Guarantee",
       CMND: "543654365",
       Total: 500,

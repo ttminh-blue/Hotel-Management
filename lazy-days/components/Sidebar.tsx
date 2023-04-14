@@ -24,8 +24,20 @@ const SidebarCustom = (props: Props) => {
                      Dashboard
                   </Sidebar.Item>
 
+                  <Sidebar.Collapse icon={InboxIcon} label="Manage">
+                     <Sidebar.Item href="/manage/room">Room</Sidebar.Item>
+                     <Sidebar.Item href="/manage/staff">Staff</Sidebar.Item>
+                     <Sidebar.Item href="/manage/customer">
+                        Customer
+                     </Sidebar.Item>
+                     <Sidebar.Item href="/manage/user">Users</Sidebar.Item>
+                     <Sidebar.Item href="/manage/booking">Booking</Sidebar.Item>
+                     <Sidebar.Item href="/manage/checkroom">
+                        Check Room
+                     </Sidebar.Item>
+                  </Sidebar.Collapse>
                   <Sidebar.Item href="/delivery/form" icon={InboxStackIcon}>
-                     Delivery
+                     Delivery Manage
                   </Sidebar.Item>
                   <Sidebar.Item href="/service/receipt" icon={InboxIcon}>
                      Receipt

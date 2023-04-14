@@ -12,4 +12,12 @@ export type RoomType = {
     type: string,
     status: boolean,
     location:string,
-}
+};
+
+export type Booking = {
+    name: string,
+    id_guest: string,
+    room_type: string,
+    checkindate: Date,
+ };
+ 

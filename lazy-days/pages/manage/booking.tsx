@@ -1,35 +1,31 @@
-import RowTable from "@/components/RowTablePerson";
-import RowTableRoom from "@/components/RowTableRoom";
+import RowTableBooking from "@/components/RowTableBooking";
 import DefaultLayout from "@/layouts/DefaultLayout";
-import { RoomType } from "@/types/UserType";
+import { Booking } from "@/types/UserType";
 import React from "react";
 
 type Props = {};
 
-const data: RoomType[] = [
+const data: Booking[] = [
    {
-      roomID: "P101",
-      roomName: "Phong 101",
-      type: "VIP",
-      location: "Floor 1",
-      status: true,
+      name: "Nguyen Dang Minh",
+      id_guest: "KH113",
+      room_type: "PRESIDENT",
+      checkindate: new Date("2022-12-21"),
    },
    {
-      roomID: "P202",
-      roomName: "Phong 202",
-      type: "VIP",
-      location: "Floor 2",
-      status: true,
+      name: "Nguyen Dang Minh",
+      id_guest: "KH113",
+      room_type: "PRESIDENT",
+      checkindate: new Date("2022-12-21"),
    },
    {
-      roomID: "P501",
-      roomName: "Phong 504",
-      type: "VIP",
-      location: "Floor 5",
-      status: false,
+      name: "Nguyen Dang Minh",
+      id_guest: "KH113",
+      room_type: "PRESIDENT",
+      checkindate: new Date("2022-12-21"),
    },
 ];
-const RoomManagement = (props: Props) => {
+const BookingManage = (props: Props) => {
    return (
       <DefaultLayout>
          <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
@@ -126,33 +122,27 @@ const RoomManagement = (props: Props) => {
                                  </div>
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Room ID
+                                 ID
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Name Room
+                                 Name
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Type
-                              </th>
-
-                              <th scope="col" className="px-4 py-3">
-                                 Location
+                                 Check-in Date
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Status
+                                 Type Room Requies
                               </th>
-                              <th
-                                 scope="col"
-                                 className="px-4 py-3 flex justify-center w-200"
-                              >
+                              <th scope="col" className="px-4 py-3">
                                  Activity
                               </th>
-                              <th scope="col" className="px-4 py-3"></th>
                            </tr>
                         </thead>
                         <tbody>
                            {data.map((item, index) => {
-                              return <RowTableRoom item={item} key={index} />;
+                              return (
+                                 <RowTableBooking item={item} key={index} />
+                              );
                            })}
                         </tbody>
                      </table>
@@ -264,4 +254,4 @@ const RoomManagement = (props: Props) => {
    );
 };
 
-export default RoomManagement;
+export default BookingManage;

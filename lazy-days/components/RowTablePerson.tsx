@@ -1,5 +1,5 @@
 import { UserType } from "@/types/UserType";
-import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "flowbite-react";
 import Link from "next/link";
@@ -62,7 +62,7 @@ const RowTable = (props: Props) => {
                   <Link href="/user/info">Update user</Link>
                </Button>
                <Button className="mr-2 bg-red-600 hover:bg-red-800">
-                  <FontAwesomeIcon className="w-4 h-4 mr-1" icon={faTrash} />
+                  <FontAwesomeIcon className="w-4 h-4 mr-1" icon={faEye} />
                   View user
                </Button>
                {/* <Button className="ml-2">

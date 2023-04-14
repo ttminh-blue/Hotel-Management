@@ -24,32 +24,32 @@ const l = [
       id: "DV001",
       name: "Spa",
       price: 400000,
-      desc: "Phê tận óc",
-      location: "Nhà đăng minh",
+      desc: "Mang lại phúc giây thoải mái",
+      location: "Phòng 2 lầu 2",
       type: "service",
    },
    {
       id: "DV002",
-      name: "Bú cu",
+      name: "Bắn cung",
       price: 500000,
-      desc: "Phê tận óc",
-      location: "Nhà tuấn minh",
+      desc: "Trải nghiệm cảm giác làm thợ săn",
+      location: "Khu c",
       type: "service",
    },
    {
       id: "DV003",
-      name: "Kẹo",
+      name: "Tăng lực",
       price: 400000,
-      desc: "Kẹo high",
-      location: "Nhà đăng minh",
+      desc: "Nước tăng lực",
+      location: "Phòng 4,lầu 3",
       type: "product",
    },
    {
       id: "DV004",
-      name: "Đá",
+      name: "Lẩu chua",
       price: 500000,
-      desc: "Phê tận óc",
-      location: "Nhà tuấn minh",
+      desc: "Lẩu chua cay ngon",
+      location: "Phòng 6 lầu 3",
       type: "product",
    },
 ];
@@ -376,6 +376,22 @@ const Hotel = (props: Props) => {
             </div>
          </div>
          <div className="flex justify-around justify-items-center">
+            <div>
+               <label
+                  htmlFor="roomId"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+               >
+                  Mã phòng
+               </label>
+               <input
+                  type="text"
+                  name="roomId"
+                  id="roomId"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               />
+            </div>
+         </div>
+         <div className="flex justify-around justify-items-center mt-10">
             <button
                className="text-white text-3xl bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                onClick={() => {
@@ -406,9 +422,12 @@ const Hotel = (props: Props) => {
                <div>
                   <Detail detailChoose={detailChoose} />
                </div>
-               <div className="flex justify-center items-center px-2 py-16">
+               <div className="flex justify-evenly   items-center px-2 py-16">
+                  <button className="mr-5 text-white text-3xl bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                     Đăng ký
+                  </button>
                   <button className="text-white text-3xl bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                     Xác nhận và đăng ký
+                     Hủy
                   </button>
                </div>
             </div>
