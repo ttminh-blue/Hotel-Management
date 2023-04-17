@@ -8,13 +8,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helper\**" />
+    <Content Remove="Helper\**" />
+    <EmbeddedResource Remove="Helper\**" />
+    <None Remove="Helper\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Models\DataBase.sql" />
     <None Remove="Models\Doan" />
     <None Remove="Models\NewFile.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Models\DataBase.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
@@ -23,9 +36,5 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helper\" />
-</ItemGroup>
 
 </Project>
