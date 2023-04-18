@@ -1,6 +1,7 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { useRef, useState, useEffect } from "react";
-
+import axios from 'axios';
+ 
 type Props = {};
 
 const Info = (props: Props) => {
@@ -32,21 +33,33 @@ const Info = (props: Props) => {
          setCheck(false);
       }
    }, [hidden]);
+   var random_num = Math.floor(Math.random() * (999 - 100) ) + 100;
+   const authFetch = axios.create({
+      baseURL: '/api',
+    });
    const handleClick = async () => {
-      const object_data = {
-         Fullname: fullnameRef.current?.value,
+   
+      const customer_info = {
+         Makh : 'KH' + random_num,
+         TenKh: fullnameRef.current?.value,
          Cmnd: cmndRef.current?.value,
-         Address: addressRef.current?.value,
+         DiaChi: addressRef.current?.value,
          Email: emailRef.current?.value,
-         FaxNumber: faxRef.current?.value,
-         Phone: phoneRef.current?.value,
-         TypeRoom: typeRoomRef.current?.value,
-         Night: numberNightRef.current?.value,
-         Require: requireRef.current?.value,
-         Group: groupNameRef.current?.value,
-         Represent: representativeRef.current?.value,
-         Date: date,
+         Fax: faxRef.current?.value,
+         Sdt: phoneRef.current?.value,
+         LoaiPhong: typeRoomRef.current?.value,
+         SoDemLuuTru: numberNightRef.current?.value,
+         NgayDen: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
       };
+
+      try{
+         const {data} =  await authFetch.post('/KhachHang' , customer_info);
+         
+      }
+      catch(e){
+
+      }
+      
    };
    return (
       <DefaultLayout>

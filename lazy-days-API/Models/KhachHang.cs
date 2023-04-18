@@ -71,27 +71,17 @@ public partial class Khachhang
     [StringLength(50)]
     public string? TrangThaiDatPhong { get; set; }
 
-    [InverseProperty("MaKhNavigation")]
-    public virtual ICollection<Chitietdoan> Chitietdoans { get; } = new List<Chitietdoan>();
+    public Doan? doan { get; set; }
 
-    [InverseProperty("MaKhNavigation")]
-    public virtual ICollection<Chitietdulich> Chitietduliches { get; } = new List<Chitietdulich>();
+    public Chitietdoan? ct_Doan { get; set; }
 
-    [InverseProperty("MaKhNavigation")]
-    public virtual ICollection<Dondatxe> Dondatxes { get; } = new List<Dondatxe>();
+    public Congtydulich? ctydulich { get; set; }
 
-    [InverseProperty("MaKhNavigation")]
-    public virtual ICollection<Feedback> Feedbacks { get; } = new List<Feedback>();
+    public Chitietdulich? ct_dulich { get; set; }
 
-    [InverseProperty("MaKhNavigation")]
-    public virtual ICollection<Phieudangkyvanchuyen> Phieudangkyvanchuyens { get; } = new List<Phieudangkyvanchuyen>();
+    public Feedback? feedback { get; set; }
 
-    [InverseProperty("MaKhNavigation")]
-    public virtual ICollection<Phieudatphong> Phieudatphongs { get; } = new List<Phieudatphong>();
+    public Yeucaudacbiet? yeucaudacbiet { get; set; }
 
-    [InverseProperty("MaKhNavigation")]
-    public virtual ICollection<Phieudktour> Phieudktours { get; } = new List<Phieudktour>();
 
-    [InverseProperty("MaKhNavigation")]
-    public virtual ICollection<Yeucaudacbiet> Yeucaudacbiets { get; } = new List<Yeucaudacbiet>();
 }
