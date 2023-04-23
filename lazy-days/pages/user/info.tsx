@@ -1,5 +1,5 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import axios from 'axios';
  
 type Props = {};
@@ -17,28 +17,29 @@ const Info = (props: Props) => {
    const groupNameRef = useRef<any>(null);
    const representativeRef = useRef<any>(null);
    const numberPeopleRef = useRef<any>(null);
-   const [hidden, setHidden] = useState<any>();
+   const [hidden, setHidden] = useState<any>(0);
    const [valueGroup, setValueGroup] = useState("");
-   const [check, setCheck] = useState<any>(true);
+   const [check, setCheck] = useState<any>(null);
    const [count, setCount] = useState<any>(1);
    const current = new Date();
    const date = `${current.getDate()}/${
       current.getMonth() + 1
    }/${current.getFullYear()}`;
    useEffect(() => {
-      console.log(check, hidden);
-      if (hidden) {
+      if (hidden == 1) {
          setCheck(true);
-      } else {
+      } 
+      else {
          setCheck(false);
       }
    }, [hidden]);
    var random_num = Math.floor(Math.random() * (999 - 100) ) + 100;
+
    const authFetch = axios.create({
-      baseURL: '/api',
+      baseURL: 'https://localhost:7286/api',
     });
-   const handleClick = async () => {
-   
+    const handleClick = async(event: any) => {
+      event.preventDefault();
       const customer_info = {
          Makh : 'KH' + random_num,
          TenKh: fullnameRef.current?.value,
@@ -51,16 +52,66 @@ const Info = (props: Props) => {
          SoDemLuuTru: numberNightRef.current?.value,
          NgayDen: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
       };
+      const doan_info = {
+         MaDoan: 'DOAN' + random_num,
+         TenDoan: groupNameRef.current?.value,
+         NguoiDaiDien: representativeRef.current?.value,
+         SoNguoi: numberPeopleRef.current?.value,
+         SoDemLuuTru: numberNightRef.current?.value
+
+      };
+      const ycdb_info = {
+         Makh : 'KH' + random_num,
+         MaYCDB: 'YCDB' + random_num,
+         TenYCDB: requireRef.current?.value
+      };
+      const config = {
+         headers: { 
+             'content-type': 'application/json',
+             'Access-Control-Allow-Origin': "*"
+         }
+     }
 
       try{
-         const {data} =  await authFetch.post('/KhachHang' , customer_info);
+        console.log(customer_info, 11111111)
+        console.log(doan_info, 222222)
+
+        console.log(ycdb_info, 33333)
+
+         // const {data} =  await authFetch.post('/KhachHang' , customer_info, config);
+         // console.log(data)
          
       }
       catch(e){
 
       }
+    }
+   // const handleClick = async() => {
       
-   };
+   //    const customer_info = {
+   //       Makh : 'KH' + random_num,
+   //       TenKh: fullnameRef.current?.value,
+   //       Cmnd: cmndRef.current?.value,
+   //       DiaChi: addressRef.current?.value,
+   //       Email: emailRef.current?.value,
+   //       Fax: faxRef.current?.value,
+   //       Sdt: phoneRef.current?.value,
+   //       LoaiPhong: typeRoomRef.current?.value,
+   //       SoDemLuuTru: numberNightRef.current?.value,
+   //       NgayDen: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+   //    };
+
+   //    try{
+   //       console.log(88888888888)
+   //       const {data} =  await authFetch.post('/KhachHang' , customer_info);
+        
+         
+   //    }
+   //    catch(e){
+
+   //    }
+      
+   // };
    return (
       <DefaultLayout>
          <form className="container mx-auto p-4 pt-6">
@@ -232,17 +283,11 @@ const Info = (props: Props) => {
                      onChange={(event) => {
                         setValueGroup(event.target.value);
                         if (event.target.value == "Yes") {
-                           if (count == 1) {
-                              setCheck(!check);
-                           } else {
-                              setCheck(false);
-                           }
+                           setHidden(1);
                         } else {
-                           if (count == 1) {
-                              setCheck(!check);
-                           } else {
-                              setHidden(true);
-                           }
+                        
+                           setHidden(2);
+                        
                         }
                      }}
                      id="countries"
