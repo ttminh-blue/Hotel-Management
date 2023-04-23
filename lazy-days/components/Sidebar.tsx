@@ -42,9 +42,11 @@ const SidebarCustom = (props: Props) => {
                   <Sidebar.Item href="/service/receipt" icon={InboxIcon}>
                      Receipt
                   </Sidebar.Item>
-                  <Sidebar.Item href="/user/info" icon={UserIcon}>
-                     Users
-                  </Sidebar.Item>
+                  <Sidebar.Collapse icon={InboxIcon} label="User">
+                     <Sidebar.Item href="/user/info">Personal</Sidebar.Item>
+                     <Sidebar.Item href="/user/group">Group</Sidebar.Item>
+               
+                  </Sidebar.Collapse>
                   <Sidebar.Item href="/clean/form" icon={RectangleStackIcon}>
                      Cleanning
                   </Sidebar.Item>

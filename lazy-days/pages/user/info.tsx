@@ -36,7 +36,7 @@ const Info = (props: Props) => {
    var random_num = Math.floor(Math.random() * (999 - 100) ) + 100;
 
    const authFetch = axios.create({
-      baseURL: 'https://localhost:44335/api',
+      baseURL: 'https://localhost:7286/api',
     });
     const handleClick = async(event: any) => {
       event.preventDefault();
@@ -83,10 +83,10 @@ const Info = (props: Props) => {
 
          const data1 = await authFetch.post('/Yeucaudacbiet' , ycdb_info, config);
          console.log(data1);
-         if(hidden == 1){
-            console.log("Post Đoàn");
-            await authFetch.post('/Doan' , doan_info, config);
-         }
+         // if(hidden == 1){
+         //    console.log("Post Đoàn");
+         //    await authFetch.post('/Doan' , doan_info, config);
+         // }
         
 
          // console.log(data1)
@@ -284,13 +284,13 @@ const Info = (props: Props) => {
             </div>
             <div className="">
                <div className="relative z-0 w-full mb-6 group">
-                  <label
+                  {/* <label
                      htmlFor="countries"
                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                      Do users follow groups ?
-                  </label>
-                  <select
+                  </label> */}
+                  {/* <select
                      onChange={(event) => {
                         setValueGroup(event.target.value);
                         if (event.target.value == "Yes") {
@@ -307,10 +307,10 @@ const Info = (props: Props) => {
                      <option selected>Choose a option</option>
                      <option value="Yes">Yes</option>
                      <option value="No">No</option>
-                  </select>
+                  </select> */}
                </div>
 
-               {check && (
+               {/* {check && (
                   <>
                      <div className="relative z-0 w-full mb-6 group">
                         <input
@@ -361,7 +361,7 @@ const Info = (props: Props) => {
                         </label>
                      </div>
                   </>
-               )}
+               )} */}
                <div className="">
                   <div className="relative z-0 w-full mb-6 group">
                      <label
