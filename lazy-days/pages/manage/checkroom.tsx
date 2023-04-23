@@ -1,4 +1,3 @@
-import RowTablePerson from "@/components/RowTablePerson";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import React from "react";
 
