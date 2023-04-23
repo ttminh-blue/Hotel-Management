@@ -49,8 +49,9 @@ const Info = (props: Props) => {
          Fax: faxRef.current?.value,
          Sdt: phoneRef.current?.value,
          LoaiPhong: typeRoomRef.current?.value,
+         LoaiKh: hidden == 1 ? "Theo Đoàn" : "Cá nhân",
          SoDemLuuTru: numberNightRef.current?.value,
-         NgayDen: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+         NgayDen: new Date().toJSON().slice(0,10).replace(/-/g,'/'), 
       };
       const doan_info = {
          MaDoan: 'DOAN' + random_num,
@@ -74,11 +75,21 @@ const Info = (props: Props) => {
 
       try{
         console.log(customer_info, 11111111)
-        console.log(doan_info, 222222)
-
+        console.log(doan_info, 22222)
         console.log(ycdb_info, 33333)
 
-         // const {data} =  await authFetch.post('/KhachHang' , customer_info, config);
+         const {data} =  await authFetch.post('/KhachHang' , customer_info, config);
+   
+
+         const data1 = await authFetch.post('/Yeucaudacbiet' , ycdb_info, config);
+         console.log(data1);
+         // if(hidden == 1){
+         //    console.log("Post Đoàn");
+         //    await authFetch.post('/Doan' , doan_info, config);
+         // }
+        
+
+         // console.log(data1)
          // console.log(data)
          
       }
@@ -273,13 +284,13 @@ const Info = (props: Props) => {
             </div>
             <div className="">
                <div className="relative z-0 w-full mb-6 group">
-                  <label
+                  {/* <label
                      htmlFor="countries"
                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                      Do users follow groups ?
-                  </label>
-                  <select
+                  </label> */}
+                  {/* <select
                      onChange={(event) => {
                         setValueGroup(event.target.value);
                         if (event.target.value == "Yes") {
@@ -296,10 +307,10 @@ const Info = (props: Props) => {
                      <option selected>Choose a option</option>
                      <option value="Yes">Yes</option>
                      <option value="No">No</option>
-                  </select>
+                  </select> */}
                </div>
 
-               {check && (
+               {/* {check && (
                   <>
                      <div className="relative z-0 w-full mb-6 group">
                         <input
@@ -350,7 +361,7 @@ const Info = (props: Props) => {
                         </label>
                      </div>
                   </>
-               )}
+               )} */}
                <div className="">
                   <div className="relative z-0 w-full mb-6 group">
                      <label

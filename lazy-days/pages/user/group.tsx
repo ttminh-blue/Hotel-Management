@@ -1,41 +1,174 @@
-import RowTablePerson from "@/components/RowTablePerson";
 import DefaultLayout from "@/layouts/DefaultLayout";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
+import axios from 'axios';
+import RowTablePerson from "@/components/RowTablePerson";
 import { UserType } from "@/types/UserType";
-import React from "react";
-
 type Props = {};
+const data_fake = [
+    {
+       makh : 'KH001',
+       name: "Nguyễn Phát Thịnh",
+       position: "CEO",
+       email: "thinhcute@gmail.com",
+       phone: "0101435345",
+    },
+    {
+        makh : 'KH002',
+       name: "Nguyễn Phát Thịnh",
+       position: "CEO",
+       email: "thinhcute@gmail.com",
+       phone: "0101435345",
+    },
+    {
+        makh : 'KH003',
+       name: "Nguyễn Phát Thịnh",
+       position: "CEO",
+       email: "thinhcute@gmail.com",
+       phone: "0101435345",
+    },
+ ];
+const Info = (props: Props) => {
 
-const data: UserType[] = [
-   {
-      name: "Nguyễn Phát Thịnh",
-      position: "CEO",
-      email: "thinhcute@gmail.com",
-      phone: "0101435345",
-   },
-   {
-      name: "Nguyễn Phát Thịnh",
-      position: "CEO",
-      email: "thinhcute@gmail.com",
-      phone: "0101435345",
-   },
-   {
-      name: "Nguyễn Phát Thịnh",
-      position: "CEO",
-      email: "thinhcute@gmail.com",
-      phone: "0101435345",
-   },
-];
-const UserManagement = (props: Props) => {
+   const numberNightRef = useRef<any>(null);
+  
+   const groupNameRef = useRef<any>(null);
+   const representativeRef = useRef<any>(null);
+   const numberPeopleRef = useRef<any>(null);
+   const [data, setData] = useState<any>([]);
+   const authFetch = axios.create({
+    baseURL: 'https://localhost:7286/api',
+  });
+  const get_api = async () => {
+    // const get_data = await authFetch.get('/KhachHang');
+    setData(data_fake);
+  }
+   useEffect(() => {
+     get_api();
+   });
+   var random_num = Math.floor(Math.random() * (999 - 100) ) + 100;
+
+   
+    const handleClick = async(event: any) => {
+      event.preventDefault();
+      const doan_info = {
+         MaDoan: 'DOAN' + random_num,
+         TenDoan: groupNameRef.current?.value,
+         NguoiDaiDien: representativeRef.current?.value,
+         SoNguoi: numberPeopleRef.current?.value,
+         SoDemLuuTru: numberNightRef.current?.value
+
+      };
+      
+      const config = {
+         headers: { 
+             'content-type': 'application/json',
+             'Access-Control-Allow-Origin': "*"
+         }
+     }
+
+      try{
+        
+        console.log(doan_info, 22222)
+
+        const notify =  await authFetch.post('/Doan' , doan_info, config);
+         
+   
+
+      
+         
+         
+      }
+      catch(e){
+
+      }
+    }
+   
    return (
       <DefaultLayout>
-         <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
-            <div className="px-4 mx-auto max-w-screen-2xl lg:px-12">
+         <form className="container mx-auto p-4 pt-6">
+         <div className="relative z-0 w-full mb-6 group">
+                        <input
+                           ref={groupNameRef}
+                           type="text"
+                           name="group_name"
+                           id="group_name"
+                           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                           placeholder=" "
+                        />
+                        <label
+                           htmlFor="group_name"
+                           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                           Group Name
+                        </label>
+                     </div>
+                     <div className="relative z-0 w-full mb-6 group">
+                        <input
+                           ref={numberPeopleRef}
+                           type="text"
+                           name="number-people"
+                           id="number-people"
+                           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                           placeholder=" "
+                        />
+                        <label
+                           htmlFor="number-people"
+                           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                           Number of people in the group
+                        </label>
+                     </div>
+                     <div className="relative z-0 w-full mb-6 group">
+                        <input
+                           ref={representativeRef}
+                           type="text"
+                           name="representative"
+                           id="representative"
+                           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                           placeholder=" "
+                        />
+                        <label
+                           htmlFor="representative"
+                           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                           Representative
+                        </label>
+                     </div>
+                     <div className="relative z-0 w-full mb-6 group">
+               <input
+                  ref={numberNightRef}
+                  type="text"
+                  name="number_night"
+                  id="number_night"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+               />
+               <label
+                  htmlFor="number_night"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+               >
+                  Number of nights staying
+               </label>
+            </div>
+            
+           
+            
+           
+            
+               
+            
+           
+            
+        
+                     <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
+            <div className=" mx-auto max-w-screen-2xl ">
                <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                   <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
                      <div className="flex items-center flex-1 space-x-4">
                         <h5>
-                           <span className="text-gray-500">All Products:</span>
-                           <span className="dark:text-white">123456</span>
+                           <span className="text-red-500">Select customer in your group </span>
+                           
                         </h5>
                      </div>
                      <div className="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
@@ -58,48 +191,7 @@ const UserManagement = (props: Props) => {
                            </svg>
                            Add new product
                         </button>
-                        <button
-                           type="button"
-                           className="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                        >
-                           <svg
-                              className="w-4 h-4 mr-2"
-                              xmlns="http://www.w3.org/2000/svg"
-                              aria-hidden="true"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                           >
-                              <path
-                                 stroke-linecap="round"
-                                 stroke-linejoin="round"
-                                 d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-                              />
-                           </svg>
-                           Update stocks 1/250
-                        </button>
-                        <button
-                           type="button"
-                           className="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                        >
-                           <svg
-                              className="w-4 h-4 mr-2"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="2"
-                              stroke="currentColor"
-                              aria-hidden="true"
-                           >
-                              <path
-                                 stroke-linecap="round"
-                                 stroke-linejoin="round"
-                                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                              />
-                           </svg>
-                           Export
-                        </button>
+                        
                      </div>
                   </div>
                   <div className="overflow-x-auto">
@@ -107,25 +199,13 @@ const UserManagement = (props: Props) => {
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                            <tr>
                               <th scope="col" className="p-4">
-                                 <div className="flex items-center">
-                                    <input
-                                       id="checkbox-all"
-                                       type="checkbox"
-                                       className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                    <label
-                                       htmlFor="checkbox-all"
-                                       className="sr-only"
-                                    >
-                                       checkbox
-                                    </label>
-                                 </div>
+                                 
                               </th>
                               <th scope="col" className="px-4 py-3">
                                  Name
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Position
+                                 CMND
                               </th>
                               <th scope="col" className="px-4 py-3">
                                  Email
@@ -134,15 +214,14 @@ const UserManagement = (props: Props) => {
                               <th scope="col" className="px-4 py-3">
                                  Phone
                               </th>
-                              <th scope="col" className="px-4 py-3">
-                                 Status
-                              </th>
+                              
                               <th scope="col" className="px-4 py-3"></th>
                            </tr>
                         </thead>
                         <tbody>
-                           {data.map((item, index) => {
-                              return <RowTablePerson item={item} key={index} check = {true} />;
+                           
+                           {data.map((item : any, index : any) => {
+                              return <RowTablePerson item={item} key={index} check = {false}/>;
                            })}
                         </tbody>
                      </table>
@@ -152,14 +231,7 @@ const UserManagement = (props: Props) => {
                      aria-label="Table navigation"
                   >
                      <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                        Showing
-                        <span className="font-semibold text-gray-900 dark:text-white">
-                           1-10
-                        </span>
-                        of
-                        <span className="font-semibold text-gray-900 dark:text-white">
-                           1000
-                        </span>
+                       
                      </span>
                      <ul className="inline-flex items-stretch -space-x-px">
                         <li>
@@ -250,8 +322,16 @@ const UserManagement = (props: Props) => {
                </div>
             </div>
          </section>
+            <button
+               onClick={handleClick}
+               type="submit"
+               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+               Submit
+            </button>
+         </form>
       </DefaultLayout>
    );
 };
 
-export default UserManagement;
+export default Info;

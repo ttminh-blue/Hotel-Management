@@ -4,12 +4,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "flowbite-react";
 import Link from "next/link";
 import React from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 
 type Props = {
-   item: UserType;
+   item: any;
+   check: boolean;
 };
 
 const RowTable = (props: Props) => {
+   const [info, setInfo] = useState<string[]>([]);
+   useEffect(() => {
+      console.log(info);
+   })
+   const handleCheckboxChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        if (!info.includes(event.target.value)) {
+            setInfo((prev : string[]) => {
+                  console.log("Prev: ", prev);
+                  return [...prev, event.target.value.toString()]
+            })
+         } 
+      else {
+         // setInfo((prevState : any) => ({ info: prevState.filter((makh : any) => makh !== event.target.value) }));
+      }
+   }
+    }
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
          <td className="w-4 px-4 py-3">
@@ -17,6 +36,8 @@ const RowTable = (props: Props) => {
                <input
                   id="checkbox-table-search-1"
                   type="checkbox"
+                  value = {props.item.makh}
+                  onChange={handleCheckboxChange}
                   className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                />
                <label htmlFor="checkbox-table-search-1" className="sr-only">
@@ -45,14 +66,15 @@ const RowTable = (props: Props) => {
                {props.item.phone.toString()}
             </div>
          </td>
-         <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+         {props.check && (<td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex items-center">
                <div className="inline-block w-4 h-4 mr-2 bg-green-400 rounded-full"></div>
                Active
             </div>
-         </td>
+         </td>) }
 
-         <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+         {props.check &&(<td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex items-center">
                <Button className="mr-2">
                   <FontAwesomeIcon
@@ -71,8 +93,9 @@ const RowTable = (props: Props) => {
                </Button> */}
             </div>
          </td>
+)}
       </tr>
    );
 };
 
-export default RowTable;
+export default React.memo(RowTable);
