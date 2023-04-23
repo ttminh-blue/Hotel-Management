@@ -24,7 +24,5 @@ public partial class Yeucaudacbiet
     [StringLength(255)]
     public string TenYcdc { get; set; } = null!;
 
-    [ForeignKey("MaKh")]
-    [InverseProperty("Yeucaudacbiets")]
-    public virtual Khachhang? MaKhNavigation { get; set; }
+  
 }

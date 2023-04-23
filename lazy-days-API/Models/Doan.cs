@@ -32,6 +32,4 @@ public partial class Doan
     [Column("SO_DEM_LUU_TRU")]
     public int? SoDemLuuTru { get; set; }
 
-    [InverseProperty("MaDoanNavigation")]
-    public virtual ICollection<Chitietdoan> Chitietdoans { get; } = new List<Chitietdoan>();
 }

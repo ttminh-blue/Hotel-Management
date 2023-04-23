@@ -375,7 +375,6 @@ const Hotel = (props: Props) => {
                      if (cb != null && temp != null) {
                         temp.price = temp.price - (temp.price * cb.sale) / 100;
                         setDetailChoose(temp);
-                        console.log(l);
                      } else {
                         if (temp != null) {
                            setDetailChoose(temp);
