@@ -61,7 +61,7 @@ namespace lazy_days_API.Controllers
                     myCommand.Parameters.AddWithValue("@NGAY_DEN", kh.NgayDen);
                     myCommand.Parameters.AddWithValue("@SO_DEM_LUU_TRU", kh.SoDemLuuTru);
                     myCommand.Parameters.AddWithValue("@LOAI_PHONG", kh.LoaiPhong);
-                    Console.WriteLine(kh.MaKh);
+                  
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -75,7 +75,7 @@ namespace lazy_days_API.Controllers
         public JsonResult Put(Khachhang kh)
         {
             string query = @"UPDATE DBO.KHACHHANG SET TEN_KH = @TEN_KH, 
- CMND = @CMND, DIA_CHI = @DIA_CHI, SDT = @SDT, Email = @Email, Fax = @Fax, NGAY_DEN = @NGAY_DEN,  SO_DEM_LUU_TRU = @SO_DEM_LUU_TRU, LOAI_PHONG = @LOAI_PHONG WHERE MA_KH = @MAKH";
+ CMND = @CMND, DIA_CHI = @DIA_CHI, SDT = @SDT, Email = @Email, Fax = @Fax, NGAY_DEN = @NGAY_DEN,  SO_DEM_LUU_TRU = @SO_DEM_LUU_TRU, LOAI_PHONG = @LOAI_PHONG, LOAI_KH = @LOAI_KH WHERE MA_KH = @MAKH";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("Database");
             SqlDataReader myReader;
@@ -95,7 +95,8 @@ namespace lazy_days_API.Controllers
                     myCommand.Parameters.AddWithValue("@NGAY_DEN", kh.NgayDen);
                     myCommand.Parameters.AddWithValue("@SO_DEM_LUU_TRU", kh.SoDemLuuTru);
                     myCommand.Parameters.AddWithValue("@LOAI_PHONG", kh.LoaiPhong);
-                    
+                    myCommand.Parameters.AddWithValue("@LOAI_KH", kh.LoaiKh);
+
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();

@@ -30,11 +30,11 @@ const DefaultLayout = (props: Props) => {
          </Head>
          <main>
             <Header />
-            <div className="bg-slate-700 min-h-screen dark:bg-[#10192D] flex w-full">
+            <div className="bg-slate-700 min-h-screen dark:bg-[#10192D] flex w-full ">
                <div className="basis-1/4">
                   <SidebarCustom />
                </div>
-               <div className="flex-1">{props.children}</div>
+               <div className="flex-1 relative">{props.children}</div>
             </div>
          </main>
       </>
