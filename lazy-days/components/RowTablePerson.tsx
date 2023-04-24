@@ -13,22 +13,22 @@ type Props = {
 
 const RowTable = (props: Props) => {
    const [info, setInfo] = useState<string[]>([]);
+
    useEffect(() => {
       console.log(info);
-   })
-   const handleCheckboxChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+   });
+   const handleCheckboxChange = (
+      event: React.ChangeEvent<HTMLInputElement>
+   ) => {
       if (event.target.checked) {
-        if (!info.includes(event.target.value)) {
-            setInfo((prev : string[]) => {
-                  console.log("Prev: ", prev);
-                  return [...prev, event.target.value.toString()]
-            })
-         } 
-      else {
-         // setInfo((prevState : any) => ({ info: prevState.filter((makh : any) => makh !== event.target.value) }));
+         if (!info.includes(event.target.value)) {
+            console.log(event.target.value);
+            setInfo([...info, "asd"]);
+         } else {
+            // setInfo((prevState : any) => ({ info: prevState.filter((makh : any) => makh !== event.target.value) }));
+         }
       }
-   }
-    }
+   };
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
          <td className="w-4 px-4 py-3">
@@ -36,7 +36,7 @@ const RowTable = (props: Props) => {
                <input
                   id="checkbox-table-search-1"
                   type="checkbox"
-                  value = {props.item.makh}
+                  value={props.item.makh}
                   onChange={handleCheckboxChange}
                   className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                />
@@ -67,33 +67,36 @@ const RowTable = (props: Props) => {
             </div>
          </td>
 
-         {props.check && (<td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <div className="flex items-center">
-               <div className="inline-block w-4 h-4 mr-2 bg-green-400 rounded-full"></div>
-               Active
-            </div>
-         </td>) }
+         {props.check && (
+            <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+               <div className="flex items-center">
+                  <div className="inline-block w-4 h-4 mr-2 bg-green-400 rounded-full"></div>
+                  Active
+               </div>
+            </td>
+         )}
 
-         {props.check &&(<td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <div className="flex items-center">
-               <Button className="mr-2">
-                  <FontAwesomeIcon
-                     className="w-4 h-4 mr-1"
-                     icon={faPenToSquare}
-                  />
-                  <Link href="/user/info">Update user</Link>
-               </Button>
-               <Button className="mr-2 bg-red-600 hover:bg-red-800">
-                  <FontAwesomeIcon className="w-4 h-4 mr-1" icon={faEye} />
-                  View user
-               </Button>
-               {/* <Button className="ml-2">
+         {props.check && (
+            <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+               <div className="flex items-center">
+                  <Button className="mr-2">
+                     <FontAwesomeIcon
+                        className="w-4 h-4 mr-1"
+                        icon={faPenToSquare}
+                     />
+                     <Link href="/user/info">Update user</Link>
+                  </Button>
+                  <Button className="mr-2 bg-red-600 hover:bg-red-800">
+                     <FontAwesomeIcon className="w-4 h-4 mr-1" icon={faEye} />
+                     View user
+                  </Button>
+                  {/* <Button className="ml-2">
                   <FontAwesomeIcon className="ml-1" icon={faTrash} />
                   Delete user
                </Button> */}
-            </div>
-         </td>
-)}
+               </div>
+            </td>
+         )}
       </tr>
    );
 };
