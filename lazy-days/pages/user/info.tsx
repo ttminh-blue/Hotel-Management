@@ -1,7 +1,7 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import axios from 'axios';
- 
+import { ToastContainer, toast } from "react-toastify";
 type Props = {};
 
 const Info = (props: Props) => {
@@ -14,30 +14,22 @@ const Info = (props: Props) => {
    const typeRoomRef = useRef<any>(null);
    const numberNightRef = useRef<any>(null);
    const requireRef = useRef<any>(null);
-   const groupNameRef = useRef<any>(null);
-   const representativeRef = useRef<any>(null);
-   const numberPeopleRef = useRef<any>(null);
-   const [hidden, setHidden] = useState<any>(0);
-   const [valueGroup, setValueGroup] = useState("");
-   const [check, setCheck] = useState<any>(null);
-   const [count, setCount] = useState<any>(1);
+  
+  
+   const [check, setCheck] = useState<any>(false);
    const current = new Date();
    const date = `${current.getDate()}/${
       current.getMonth() + 1
    }/${current.getFullYear()}`;
-   useEffect(() => {
-      if (hidden == 1) {
-         setCheck(true);
-      } 
-      else {
-         setCheck(false);
-      }
-   }, [hidden]);
+   
    var random_num = Math.floor(Math.random() * (999 - 100) ) + 100;
 
    const authFetch = axios.create({
-      baseURL: 'https://localhost:7286/api',
+      baseURL: 'https://localhost:44335/api',
     });
+    const notify = () => {
+      toast('Add Customer Successfully !', { hideProgressBar: true, autoClose: 2000, type: 'success',  position:'top-right' })
+    }
     const handleClick = async(event: any) => {
       event.preventDefault();
       const customer_info = {
@@ -49,22 +41,21 @@ const Info = (props: Props) => {
          Fax: faxRef.current?.value,
          Sdt: phoneRef.current?.value,
          LoaiPhong: typeRoomRef.current?.value,
-         LoaiKh: hidden == 1 ? "Theo Đoàn" : "Cá nhân",
          SoDemLuuTru: numberNightRef.current?.value,
          NgayDen: new Date().toJSON().slice(0,10).replace(/-/g,'/'), 
       };
-      const doan_info = {
-         MaDoan: 'DOAN' + random_num,
-         TenDoan: groupNameRef.current?.value,
-         NguoiDaiDien: representativeRef.current?.value,
-         SoNguoi: numberPeopleRef.current?.value,
-         SoDemLuuTru: numberNightRef.current?.value
+      // const doan_info = {
+      //    MaDoan: 'DOAN' + random_num,
+      //    TenDoan: groupNameRef.current?.value,
+      //    NguoiDaiDien: representativeRef.current?.value,
+      //    SoNguoi: numberPeopleRef.current?.value,
+      //    SoDemLuuTru: numberNightRef.current?.value
 
-      };
+      // };
       const ycdb_info = {
          Makh : 'KH' + random_num,
-         MaYCDB: 'YCDB' + random_num,
-         TenYCDB: requireRef.current?.value
+         MaYCDC: 'YC' + random_num,
+         TenYCDC: requireRef?.current.value
       };
       const config = {
          headers: { 
@@ -75,22 +66,19 @@ const Info = (props: Props) => {
 
       try{
         console.log(customer_info, 11111111)
-        console.log(doan_info, 22222)
         console.log(ycdb_info, 33333)
+        const data1 = await authFetch.post('/KhachHang' , customer_info, config);
+        
+        const {data} =  await authFetch.post('/Yeucaudacbiet' , ycdb_info, config);
+        if(data.Value == "Add Succesfully"){
+            notify();
+         }
+       
 
-         const {data} =  await authFetch.post('/KhachHang' , customer_info, config);
-   
-
-         const data1 = await authFetch.post('/Yeucaudacbiet' , ycdb_info, config);
-         console.log(data1);
-         // if(hidden == 1){
-         //    console.log("Post Đoàn");
-         //    await authFetch.post('/Doan' , doan_info, config);
-         // }
+       
+        
         
 
-         // console.log(data1)
-         // console.log(data)
          
       }
       catch(e){
@@ -382,7 +370,7 @@ const Info = (props: Props) => {
                   </div>
                </div>
             </div>
-
+            
             <button
                onClick={handleClick}
                type="submit"
@@ -390,6 +378,7 @@ const Info = (props: Props) => {
             >
                Submit
             </button>
+            <ToastContainer position="top-right" />
          </form>
       </DefaultLayout>
    );
