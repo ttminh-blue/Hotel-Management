@@ -62,16 +62,12 @@ public partial class Khachhang
     [Unicode(false)]
     public string? LoaiKh { get; set; }
 
-    [Column("CHUC_VU")]
-    [StringLength(50)]
-    [Unicode(false)]
-    public string? ChucVu { get; set; }
 
     [Column("TRANG_THAI_DAT_PHONG")]
     [StringLength(50)]
     public string? TrangThaiDatPhong { get; set; }
 
-    public Doan? doan { get; set; }
+   /* public Doan? doan { get; set; }
 
     public Chitietdoan? ct_Doan { get; set; }
 
@@ -81,7 +77,7 @@ public partial class Khachhang
 
     public Feedback? feedback { get; set; }
 
-    public Yeucaudacbiet? yeucaudacbiet { get; set; }
+    public Yeucaudacbiet? yeucaudacbiet { get; set; }*/
 
 
 }

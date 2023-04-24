@@ -34,6 +34,26 @@ namespace lazy_days_API.Controllers
 			}
 		}
 
+		[HttpGet("{Id}")]
+		public async Task<IActionResult> Get([FromRoute] string Id)
+		{
+			try
+			{
+				await using SqlConnection sqlConnection = _connectionFactory.CreateConnection();
+				string queryString = "Select * from Nhanvien where Ma_NV = @Id";
+				var result = await sqlConnection.QueryAsync(queryString, new
+				{
+					Id = Id,
+				});
+				if (result == null) return NotFound();
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> AddNhanVien(Nhanvien nhanvien)
 		{
