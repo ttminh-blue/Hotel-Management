@@ -11,12 +11,15 @@ namespace lazy_days_API.Controllers
     public class KhachHangController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-
+        private readonly Booking _booking;
         public KhachHangController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-
+        public KhachHangController(Booking booking)
+        {
+            _booking = booking;
+        }
         [HttpGet]
         public JsonResult Get()
         {

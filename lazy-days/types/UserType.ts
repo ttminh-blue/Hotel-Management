@@ -15,9 +15,11 @@ export type RoomType = {
 };
 
 export type Booking = {
-    name: string,
-    id_guest: string,
-    room_type: string,
-    checkindate: Date,
+    MaPhieuDp: string,
+    MaKh: string,
+    NgayDat: Date,
+    Loaiphong: string,
+    TienCoc: number,
+    NgayTraPhong: Date,
  };
  
