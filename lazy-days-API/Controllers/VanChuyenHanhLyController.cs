@@ -60,7 +60,6 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
-
 				var allPhieuDKVC = await sqlConnection.QueryAsync("Select * from PHIEUDANGKYVANCHUYEN");
 				if (allPhieuDKVC == null) return NotFound();
 				int maxId = allPhieuDKVC.Count() + 1;
@@ -76,8 +75,8 @@ namespace lazy_days_API.Controllers
 
 				phieudangkyvanchuyen.MaPhieudangkyvanchuyen = newId;
 
-				string queryStr = "Insert into PHIEUDANGKYVANCHUYEN(MA_PHIEUDANGKYVANCHUYEN, MA_PHONG, MA_KH, " +
-					"MA_NV, NGAY_TAO, SO_LUONG, HANHLY) VALUES (@MaPhieudangkyvanchuyen, @MaPhong, @MaKh, @MaNv, @NgayTao, @SoLuong, @HanhLy)";
+				string queryStr = "Insert into PHIEUDANGKYVANCHUYEN(MA_PHIEUDANGKYVANCHUYEN, MA_PHONG, MA_PHIEU_DP, " +
+					"MA_NV, NGAY_TAO, SO_LUONG, HANHLY) VALUES (@MaPhieudangkyvanchuyen, @MaPhong, @MaPhieuDp, @MaNv, @NgayTao, @SoLuong, @HanhLy)";
 				await sqlConnection.ExecuteAsync(queryStr, phieudangkyvanchuyen);
 				return Ok("Added successfully.");
 			}
