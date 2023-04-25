@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace lazy_days_API.Models;
 
 public class Dichvukhachsan
 {
-   
-    public string? MA_DV { get; set; }
+    [Key]
+    [Column("MA_DV")]
+    [StringLength(5)]
+    [Unicode(false)]
+    public string MaDv { get; set; } = null!;
 
+    [Column("TENDICHVU")]
+    [StringLength(50)]
     public string? Tendichvu { get; set; }
 
     public double? Gia { get; set; }
 
-    public string? Mota { get; set; } 
-
+    [Column("DIADIEM")]
+    [StringLength(50)]
     public string? Diadiem { get; set; }
 
-    public string? Loai {get; set; }
+    [InverseProperty("MaDvNavigation")]
+    public virtual ICollection<Chitietgdv> Chitietgdvs { get; } = new List<Chitietgdv>();
 
+    [InverseProperty("MaDvNavigation")]
+    public virtual ICollection<Phieudangkydichvu> Phieudangkydichvus { get; } = new List<Phieudangkydichvu>();
 }

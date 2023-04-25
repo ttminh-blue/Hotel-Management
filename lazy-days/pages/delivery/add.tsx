@@ -1,13 +1,22 @@
 import TablePackage from "@/components/TablePackage";
 import DefaultLayout from "@/layouts/DefaultLayout";
+import axios from "axios";
 import { FormEvent } from "react";
+import { useQueries, useQuery } from "react-query";
 
 type Props = {};
 
 const DeliveryForm = (props: Props) => {
+   const customerQuery = useQuery(
+      "customer",
+      async () =>
+         (await axios.get(process.env.NEXT_PUBLIC_API + "KhachHang")).data
+   );
+
    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
    };
+
    return (
       <DefaultLayout>
          <form className="container mx-auto p-4 pt-6" onSubmit={handleSubmit}>
@@ -18,15 +27,24 @@ const DeliveryForm = (props: Props) => {
                >
                   Select users
                </label>
+               <h1>
+                  {customerQuery.isSuccess && customerQuery.data[0].TEN_KH}
+               </h1>
                <select
                   id="countries"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                >
                   <option selected>Choose users</option>
-                  <option value="john">John</option>
-                  <option value="bob">Bob</option>
-                  <option value="alice">Alice</option>
-                  <option value="kirito">Kirito</option>
+                  {customerQuery.isSuccess &&
+                     customerQuery.data.map(
+                        (customer: any, key: string | number) => {
+                           return (
+                              <option key={key} value={customer.MA_KH}>
+                                 {customer.MA_KH} - {customer.TEN_KH}
+                              </option>
+                           );
+                        }
+                     )}
                </select>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">

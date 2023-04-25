@@ -15,16 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Models\DataBase.sql" />
-    <None Remove="Models\Doan" />
-    <None Remove="Models\NewFile.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Models\DataBase.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Dapper" Version="2.0.123" />
