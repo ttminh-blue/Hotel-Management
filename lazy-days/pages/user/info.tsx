@@ -27,8 +27,8 @@ const Info = (props: Props) => {
    const authFetch = axios.create({
       baseURL: 'https://localhost:44335/api',
     });
-    const notify = () => {
-      toast('Add Customer Successfully !', { hideProgressBar: true, autoClose: 2000, type: 'success',  position:'top-right' })
+    const notify = (message : any) => {
+      toast(message, { autoClose: 2000, type: 'success'})
     }
     const handleClick = async(event: any) => {
       event.preventDefault();
@@ -45,14 +45,7 @@ const Info = (props: Props) => {
          yeuCauDb: requireRef?.current.value
          
       };
-      // const doan_info = {
-      //    MaDoan: 'DOAN' + random_num,
-      //    TenDoan: groupNameRef.current?.value,
-      //    NguoiDaiDien: representativeRef.current?.value,
-      //    SoNguoi: numberPeopleRef.current?.value,
-      //    SoDemLuuTru: numberNightRef.current?.value
-
-      // };
+      
      
       const config = {
          headers: { 
@@ -65,10 +58,10 @@ const Info = (props: Props) => {
         console.log(customer_info, 11111111)
        
         const data1 = await authFetch.post('/KhachHang' , customer_info, config);
-        console.log(data1);
+        console.log(data1.data);
    
         
-       notify();
+       notify(data1.data);
          
        
 

@@ -10,6 +10,7 @@ type Props = {
    item: any;
    check: boolean;
    handleChangle: any;
+   check_makh: any;
 };
 
 const RowTable = (props: Props) => {
@@ -18,6 +19,19 @@ const RowTable = (props: Props) => {
    //    console.log(info);
    // })
    const tempChange = () => { }
+
+  
+
+
+   const handleCheckedOne = (event : any) => {
+     
+      const assign = event.target.value;
+
+      
+      return props.check_makh(assign);
+   }
+
+
    const handleCheckboxChange = (event: any) => {
       const assign = event.target.value;
       // if (event.target.checked) {
@@ -87,6 +101,25 @@ const RowTable = (props: Props) => {
             </div>
          </td>)}
 
+         {!props.check && (
+            <td className="w-4 px-4 py-3">
+               <div className="flex items-center">
+                  <input
+                     id="radio"
+                     type="radio"
+                     name = "radio"
+                     value={props.item.MA_KH}
+                     onChange={handleCheckedOne}
+
+                     className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                 
+                  <label htmlFor="checkbox-table-search-1" className="sr-only">
+                     checkbox
+                  </label>
+               </div>
+         </td>
+         )}
          {props.check && (<td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex items-center">
                <Button className="mr-2">

@@ -5,22 +5,7 @@ import RowTablePerson from "@/components/RowTablePerson";
 import { UserType } from "@/types/UserType";
 
 type Props = {};
-const data_fake = [
-   {
-      MA_KH: 'KH001',
-      TEN_KH: "Nguyễn Phát Thịnh",
-      CMND: "CEO",
-      email: "thinhcute@gmail.com",
-      SDT: "0101435345",
-   },
-   {
-      MA_KH: 'KH003',
-      TEN_KH: "Nguyễn Phát Thịnh",
-      CMND: "CEO",
-      email: "thinhcute@gmail.com",
-      SDT: "0101435345",
-   },
-];
+
 const Info = (props: Props) => {
    const [arrInfo, setArrInfo] = useState<any>([]);
    const numberNightRef = useRef<any>(null);
@@ -31,14 +16,14 @@ const Info = (props: Props) => {
    const [data, setData] = useState<any>([]);
    const current = new Date();
   
-
+   const [maNguoiDD, setMaNguoiDD] = useState<any>(null);
    const authFetch = axios.create({
       baseURL: 'https://localhost:44335/api',
    });
    const get_api = async () => {
-      // const get_data = await authFetch.get('/KhachHang');
+      const get_data = await authFetch.get('/KhachHang');
 
-      setData(data_fake);
+      setData(get_data.data);
    }
    useEffect(() => {
       get_api();
@@ -63,6 +48,11 @@ const Info = (props: Props) => {
         
      
    }
+
+   const check_makh = (obj: any) => {
+      console.log("ABCCCCCCCCCCCCCC", obj)
+      setMaNguoiDD(obj)
+   }
    const formatYmd = (date : any) => date.toISOString().slice(0, 10);
 
    const handleClick = async (event: any) => {
@@ -70,7 +60,7 @@ const Info = (props: Props) => {
       const doan_info = {
          maDoan: 'GR' + random_num,
          tenDoan: groupNameRef.current?.value,
-         tenNguoiDk: representativeRef.current?.value,
+         tenNguoiDk: maNguoiDD,
          soNguoi: numberPeopleRef.current?.value,
          soDemLuuTru: numberNightRef.current?.value,
          ngayDen: formatYmd(current) 
@@ -93,7 +83,7 @@ const Info = (props: Props) => {
          arrInfo.forEach(async(makh : any) => {
             let info_chitietdoan = {
                maDoan: 'GR' + random_num,
-               Makh : makh
+               maKh : makh
             }
             console.log(info_chitietdoan)
             let post_chitietDoan = await authFetch.post('/Chitietdoan', info_chitietdoan, config);
@@ -240,6 +230,9 @@ const Info = (props: Props) => {
                                  <th scope="col" className="px-4 py-3">
                                     Phone
                                  </th>
+                                 <th scope="col" className="px-4 py-3">
+                                    Representative
+                                 </th>
 
                                  <th scope="col" className="px-4 py-3"></th>
                               </tr>
@@ -247,7 +240,7 @@ const Info = (props: Props) => {
                            <tbody>
                            
                               {data.map((item: any, index: any) => {
-                                 return <RowTablePerson item={item} key={index} check={false} handleChangle={handleChangle} />;
+                                 return <RowTablePerson item={item} key={index} check={false} handleChangle={handleChangle} check_makh = {check_makh} />;
                               })}
                            </tbody>
                         </table>
