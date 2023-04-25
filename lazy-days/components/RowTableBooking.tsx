@@ -1,4 +1,4 @@
-import { Booking } from "@/types/UserType";
+import { BookingGet } from "@/types/UserType";
 import {
    faMoneyBill,
    faPen,
@@ -12,7 +12,7 @@ import { Button } from "flowbite-react";
 import Link from "next/link";
 import React from "react";
 type Props = {
-   item: Booking;
+   item: BookingGet;
 };
 
 const RowTableBooking = (props: Props) => {
@@ -32,31 +32,45 @@ const RowTableBooking = (props: Props) => {
          </td>
          <td className="px-4 py-2">
             <span className="bg-primary-100 text-primary-800 text-xs px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300 text-[15px] font-[600]">
-               {props.item.MaPhieuDp}
+               {props.item.MA_PHIEU_DP}
             </span>
          </td>
 
          <td className="px-4 py-2">
             <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
-               {props.item.MaKh}
+               {props.item.MA_KH}
             </span>
          </td>
          <td className="px-4 py-2">
             <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
-               {props.item.NgayDat.toLocaleDateString("en-US")}
+               {props.item.NGAY_DAT.toLocaleDateString("en-US")}
             </span>
          </td>
          <td className="px-4 py-2">
             <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
-               {props.item.NgayTraPhong.toLocaleDateString("en-US")}
+               {props.item.NGAY_TRA_PHONG.toLocaleDateString("en-US")}
             </span>
          </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {props.item.Loaiphong}
+            {props.item.LOAIPHONG}
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {props.item.TienCoc}
+            {props.item.TIEN_COC}
+         </td>
+         <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+         <select
+                           id="customer"
+                           name="customer"
+                           className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md"
+                        >
+                           <option value="" selected disabled>
+                              Select a customer
+                           </option>
+                           <option value="1">John Doe</option>
+                           <option value="2">Jane Smith</option>
+                           <option value="3">Bob Johnson</option>
+                        </select>
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div>

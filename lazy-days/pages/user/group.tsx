@@ -37,7 +37,6 @@ const Info = (props: Props) => {
    });
    const get_api = async () => {
       // const get_data = await authFetch.get('/KhachHang');
-
       setData(data_fake);
    }
    useEffect(() => {
@@ -85,7 +84,6 @@ const Info = (props: Props) => {
       }
 
       try {
-
          console.log(doan_info, 22222)
 
          const temp = await authFetch.post('/Doan', doan_info, config);
