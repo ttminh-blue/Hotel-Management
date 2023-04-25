@@ -76,7 +76,7 @@ const RowTable = (props: Props) => {
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex items-center">
-               {props.item.SDT.toString()}
+               {props.item.SDT}
             </div>
          </td>
 

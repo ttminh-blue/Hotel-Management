@@ -40,9 +40,10 @@ const Info = (props: Props) => {
          Email: emailRef.current?.value,
          Fax: faxRef.current?.value,
          Sdt: phoneRef.current?.value,
-         LoaiPhong: typeRoomRef.current?.value,
+         // LoaiPhong: typeRoomRef.current?.value,
          SoDemLuuTru: numberNightRef.current?.value,
-         NgayDen: new Date().toJSON().slice(0,10).replace(/-/g,'/'), 
+         yeuCauDb: requireRef?.current.value
+         
       };
       // const doan_info = {
       //    MaDoan: 'DOAN' + random_num,
@@ -52,11 +53,7 @@ const Info = (props: Props) => {
       //    SoDemLuuTru: numberNightRef.current?.value
 
       // };
-      const ycdb_info = {
-         Makh : 'KH' + random_num,
-         MaYCDC: 'YC' + random_num,
-         TenYCDC: requireRef?.current.value
-      };
+     
       const config = {
          headers: { 
              'content-type': 'application/json',
@@ -66,13 +63,13 @@ const Info = (props: Props) => {
 
       try{
         console.log(customer_info, 11111111)
-        console.log(ycdb_info, 33333)
+       
         const data1 = await authFetch.post('/KhachHang' , customer_info, config);
+        console.log(data1);
+   
         
-        const {data} =  await authFetch.post('/Yeucaudacbiet' , ycdb_info, config);
-        if(data.Value == "Add Succesfully"){
-            notify();
-         }
+       notify();
+         
        
 
        
@@ -350,25 +347,7 @@ const Info = (props: Props) => {
                      </div>
                   </>
                )} */}
-               <div className="">
-                  <div className="relative z-0 w-full mb-6 group">
-                     <label
-                        htmlFor="payment"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                     >
-                        Payment Methods
-                     </label>
-                     <select
-                        id="countries"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                     >
-                        <option selected>Choose a option</option>
-                        <option value="Yes">Cash</option>
-                        <option value="No">Credit</option>
-                        <option value="No">Debit Credit</option>
-                     </select>
-                  </div>
-               </div>
+            
             </div>
             
             <button

@@ -3,47 +3,26 @@ import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import RowTablePerson from "@/components/RowTablePerson";
 import { UserType } from "@/types/UserType";
+
 type Props = {};
 const data_fake = [
    {
-<<<<<<< HEAD
-      makh: 'KH001',
-=======
-      makh: "KH001",
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
-      name: "Nguyễn Phát Thịnh",
-      position: "CEO",
+      MA_KH: 'KH001',
+      TEN_KH: "Nguyễn Phát Thịnh",
+      CMND: "CEO",
       email: "thinhcute@gmail.com",
-      phone: "0101435345",
+      SDT: "0101435345",
    },
    {
-<<<<<<< HEAD
-      makh: 'KH002',
-=======
-      makh: "KH002",
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
-      name: "Nguyễn Phát Thịnh",
-      position: "CEO",
+      MA_KH: 'KH003',
+      TEN_KH: "Nguyễn Phát Thịnh",
+      CMND: "CEO",
       email: "thinhcute@gmail.com",
-      phone: "0101435345",
-   },
-   {
-<<<<<<< HEAD
-      makh: 'KH003',
-=======
-      makh: "KH003",
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
-      name: "Nguyễn Phát Thịnh",
-      position: "CEO",
-      email: "thinhcute@gmail.com",
-      phone: "0101435345",
+      SDT: "0101435345",
    },
 ];
 const Info = (props: Props) => {
-<<<<<<< HEAD
    const [arrInfo, setArrInfo] = useState<any>([]);
-=======
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
    const numberNightRef = useRef<any>(null);
 
    const groupNameRef = useRef<any>(null);
@@ -51,17 +30,15 @@ const Info = (props: Props) => {
    const numberPeopleRef = useRef<any>(null);
    const [data, setData] = useState<any>([]);
    const current = new Date();
-   const date = `${current.getDate()}/${
-      current.getMonth() + 1
-   }/${current.getFullYear()}`;
+  
+
    const authFetch = axios.create({
-<<<<<<< HEAD
       baseURL: 'https://localhost:44335/api',
    });
    const get_api = async () => {
-      const get_data = await authFetch.get('/KhachHang');
+      // const get_data = await authFetch.get('/KhachHang');
 
-      setData(get_data.data);
+      setData(data_fake);
    }
    useEffect(() => {
       get_api();
@@ -72,47 +49,36 @@ const Info = (props: Props) => {
    var random_num = Math.floor(Math.random() * (999 - 100)) + 100;
 
    const handleChangle = (event: any, obj: any) => {
-    
-      setArrInfo((prevState : any) => {
-         return [...prevState, obj]
-      });
-   }
+      if (!arrInfo.includes(obj)) {
    
+         setArrInfo((prevState : any) => {
+            return [...prevState, obj]
+         });
+      }
+      else{
+         setArrInfo(() => {
+            return arrInfo.filter((makh : any) => makh != obj)
+         })
+      }
+        
+     
+   }
+   const formatYmd = (date : any) => date.toISOString().slice(0, 10);
+
    const handleClick = async (event: any) => {
       event.preventDefault();
       const doan_info = {
-         maDoan: 'DOAN' + random_num,
+         maDoan: 'GR' + random_num,
          tenDoan: groupNameRef.current?.value,
          tenNguoiDk: representativeRef.current?.value,
          soNguoi: numberPeopleRef.current?.value,
          soDemLuuTru: numberNightRef.current?.value,
-         ngayDen: date
-=======
-      baseURL: "https://localhost:7286/api",
-   });
-   const get_api = async () => {
-      // const get_data = await authFetch.get('/KhachHang');
-      setData(data_fake);
-   };
-   useEffect(() => {
-      get_api();
-   });
-   var random_num = Math.floor(Math.random() * (999 - 100)) + 100;
+         ngayDen: formatYmd(current) 
 
-   const handleClick = async (event: any) => {
-      event.preventDefault();
-      const doan_info = {
-         MaDoan: "DOAN" + random_num,
-         TenDoan: groupNameRef.current?.value,
-         NguoiDaiDien: representativeRef.current?.value,
-         SoNguoi: numberPeopleRef.current?.value,
-         SoDemLuuTru: numberNightRef.current?.value,
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
       };
 
       const config = {
          headers: {
-<<<<<<< HEAD
             'content-type': 'application/json',
             'Access-Control-Allow-Origin': "*"
          }
@@ -123,7 +89,16 @@ const Info = (props: Props) => {
          console.log(doan_info, 22222)
 
          const temp = await authFetch.post('/Doan', doan_info, config);
-         console.log(temp , "Doannnnnnn")
+
+         arrInfo.forEach(async(makh : any) => {
+            let info_chitietdoan = {
+               maDoan: 'GR' + random_num,
+               Makh : makh
+            }
+            console.log(info_chitietdoan)
+            let post_chitietDoan = await authFetch.post('/Chitietdoan', info_chitietdoan, config);
+         });
+        
 
 
 
@@ -134,19 +109,6 @@ const Info = (props: Props) => {
 
       }
    }
-=======
-            "content-type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-         },
-      };
-
-      try {
-         console.log(doan_info, 22222);
-
-         const notify = await authFetch.post("/Doan", doan_info, config);
-      } catch (e) {}
-   };
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
 
    return (
       <DefaultLayout>
@@ -217,7 +179,6 @@ const Info = (props: Props) => {
                </label>
             </div>
 
-<<<<<<< HEAD
 
 
 
@@ -227,22 +188,14 @@ const Info = (props: Props) => {
 
 
 
-=======
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
             <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
                <div className=" mx-auto max-w-screen-2xl ">
                   <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                      <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
                         <div className="flex items-center flex-1 space-x-4">
                            <h5>
-<<<<<<< HEAD
                               <span className="text-red-500">Select customer in your group </span>
 
-=======
-                              <span className="text-red-500">
-                                 Select customer in your group{" "}
-                              </span>
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
                            </h5>
                         </div>
                         <div className="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
@@ -265,23 +218,15 @@ const Info = (props: Props) => {
                               </svg>
                               Add new product
                            </button>
-<<<<<<< HEAD
-
-=======
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
                         </div>
                      </div>
                      <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                               <tr>
-<<<<<<< HEAD
                                  <th scope="col" className="p-4">
 
                                  </th>
-=======
-                                 <th scope="col" className="p-4"></th>
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
                                  <th scope="col" className="px-4 py-3">
                                     Name
                                  </th>
@@ -300,20 +245,9 @@ const Info = (props: Props) => {
                               </tr>
                            </thead>
                            <tbody>
-<<<<<<< HEAD
                            
                               {data.map((item: any, index: any) => {
                                  return <RowTablePerson item={item} key={index} check={false} handleChangle={handleChangle} />;
-=======
-                              {data.map((item: any, index: any) => {
-                                 return (
-                                    <RowTablePerson
-                                       item={item}
-                                       key={index}
-                                       check={false}
-                                    />
-                                 );
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
                               })}
                            </tbody>
                         </table>
@@ -322,13 +256,9 @@ const Info = (props: Props) => {
                         className="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
                         aria-label="Table navigation"
                      >
-<<<<<<< HEAD
                         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
 
                         </span>
-=======
-                        <span className="text-sm font-normal text-gray-500 dark:text-gray-400"></span>
->>>>>>> ba1a11fc330f9f27d943382f923612ddb6f444fb
                         <ul className="inline-flex items-stretch -space-x-px">
                            <li>
                               <a
