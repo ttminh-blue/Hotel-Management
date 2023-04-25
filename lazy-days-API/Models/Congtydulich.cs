@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace lazy_days_API.Models;
+﻿namespace lazy_days_API.Models;
 
 public partial class Congtydulich
 {
-    public string MaCty { get; set; } = null!;
+	public string MaCty { get; set; } = null!;
 
-    public string TenCty { get; set; } = null!;
+	public string TenCty { get; set; } = null!;
 
-    public string? TenNguoiDaiDien { get; set; }
+	public string? TenNguoiDaiDien { get; set; }
 
-    public string? DiaChi { get; set; }
+	public string? DiaChi { get; set; }
 
-    public virtual ICollection<Khachhang> MaKhs { get; } = new List<Khachhang>();
 }
