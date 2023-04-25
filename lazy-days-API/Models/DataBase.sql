@@ -430,4 +430,7 @@ FOREIGN KEY (MA_GDV) REFERENCES GOIDICHVU(MA_GOIDV)
 
 
 ---------------------------------------------------------------
+
+ALTER TABLE PHIEUDANGKYVANCHUYEN 
+ADD HANHLY VARCHAR(MAX)
 */

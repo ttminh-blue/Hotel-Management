@@ -36,7 +36,10 @@ public partial class Phieudangkyvanchuyen
     [Column("SO_LUONG")]
     public int? SoLuong { get; set; }
 
-    [ForeignKey("MaKh")]
+	public string? HanhLy { get; set; }
+
+
+	[ForeignKey("MaKh")]
     [InverseProperty("Phieudangkyvanchuyens")]
     public virtual Khachhang? MaKhNavigation { get; set; }
 

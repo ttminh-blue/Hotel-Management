@@ -25,11 +25,5 @@ public partial class Chitietdoan
     [Column("SO_NGUOI")]
     public int? SoNguoi { get; set; }
 
-    [ForeignKey("MaDoan")]
-    [InverseProperty("Chitietdoans")]
-    public virtual Doan MaDoanNavigation { get; set; } = null!;
-
-    [ForeignKey("MaKh")]
-    [InverseProperty("Chitietdoans")]
-    public virtual Khachhang MaKhNavigation { get; set; } = null!;
+   
 }
