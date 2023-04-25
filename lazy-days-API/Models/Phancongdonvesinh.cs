@@ -1,35 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace lazy_days_API.Models;
 
-[PrimaryKey("MaNv", "MaPhong")]
-[Table("PHANCONGDONVESINH")]
 public partial class Phancongdonvesinh
 {
-    [Key]
-    [Column("MA_NV")]
-    [StringLength(5)]
-    [Unicode(false)]
-    public string MaNv { get; set; } = null!;
+    public string MaPcdvs { get; set; } = null!;
 
-    [Key]
-    [Column("MA_PHONG")]
-    [StringLength(5)]
-    [Unicode(false)]
-    public string MaPhong { get; set; } = null!;
+    public string? MaNvbellman { get; set; }
 
-    [Column("NGAY_LAM", TypeName = "datetime")]
-    public DateTime? NgayLam { get; set; }
+    public string? MaNvvs { get; set; }
 
-    [ForeignKey("MaNv")]
-    [InverseProperty("Phancongdonvesinhs")]
-    public virtual Nhanvien MaNvNavigation { get; set; } = null!;
+    public string? MaPhong { get; set; }
 
-    [ForeignKey("MaPhong")]
-    [InverseProperty("Phancongdonvesinhs")]
-    public virtual Phong MaPhongNavigation { get; set; } = null!;
+    public DateTime? Thoigianbd { get; set; }
+
+    public DateTime? Thoigiankt { get; set; }
+
+    public virtual Nhanvien? MaNvbellmanNavigation { get; set; }
+
+    public virtual Nhanvien? MaNvvsNavigation { get; set; }
+
+    public virtual Phong? MaPhongNavigation { get; set; }
 }

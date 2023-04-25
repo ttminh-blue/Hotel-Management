@@ -1,6 +1,4 @@
-﻿using lazy_days_API.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -24,11 +22,12 @@ namespace lazy_days_API.Controllers
 			{
 
 				return Ok();
-			} catch (Exception ex)
+			}
+			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
-		} 
+		}
 
 		private SqlCommand TestConnect()
 		{
@@ -36,7 +35,7 @@ namespace lazy_days_API.Controllers
 			DataTable table = new DataTable();
 			string sqlDataSource = _configuration.GetConnectionString("Database");
 			SqlConnection myCon = new SqlConnection(sqlDataSource);
-			return new SqlCommand(query, new SqlConnection(sqlDataSource)); 
+			return new SqlCommand(query, new SqlConnection(sqlDataSource));
 		}
 	}
 }

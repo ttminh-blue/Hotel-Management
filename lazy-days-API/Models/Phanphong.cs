@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace lazy_days_API.Models;
 
-[PrimaryKey("MaPhong", "MaPhieuDp")]
-[Table("PHANPHONG")]
 public partial class Phanphong
 {
+    public string? MaNvql { get; set; }
 
-    public string MaNvql { get; set; }
-    public string MaPhieuDp { get; set; }
-    public string MaPhong { get; set; }
-    public DateTime NgayPhanPhong { get; set; }
-    public DateTime NgayNhan { get; set; }
+    public string MaPhieuDp { get; set; } = null!;
+
+    public string MaPhong { get; set; } = null!;
+
+    public DateTime? NgayPhanPhong { get; set; }
+
+    public DateTime? NgayNhan { get; set; }
+
+    public virtual Nhanvien? MaNvqlNavigation { get; set; }
+
+    public virtual Phieudatphong MaPhieuDpNavigation { get; set; } = null!;
+
+    public virtual Phong MaPhongNavigation { get; set; } = null!;
 }

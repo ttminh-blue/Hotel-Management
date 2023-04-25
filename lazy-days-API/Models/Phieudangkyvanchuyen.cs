@@ -1,24 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
 namespace lazy_days_API.Models;
 
-[Table("PHIEUDANGKYVANCHUYEN")]
 public partial class Phieudangkyvanchuyen
 {
+    public string MaPhieudangkyvanchuyen { get; set; } = null!;
 
-	public string MaPhieudangkyvanchuyen { get; set; } = null!;
+    public string? MaPhong { get; set; }
 
+    public string? MaPhieuDp { get; set; }
 
-	public string? MaPhong { get; set; }
+    public string? MaNv { get; set; }
 
-	public string? MaKh { get; set; }
+    public DateTime? NgayTao { get; set; }
 
-	public string? MaNv { get; set; }
+    public string? HanhLy { get; set; }
 
-	public DateTime? NgayTao { get; set; }
+    public int? SoLuong { get; set; }
 
-	public int? SoLuong { get; set; }
+    public virtual Nhanvien? MaNvNavigation { get; set; }
 
-	public string? HanhLy { get; set; }
+    public virtual Phieudatphong? MaPhieuDpNavigation { get; set; }
 
+    public virtual Phong? MaPhongNavigation { get; set; }
 }

@@ -1,83 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace lazy_days_API.Models;
 
-[Table("KHACHHANG")]
 public partial class Khachhang
 {
-    [Key]
-    [Column("MA_KH")]
-    [StringLength(5)]
-    [Unicode(false)]
     public string MaKh { get; set; } = null!;
 
-    [Column("TEN_KH")]
-    [StringLength(100)]
     public string? TenKh { get; set; }
 
-    [Column("CMND")]
-    [StringLength(50)]
-    [Unicode(false)]
     public string? Cmnd { get; set; }
 
-    [Column("DIA_CHI")]
-    [StringLength(100)]
     public string? DiaChi { get; set; }
 
-    [Column("SDT")]
-    [StringLength(10)]
-    [Unicode(false)]
     public string? Sdt { get; set; }
 
-    [StringLength(50)]
-    [Unicode(false)]
     public string? Email { get; set; }
 
-    [StringLength(10)]
-    [Unicode(false)]
     public string? Fax { get; set; }
 
-    [Column("NGAY_DEN", TypeName = "datetime")]
-    public DateTime? NgayDen { get; set; }
-
-    [Column("SO_DEM_LUU_TRU")]
     public int? SoDemLuuTru { get; set; }
 
-    [Column("LOAI_PHONG")]
-    [StringLength(50)]
-    [Unicode(false)]
-    public string? LoaiPhong { get; set; }
-
-    [Column("YEU_CAU_DB")]
-    [StringLength(5)]
-    [Unicode(false)]
     public string? YeuCauDb { get; set; }
 
-    [Column("LOAI_KH")]
-    [StringLength(50)]
-    [Unicode(false)]
-    public string? LoaiKh { get; set; }
-
-
-    [Column("TRANG_THAI_DAT_PHONG")]
-    [StringLength(50)]
     public string? TrangThaiDatPhong { get; set; }
 
-   /* public Doan? doan { get; set; }
+    public virtual ICollection<Dondatxe> Dondatxes { get; } = new List<Dondatxe>();
 
-    public Chitietdoan? ct_Doan { get; set; }
+    public virtual ICollection<Feedback> Feedbacks { get; } = new List<Feedback>();
 
-    public Congtydulich? ctydulich { get; set; }
+    public virtual ICollection<Phieudatphong> Phieudatphongs { get; } = new List<Phieudatphong>();
 
-    public Chitietdulich? ct_dulich { get; set; }
+    public virtual ICollection<Phieudktour> Phieudktours { get; } = new List<Phieudktour>();
 
-    public Feedback? feedback { get; set; }
+    public virtual ICollection<Yeucaudacbiet> Yeucaudacbiets { get; } = new List<Yeucaudacbiet>();
 
-    public Yeucaudacbiet? yeucaudacbiet { get; set; }*/
+    public virtual ICollection<Congtydulich> MaCties { get; } = new List<Congtydulich>();
 
-
+    public virtual ICollection<Doan> MaDoans { get; } = new List<Doan>();
 }
