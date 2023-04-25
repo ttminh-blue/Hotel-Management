@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 namespace lazy_days_API.Controllers
 {
+<<<<<<< HEAD
 	[Route("api/[controller]")]
 	[ApiController]
 	public class KhachHangController : ControllerBase
@@ -47,6 +48,74 @@ namespace lazy_days_API.Controllers
 		//				myCon.Open();
 		//				using (SqlCommand myCommand = new SqlCommand(query, myCon))
 		//				{
+=======
+    [Route("api/[controller]")]
+    [ApiController]
+    public class KhachHangController : ControllerBase
+    {
+        private readonly IConfiguration _configuration;
+        private readonly Booking _booking;
+        public KhachHangController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        public KhachHangController(Booking booking)
+        {
+            _booking = booking;
+        }
+        [HttpGet]
+        public JsonResult Get()
+        {
+            string query = @"select * from dbo.KHACHHANG";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("Database");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader= myCommand.ExecuteReader();
+                    table.Load(myReader); 
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+        [HttpPost]
+        public JsonResult Post(Khachhang kh)
+        {   
+            string query = @"INSERT INTO DBO.KHACHHANG VALUES (@MA_KH, @TEN_KH, 
+@CMND, @DIA_CHI, @SDT, @Email, @Fax, @NGAY_DEN, @SO_DEM_LUU_TRU, @LOAI_PHONG, NULL, NULL, NULL , N'Đang đặt phòng')";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("Database");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                   
+                    myCommand.Parameters.AddWithValue("@MA_KH", kh.MaKh);
+                    myCommand.Parameters.AddWithValue("@TEN_KH", kh.TenKh);
+                    myCommand.Parameters.AddWithValue("@CMND", kh.Cmnd);
+                    myCommand.Parameters.AddWithValue("@DIA_CHI", kh.DiaChi);
+                    myCommand.Parameters.AddWithValue("@SDT", kh.Sdt);
+                    myCommand.Parameters.AddWithValue("@Email", kh.Email);
+                    myCommand.Parameters.AddWithValue("@Fax", kh.Fax);
+                    myCommand.Parameters.AddWithValue("@NGAY_DEN", kh.NgayDen);
+                    myCommand.Parameters.AddWithValue("@SO_DEM_LUU_TRU", kh.SoDemLuuTru);
+                    myCommand.Parameters.AddWithValue("@LOAI_PHONG", kh.LoaiPhong);
+                  
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Add Succesfully");
+>>>>>>> fd18acd6336ec5e7400f34caec9b76d4297e211f
 
 		//					myCommand.Parameters.AddWithValue("@MA_KH", kh.MaKh);
 		//					myCommand.Parameters.AddWithValue("@TEN_KH", kh.TenKh);

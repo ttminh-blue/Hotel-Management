@@ -7,23 +7,13 @@ type Props = {};
 
 const data: Booking[] = [
    {
-      name: "Nguyen Dang Minh",
-      id_guest: "KH113",
-      room_type: "PRESIDENT",
-      checkindate: new Date("2022-12-21"),
-   },
-   {
-      name: "Nguyen Dang Minh",
-      id_guest: "KH113",
-      room_type: "PRESIDENT",
-      checkindate: new Date("2022-12-21"),
-   },
-   {
-      name: "Nguyen Dang Minh",
-      id_guest: "KH113",
-      room_type: "PRESIDENT",
-      checkindate: new Date("2022-12-21"),
-   },
+      MaPhieuDp: 'PH001',
+      MaKh: 'KH001',
+      NgayDat: new Date("2022-12-21"),
+      Loaiphong: 'VIP',
+      TienCoc: 2000000,
+      NgayTraPhong:new Date("2022-12-23"),
+   }
 ];
 const BookingManage = (props: Props) => {
    return (
@@ -32,12 +22,6 @@ const BookingManage = (props: Props) => {
             <div className="px-4 mx-auto max-w-screen-2xl lg:px-12">
                <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                   <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
-                     <div className="flex items-center flex-1 space-x-4">
-                        <h5>
-                           <span className="text-gray-500">All Products:</span>
-                           <span className="dark:text-white">123456</span>
-                        </h5>
-                     </div>
                      <div className="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
                         <button
                            type="button"
@@ -122,10 +106,10 @@ const BookingManage = (props: Props) => {
                                  </div>
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 ID
+                                 Booking Code
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Name
+                                 ID 
                               </th>
                               <th scope="col" className="px-4 py-3">
                                  Check-in Date
@@ -134,7 +118,13 @@ const BookingManage = (props: Props) => {
                                  Type Room Requies
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Activity
+                              Deposit
+                              </th>
+                              <th scope="col" className="px-4 py-3">
+                                 Check-out Date
+                              </th>
+                              <th scope="col" className="px-4 py-3">
+                                 Grant
                               </th>
                            </tr>
                         </thead>

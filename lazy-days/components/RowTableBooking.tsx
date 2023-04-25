@@ -32,23 +32,31 @@ const RowTableBooking = (props: Props) => {
          </td>
          <td className="px-4 py-2">
             <span className="bg-primary-100 text-primary-800 text-xs px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300 text-[15px] font-[600]">
-               {props.item.id_guest}
+               {props.item.MaPhieuDp}
             </span>
          </td>
 
          <td className="px-4 py-2">
             <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
-               {props.item.name}
+               {props.item.MaKh}
             </span>
          </td>
          <td className="px-4 py-2">
             <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
-               {props.item.checkindate.toLocaleDateString("en-US")}
+               {props.item.NgayDat.toLocaleDateString("en-US")}
+            </span>
+         </td>
+         <td className="px-4 py-2">
+            <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
+               {props.item.NgayTraPhong.toLocaleDateString("en-US")}
             </span>
          </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {props.item.room_type}
+            {props.item.Loaiphong}
+         </td>
+         <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {props.item.TienCoc}
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div>
