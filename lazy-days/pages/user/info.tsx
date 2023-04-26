@@ -93,7 +93,7 @@ const Info = (props: Props) => {
        
         const data1 = await authFetch.post('/KhachHang' , customer_info, config);
         notify(data1.data);
-         console.log(data1);
+        console.log(data1);
         const data = await authFetch.post('/Booking' , book, config);
        
         console.log(data1);

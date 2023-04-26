@@ -1,13 +1,31 @@
 import EmptyLayout from "@/layouts/EmptyLayout";
 import { useRef, useState, useEffect, FormEvent } from "react";
+import axios from "axios";
 type Props = {};
 
 const Login = (props: Props) => {
    const usernameRef = useRef<HTMLInputElement>(null);
    const passRef = useRef<HTMLInputElement>(null);
+   const config = {
+      headers: {
+         'content-type': 'application/json',
+         'Access-Control-Allow-Origin': "*"
+      }
+   }
+   const authFetch = axios.create({
+      baseURL: 'https://localhost:44335/api',
+   });
    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       console.log(usernameRef.current?.value, passRef.current?.value);
+
+      const account_info = {
+         tenTaikhoan: usernameRef.current?.value,
+         matkhau: passRef.current?.value
+      }
+
+      const login = authFetch.post('/Taikhoan', account_info, config)
+      console.log("Login info: ", login)
    };
 
    return (
