@@ -13,5 +13,6 @@ public partial class Taikhoan
 
     public string? MaNv { get; set; }
 
-    public virtual Nhanvien? MaNvNavigation { get; set; }
+    
+ 
 }

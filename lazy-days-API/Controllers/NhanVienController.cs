@@ -7,5 +7,6 @@ namespace lazy_days_API.Controllers
     [ApiController]
     public class NhanVienController : ControllerBase
     {
+
     }
 }
