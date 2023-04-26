@@ -70,17 +70,10 @@ const Info = (props: Props) => {
         console.log(customer_info, 11111111)
        
         const data1 = await authFetch.post('/KhachHang' , customer_info, config);
-<<<<<<< HEAD
-        console.log(data1.data);
-   
-        
-       notify(data1.data);
-=======
         const data = await authFetch.post('/booking' , book, config);
        
         console.log(data1);
-       notify();
->>>>>>> a487672a757de8a65f0fcaa89e2adff9145d7eaa
+        notify(data1.data);
          
        
 

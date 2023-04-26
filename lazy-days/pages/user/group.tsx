@@ -21,14 +21,9 @@ const Info = (props: Props) => {
       baseURL: 'https://localhost:44335/api',
    });
    const get_api = async () => {
-<<<<<<< HEAD
       const get_data = await authFetch.get('/KhachHang');
 
       setData(get_data.data);
-=======
-      // const get_data = await authFetch.get('/KhachHang');
-      setData(data_fake);
->>>>>>> a487672a757de8a65f0fcaa89e2adff9145d7eaa
    }
    useEffect(() => {
       get_api();
