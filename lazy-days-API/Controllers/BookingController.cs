@@ -6,11 +6,11 @@ using System.Data.SqlClient;
 
 namespace lazy_days_API.Controllers
 {
-	[Route("booking/[controller]")]
-	[ApiController]
-	public class Booking : ControllerBase
-	{
-		private readonly IService _connectionFactory;
+    [Route("api/[controller]")]
+    [ApiController]
+    public class Booking : ControllerBase
+    {
+        private readonly IService _connectionFactory;
 
 		public Booking(IService connection)
 		{

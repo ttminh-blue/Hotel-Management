@@ -1,21 +1,25 @@
 import RowTableBooking from "@/components/RowTableBooking";
 import DefaultLayout from "@/layouts/DefaultLayout";
-import { Booking } from "@/types/UserType";
-import React from "react";
-
+import { BookingGet } from "@/types/UserType";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
 type Props = {};
 
-const data: Booking[] = [
-   {
-      MaPhieuDp: 'PH001',
-      MaKh: 'KH001',
-      NgayDat: new Date("2022-12-21"),
-      Loaiphong: 'VIP',
-      TienCoc: 2000000,
-      NgayTraPhong:new Date("2022-12-23"),
-   }
-];
+
 const BookingManage = (props: Props) => {
+   const [booking, setBooking]= useState<BookingGet[]>([]);
+   const url = process.env.NEXT_PUBLIC_API;
+   const getData = async () => {
+      await axios.get(`${url}booking`)
+        .then((response) => {
+          console.clear()
+          setBooking(response.data)
+          console.log(response.data)
+        }).then(json => console.log(json))
+    }
+    useEffect(()=>{
+      getData();
+    })
    return (
       <DefaultLayout>
          <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
@@ -115,13 +119,16 @@ const BookingManage = (props: Props) => {
                                  Check-in Date
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Type Room Requies
+                              Check-out Date
+                              </th>
+                              <th scope="col" className="px-4 py-3">
+                              Type Room
                               </th>
                               <th scope="col" className="px-4 py-3">
                               Deposit
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Check-out Date
+                              Choice Room
                               </th>
                               <th scope="col" className="px-4 py-3">
                                  Grant
@@ -129,7 +136,7 @@ const BookingManage = (props: Props) => {
                            </tr>
                         </thead>
                         <tbody>
-                           {data.map((item, index) => {
+                           {booking.map((item, index) => {
                               return (
                                  <RowTableBooking item={item} key={index} />
                               );
