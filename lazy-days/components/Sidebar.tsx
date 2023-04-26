@@ -45,6 +45,7 @@ const SidebarCustom = (props: Props) => {
                   <Sidebar.Collapse icon={InboxIcon} label="User">
                      <Sidebar.Item href="/user/info">Personal</Sidebar.Item>
                      <Sidebar.Item href="/user/group">Group</Sidebar.Item>
+                     <Sidebar.Item href="/user/listBookRoom">Waiting List</Sidebar.Item>
                
                   </Sidebar.Collapse>
                   <Sidebar.Item href="/clean/form" icon={RectangleStackIcon}>

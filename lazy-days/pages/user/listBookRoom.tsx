@@ -55,9 +55,7 @@ const Info = (props: Props) => {
    const authFetch = axios.create({
       baseURL: 'https://localhost:44335/api',
    });
-   const authFetch_2 = axios.create({
-      baseURL: 'https://localhost:44335/booking',
-   });
+  
 
   
    const formatter = new Intl.NumberFormat('it-IT', {
@@ -73,7 +71,7 @@ const Info = (props: Props) => {
       
       setData(new_data);
 
-      const get_PDD = await authFetch_2.get('/Booking');
+      const get_PDD = await authFetch.get('/Booking');
       // console.log(11111111 , new_data)
       // console.log(2222222, get_PDD.data)
       for(let i = 0 ; i < new_data.length ; i++){
@@ -90,7 +88,7 @@ const Info = (props: Props) => {
          }
       }
 
-      // console.log(333333333, new_data)
+      console.log(333333333, new_data)
       setData(new_data);
       setPhieuDatPhong(get_PDD.data)
 

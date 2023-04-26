@@ -3,7 +3,8 @@ import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import RowTablePerson from "@/components/RowTablePerson";
 import { UserType } from "@/types/UserType";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 type Props = {};
 
 const Info = (props: Props) => {
@@ -54,14 +55,37 @@ const Info = (props: Props) => {
       setMaNguoiDD(obj)
    }
    const formatYmd = (date : any) => date.toISOString().slice(0, 10);
-
+   const notify = (message : any) => {
+      if(message == "Existed User"){
+         toast.warning(message, {
+            position: "top-right",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+               
+          })
+      }
+      else{
+         toast.success(message, {
+         position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            
+       })
+      }
+    }
    const handleClick = async (event: any) => {
       event.preventDefault();
       const doan_info = {
          maDoan: 'GR' + random_num,
          tenDoan: groupNameRef.current?.value,
          tenNguoiDk: maNguoiDD,
-         soNguoi: numberPeopleRef.current?.value,
+         soNguoi: arrInfo.length,
          soDemLuuTru: numberNightRef.current?.value,
          ngayDen: formatYmd(current) 
 
@@ -87,6 +111,7 @@ const Info = (props: Props) => {
             console.log(info_chitietdoan)
             let post_chitietDoan = await authFetch.post('/Chitietdoan', info_chitietdoan, config);
          });
+         notify(temp.data)
         
 
 
@@ -118,7 +143,7 @@ const Info = (props: Props) => {
                   Group Name
                </label>
             </div>
-            <div className="relative z-0 w-full mb-6 group">
+            {/* <div className="relative z-0 w-full mb-6 group">
                <input
                   ref={numberPeopleRef}
                   type="text"
@@ -133,8 +158,8 @@ const Info = (props: Props) => {
                >
                   Number of people in the group
                </label>
-            </div>
-            <div className="relative z-0 w-full mb-6 group">
+            </div> */}
+            {/* <div className="relative z-0 w-full mb-6 group">
                <input
                   ref={representativeRef}
                   type="text"
@@ -149,7 +174,7 @@ const Info = (props: Props) => {
                >
                   Representative
                </label>
-            </div>
+            </div> */}
             <div className="relative z-0 w-full mb-6 group">
                <input
                   ref={numberNightRef}
@@ -347,6 +372,7 @@ const Info = (props: Props) => {
             >
                Submit
             </button>
+            <ToastContainer  />
          </form>
       </DefaultLayout>
    );
