@@ -106,6 +106,9 @@ const Info = (props: Props) => {
       };
       console.log(customer_info)
       const update_data = await authFetch.put('/KhachHang', customer_info)
+      setData( () => {
+         return data.filter((kh: any) => kh.MA_KH != makh)
+      })
    }
    useEffect(() => {
       if(makh != null){
