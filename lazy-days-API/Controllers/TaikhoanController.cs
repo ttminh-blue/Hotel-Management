@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Dapper;
 
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Data;
+
 namespace lazy_days_API.Controllers
 {
     [Route("api/[controller]")]
@@ -11,10 +14,32 @@ namespace lazy_days_API.Controllers
     public class TaikhoanController : ControllerBase
     {
         private readonly IService _sqlFactory;
+        private readonly IConfiguration _config;
 
-        public TaikhoanController(IService sqlFactory)
+        public TaikhoanController(IService sqlFactory, IConfiguration config)
         {
             _sqlFactory = sqlFactory;
+            _config = config;
+        }
+        [HttpGet]
+        public JsonResult Get()
+        {
+            string query = @"select * from dbo.TAIKHOAN";
+            DataTable table = new DataTable();
+            string sqlDataSource = _config.GetConnectionString("Database");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
         }
         [HttpPost]
         public async Task<IActionResult> DANGNHAP(Taikhoan tk)
