@@ -4,13 +4,15 @@ import {
    faPen,
    faPenToSquare,
    faTrash,
+   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {} from "@fortawesome/free-regular-svg-icons";
-import {} from "@fortawesome/fontawesome-svg-core";
+import { } from "@fortawesome/free-regular-svg-icons";
+import { } from "@fortawesome/fontawesome-svg-core";
 import { Button } from "flowbite-react";
 import Link from "next/link";
 import React from "react";
+import Ellipsis from "../components/Ellipsis";
 
 type Props = {
    item: RoomType;
@@ -21,18 +23,7 @@ type Props = {
 const RowTableRoom = (props: Props) => {
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-         <td className="w-4 px-4 py-3">
-            <div className="flex items-center">
-               <input
-                  id="checkbox-table-search-1"
-                  type="checkbox"
-                  className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-               />
-               <label htmlFor="checkbox-table-search-1" className="sr-only">
-                  checkbox
-               </label>
-            </div>
-         </td>
+
          <td className="px-4 py-2">
             <span className="bg-primary-100 text-primary-800 text-xs px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300 text-[15px] font-[600]">
                {props.item.MA_PHONG}
@@ -49,32 +40,46 @@ const RowTableRoom = (props: Props) => {
             <div className="flex items-center">{props.item.LOAI}</div>
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {props.item.SO_LUONG_DAP_UNG}
+            <Ellipsis item={props.item.MA_PHONG} /> / {props.item.SO_LUONG_DAP_UNG} 
          </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex items-center">
                <div
-                  className={`inline-block w-4 h-4 mr-2 ${
-                     props.item.TRANG_THAI ? "bg-green-400" : "bg-red-600"
-                  } rounded-full`}
-               ></div>
-               {props.item.TRANG_THAI ? "Available" : "Not available"}
+                  className={`inline-block w-4 h-4 mr-2 ${props.item.TRANG_THAI === 'Available' ? "bg-green-400" :
+                   props.item.TRANG_THAI === 'Booked' ? "bg-blue-600" :
+                    props.item.TRANG_THAI === 'Occupied' ? "bg-orange-600" : 
+                    "bg-yellow-00"
+                     } rounded-full`}
+               >
+
+               </div>
+               {props.item.TRANG_THAI}
             </div>
          </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex justify-center">
-               {props.item.LOAI ? (
-                  <div></div>
-               ) : (
-                  <Button className="w-40 mr-2 bg-green-600  hover:bg-green-800 ">
-                     <FontAwesomeIcon
-                        className="w-4 h-4 mr-1"
-                        icon={faMoneyBill}
-                     />
-                     Check-Out
-                  </Button>
+               {props.item.TRANG_THAI === 'Booked' ? (
+                  <Button className="w-40 mr-2 bg-blue-600  hover:bg-blue-800 ">
+                  <FontAwesomeIcon
+                     className="w-4 h-4 mr-1"
+                     icon={faMoneyBill}
+                  />
+                  Check-In
+               </Button>
+               ) : 
+               props.item.TRANG_THAI === 'Occupied' ? (
+                  <Button className="w-40 mr-2 bg-orange-600  hover:bg-orange-800 ">
+                  <FontAwesomeIcon
+                     className="w-4 h-4 mr-1 "
+                     icon={faUser}
+                  />
+                  Add-Member
+               </Button>
+               ) : 
+               (
+                <div></div>
                )}
 
                {/* <Button className="ml-2">

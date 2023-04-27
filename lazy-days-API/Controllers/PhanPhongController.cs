@@ -40,7 +40,11 @@ namespace lazy_days_API.Controllers
 		{
 			string query = @"INSERT INTO DBO.PHANPHONG VALUES (@MaNvql, @MaPhieuDp, 
                 @MaPhong, @NgayPhanPhong, @NgayNhan);
-						UPDATE PHONG SET TRANG_THAI='Booked' WHERE MA_PHONG=@MaPhong;	";
+
+						UPDATE PHONG SET TRANG_THAI='Booked' WHERE MA_PHONG=@MaPhong;
+
+						INSERT INTO CHITIETPHONG VALUES (@MaPhong,(SELECT MA_KH FROM PHIEUDATPHONG,PHANPHONG
+						WHERE PHIEUDATPHONG.MA_PHIEU_DP=PHANPHONG.MA_PHIEU_DP AND PHANPHONG.MA_PHONG=@MaPhong));";
             DataTable table = new DataTable();
 			string sqlDataSource = _configuration.GetConnectionString("Database");
 			SqlDataReader myReader;

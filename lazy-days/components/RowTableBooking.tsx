@@ -125,7 +125,7 @@ const RowTableBooking = (props: Props) => {
                      className="w-4 h-4 mr-1"
                      icon={faPenToSquare}
                   />
-                  Grant Room
+                  Allocate Room
                </Button>
                <ToastContainer  />
             </div>

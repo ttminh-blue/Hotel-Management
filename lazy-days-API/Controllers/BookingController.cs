@@ -47,7 +47,7 @@ namespace lazy_days_API.Controllers
 				string queryStr = @"INSERT INTO DBO.PHIEUDATPHONG VALUES (@MaPhieuDp, @MaKh, 
                 @MaNv, @NgayDat, @TongTien,@TienCoc,@Loaiphong,@NgayTraPhong, @SoDemLuuTru, @MaGoidv)";
 
-				var count = await sqlConnection.QueryAsync("Select * from NHANVIEN");
+				var count = await sqlConnection.QueryAsync("Select * from PHIEUDATPHONG");
 				if (count == null) return NotFound();
 				int maxId = count.Count() + 1;
 				string newId = "DP";

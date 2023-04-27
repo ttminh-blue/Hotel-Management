@@ -52,6 +52,34 @@ const Info = (props: Props) => {
        })
       }
     }
+    const handleClickCreate = async(event:any)=>{
+      event.preventDefault();
+      const customer_info = {
+         Makh : 'KH' + random_num,
+         TenKh: fullnameRef.current?.value,
+         Cmnd: cmndRef.current?.value,
+         DiaChi: addressRef.current?.value,
+         Email: emailRef.current?.value,
+         Fax: faxRef.current?.value,
+         Sdt: phoneRef.current?.value,
+         // LoaiPhong: typeRoomRef.current?.value,
+         SoDemLuuTru: numberNightRef.current?.value,
+         yeuCauDb: requireRef?.current.value
+      };
+      const config = {
+         headers: { 
+             'content-type': 'application/json',
+             'Access-Control-Allow-Origin': "*"
+         }
+     }
+
+      try{       
+        const data1 = await authFetch.post('/KhachHang' , customer_info, config);
+        notify(data1.data);
+      }
+      catch(e){
+      }
+    }
     const handleClick = async(event: any) => {
       event.preventDefault();
       const customer_info = {
@@ -88,24 +116,12 @@ const Info = (props: Props) => {
          }
      }
 
-      try{
-        console.log(customer_info, 11111111)
-       
+      try{       
         const data1 = await authFetch.post('/KhachHang' , customer_info, config);
         notify(data1.data);
         console.log(data1);
         const data = await authFetch.post('/Booking' , book, config);
-       
         console.log(data1);
-       
-         
-       
-
-       
-        
-        
-
-         
       }
       catch(e){
 
@@ -258,8 +274,8 @@ const Info = (props: Props) => {
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
                      <option selected>Choose type of room</option>
-                     <option value="Guarantee">GUARANTEE</option>
-                     <option value="Not Guarantee">NOT GUARANTEE</option>
+                     <option value="GUARANTEE">GUARANTEE</option>
+                     <option value="NOT GUARANTEE">NOT GUARANTEE</option>
                   </select>
                </div>
             </div>
@@ -384,7 +400,15 @@ const Info = (props: Props) => {
                type="submit"
                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-               Submit
+               Booking
+            </button>
+            
+            <button
+               onClick={handleClickCreate}
+               type="submit"
+               className="ml-[30px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+               Create Customers
             </button>
             <ToastContainer  />
             

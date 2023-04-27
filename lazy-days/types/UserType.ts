@@ -15,7 +15,10 @@ export type RoomType = {
     LOAI: string,
     TRANG_THAI:string,
 };
-
+export type Members = {
+   MA_PHONG: string,
+   MA_KH: string,
+};
 export type Booking = {
     MaNvql: string,
     MaPhieuDp: string,
