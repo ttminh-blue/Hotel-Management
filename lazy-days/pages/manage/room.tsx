@@ -9,8 +9,6 @@ type Props = {};
 
 const RoomManage = (props: Props) => {
    const [room, setRoom]= useState<RoomType[]>([]);
-   const [roomG, setRoomG] = useState<RoomType[]>([])
-   const [roomN,setRoomN] = useState<RoomType[]>([])
    const [check,setCheck] = useState<boolean>(true);
    const updateCheck = (newB:boolean) => {
       setCheck(()=>newB);
@@ -231,6 +229,7 @@ const RoomManage = (props: Props) => {
                      </ul>
                   </nav>
                </div>
+               
             </div>
          </section>
       </DefaultLayout>

@@ -39,7 +39,7 @@ namespace lazy_days_API.Controllers
             try
             {
                 await using SqlConnection connection = _sqlFactory.CreateConnection();
-                var result = await connection.QueryAsync("Select * from Chitietphong where MA_PHONG=@PHONG",new {PHONG= phong});
+                var result = await connection.QueryAsync("Select KHACHHANG.* from Chitietphong,KHACHHANG where Chitietphong.MA_PHONG=@PHONG AND KHACHHANG.MA_KH=CHITIETPHONG.MA_KH", new {PHONG= phong});
                 if (result == null) return NotFound();
                 return Ok(result);
             }
@@ -48,6 +48,22 @@ namespace lazy_days_API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateRoom(string phong)
+        {
+            try
+            {
+                await using SqlConnection connection = _sqlFactory.CreateConnection();
+                var result = await connection.ExecuteAsync("UPDATE PHONG SET TRANG_THAI='Occupied' WHERE MA_PHONG=@Phong", new {Phong=phong} );
+  
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpOptions]
         public async Task<IActionResult> GetAvailable()
         {

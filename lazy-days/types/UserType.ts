@@ -7,7 +7,18 @@ export type UserType = {
     phone: number | string;
  };
  
-
+export type GuestType = {
+      MA_KH: string,
+      TEN_KH: string,
+      CMND: string,
+      DIA_CHI: string,
+      SDT: string,
+      Email: string,
+      Fax: string,
+      SO_DEM_LUU_TRU: number,
+      YEU_CAU_DB: string,
+      TRANG_THAI_DAT_PHONG: string,
+}
 export type RoomType = {
     MA_PHONG: string,
     TEN_PHONG: string,

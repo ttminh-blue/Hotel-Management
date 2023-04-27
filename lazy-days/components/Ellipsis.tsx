@@ -4,13 +4,13 @@ import {
 faEllipsisVertical,
  } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
-import { Members } from '@/types/UserType';
+import { GuestType, Members } from '@/types/UserType';
 type Props = {
 item:string;
 }
 const Ellipsis = (props:Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [options, setOption]= useState<Members[]>([]);
+  const [options, setOption]= useState<GuestType[]>([]);
   const url = process.env.NEXT_PUBLIC_API;
   const getData = async () => {
     await axios.get(`${url}Phong/customers?phong=${props.item}`)
@@ -24,7 +24,10 @@ const Ellipsis = (props:Props) => {
   }
 
   function handleMouseOver() {
-    setIsOpen(true);
+    if(options.length!=0){
+        setIsOpen(true);
+    }
+        
   }
 function handleMouseOut(){
     setIsOpen(false);
@@ -54,26 +57,36 @@ useEffect(()=>{
         </span>
       </div>
 
-      <div
-        className={`${
+      <div 
+       onMouseOver={handleMouseOver}
+       onMouseOut={handleMouseOut}
+        className={ `${
           isOpen ? 'block' : 'hidden'
-        } absolute z-10 mt-1 w-full bg-white shadow-lg`}
+        } absolute z-10 bg-[#D1D5DB] shadow-lg w-[400px]`}
       >
         <ul
+        
           role="menu"
           aria-labelledby="options-menu"
-          className="max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+          className="max-h-60 w-[400px] rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
         >
+            <table className='border-[1px] border-[black] w-max ml-[3px]'>
+                <tr className='border-[1px] border-[black]'>
+                    <th  className="px-5 py-2 border-[1px] border-[black] w-[30px]">ID</th>
+                    <th  className="px-5 py-2 border-[1px] border-[black] w-[200px]">Name</th>
+                    <th  className="px-5 py-2 border-[1px] border-[black] w-[135px]">CMND</th>
+                    
+                </tr>
+          
           {options.map((option) => (
-            <li
-              key={option.MA_KH}
-              className="text-gray-900 cursor-pointer hover:bg-gray-100 px-4 py-2 w-full"
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-            >
-              {option.MA_KH}
-            </li>
+            <tr className='border-[1px] border-[black]'>
+                   <th  className=" py-2 border-[1px] border-[black]">{option.MA_KH}</th>
+                    <th  className="px-4 py-2 border-[1px] border-[black]">{option.TEN_KH}</th>
+                    <th  className="px-4 py-2 border-[1px] border-[black] " >{option.CMND}</th>
+            </tr>
           ))}
+                
+                </table>
         </ul>
       </div>
     </div>
