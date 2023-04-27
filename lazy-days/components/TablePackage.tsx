@@ -1,9 +1,10 @@
+import { PackageFormType, PackageType } from "@/types/UserType";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Checkbox, Table, TextInput } from "flowbite-react";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
-const formInitialValue: DeliveryFormType = {
+const formInitialValue: PackageFormType = {
    packages: [],
 };
 
@@ -12,21 +13,14 @@ const packageInitialValue: PackageType = {
    packageQuantity: 0,
 };
 
-type PackageType = {
-   packageName?: string;
-   packageQuantity?: Number;
+type Props = {
+   updatePackages: Function;
 };
-
-type DeliveryFormType = {
-   packages: PackageType[];
-};
-
-type Props = {};
 
 const TablePackage = (props: Props) => {
    const [packageDeliver, setPackageDeliver] =
       useState<PackageType>(packageInitialValue);
-   const [formData, setFormData] = useState<DeliveryFormType>(formInitialValue);
+   const [formData, setFormData] = useState<PackageFormType>(formInitialValue);
    const [editState, setEditState] = useState<string>();
    const [editTempData, setEditTempData] = useState<PackageType>();
    const [selectedIndex, setSelectedIndex] = useState<Number[]>([]);
@@ -124,6 +118,10 @@ const TablePackage = (props: Props) => {
          return { ...prev, packages: newPackages };
       });
    };
+
+   useEffect(() => {
+      props.updatePackages(formData);
+   }, [formData]);
 
    return (
       <Table hoverable={true}>
