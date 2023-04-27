@@ -40,7 +40,7 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection connection = _sqlFactory.CreateConnection();
-				var result = await connection.QueryAsync("Select * from Phong where MA_PHONG = @Id", new
+				var result = await connection.QueryFirstOrDefaultAsync("Select * from Phong where MA_PHONG = @Id", new
 				{
 					Id = Id
 				});
