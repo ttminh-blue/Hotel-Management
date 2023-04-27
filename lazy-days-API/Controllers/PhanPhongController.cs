@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 namespace lazy_days_API.Controllers
 {
-	[Route("grant/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class PhanPhong : ControllerBase
 	{
@@ -39,8 +39,9 @@ namespace lazy_days_API.Controllers
 		public JsonResult Post(Phanphong pp)
 		{
 			string query = @"INSERT INTO DBO.PHANPHONG VALUES (@MaNvql, @MaPhieuDp, 
-                @MaPhong, @NgayPhanPhong, @NgayNhan)";
-			DataTable table = new DataTable();
+                @MaPhong, @NgayPhanPhong, @NgayNhan);
+						UPDATE PHONG SET TRANG_THAI='Booked' WHERE MA_PHONG=@MaPhong;	";
+            DataTable table = new DataTable();
 			string sqlDataSource = _configuration.GetConnectionString("Database");
 			SqlDataReader myReader;
 			using (SqlConnection myCon = new SqlConnection(sqlDataSource))
@@ -51,14 +52,14 @@ namespace lazy_days_API.Controllers
 					myCommand.Parameters.AddWithValue("@MaNvql", pp.MaNvql);
 					myCommand.Parameters.AddWithValue("@MaPhieuDp", pp.MaPhieuDp);
 					myCommand.Parameters.AddWithValue("@MaPhong", pp.MaPhong);
-					myCommand.Parameters.AddWithValue("@NgayPhanPhong", pp.NgayPhanPhong);
-					myCommand.Parameters.AddWithValue("@NgayNhan", pp.NgayNhan);
+					myCommand.Parameters.AddWithValue("@NgayPhanPhong", DateTime.Now);
+					myCommand.Parameters.AddWithValue("@NgayNhan", DateTime.Now);
 					myReader = myCommand.ExecuteReader();
 					table.Load(myReader);
 					myReader.Close();
 					myCon.Close();
 				}
-			}
+            }
 			return new JsonResult("Add Succesfully");
 
 		}

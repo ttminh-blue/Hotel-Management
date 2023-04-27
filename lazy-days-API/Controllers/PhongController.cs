@@ -33,8 +33,53 @@ namespace lazy_days_API.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+        [HttpGet("customers")]
+        public async Task<IActionResult> GetCustomer(string phong)
+        {
+            try
+            {
+                await using SqlConnection connection = _sqlFactory.CreateConnection();
+                var result = await connection.QueryAsync("Select * from Chitietphong where MA_PHONG=@PHONG",new {PHONG= phong});
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpOptions]
+        public async Task<IActionResult> GetAvailable()
+        {
+            try
+            {
+                await using SqlConnection connection = _sqlFactory.CreateConnection();
+                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='available' and LOAI='GUARANTEE'");
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut]
+        public async Task<IActionResult> GetNG()
+        {
+            try
+            {
+                await using SqlConnection connection = _sqlFactory.CreateConnection();
+                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='available' and LOAI='NOT GUARANTEE'");
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-		[HttpGet("{Id}")]
+        [HttpGet("{Id}")]
 		public async Task<IActionResult> Get([FromRoute] string Id)
 		{
 			try

@@ -15,9 +15,4 @@ public partial class Phanphong
 
     public DateTime? NgayNhan { get; set; }
 
-    public virtual Nhanvien? MaNvqlNavigation { get; set; }
-
-    public virtual Phieudatphong MaPhieuDpNavigation { get; set; } = null!;
-
-    public virtual Phong MaPhongNavigation { get; set; } = null!;
 }

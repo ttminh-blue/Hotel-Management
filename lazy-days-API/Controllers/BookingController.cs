@@ -23,7 +23,7 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection sqlConnection = _connectionFactory.CreateConnection();
-				string queryString = "Select * from PHIEUDATPHONG";
+				string queryString = "SELECT * FROM PHIEUDATPHONG p WHERE NOT EXISTS ( SELECT * FROM PHANPHONG pp  WHERE pp.MA_PHIEU_DP = p.MA_PHIEU_DP ); ";
 				var result = await sqlConnection.QueryAsync(queryString);
 				if (result == null) return NotFound();
 				return Ok(result);
@@ -43,14 +43,14 @@ namespace lazy_days_API.Controllers
 				string query = $"Select GIATIEN from LOAIPHONG WHERE LOAIPHONG='{DP.Loaiphong}'";
 				int giatien = await sqlConnection.QueryFirstOrDefaultAsync<int>(query);
 				DP.TienCoc = giatien * 0.3;
-
+				DP.NgayDat = DateTime.Now;
 				string queryStr = @"INSERT INTO DBO.PHIEUDATPHONG VALUES (@MaPhieuDp, @MaKh, 
                 @MaNv, @NgayDat, @TongTien,@TienCoc,@Loaiphong,@NgayTraPhong, @SoDemLuuTru, @MaGoidv)";
 
 				var count = await sqlConnection.QueryAsync("Select * from NHANVIEN");
 				if (count == null) return NotFound();
 				int maxId = count.Count() + 1;
-				string newId = "PH";
+				string newId = "DP";
 				if (maxId <= 9)
 				{
 					newId += "00" + maxId.ToString();

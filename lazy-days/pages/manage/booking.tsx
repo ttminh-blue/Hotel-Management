@@ -1,25 +1,47 @@
 import RowTableBooking from "@/components/RowTableBooking";
 import DefaultLayout from "@/layouts/DefaultLayout";
-import { BookingGet } from "@/types/UserType";
-import React, { useState,useEffect } from "react";
+import { BookingGet, RoomType } from "@/types/UserType";
+import React, { useState,useEffect, useRef } from "react";
 import axios from "axios";
 type Props = {};
 
 
 const BookingManage = (props: Props) => {
    const [booking, setBooking]= useState<BookingGet[]>([]);
+   const [roomG, setRoomG] = useState<RoomType[]>([])
+   const [roomN,setRoomN] = useState<RoomType[]>([])
+   const [check,setCheck] = useState<boolean>(true);
+   const updateCheck = (newB:boolean) => {
+      setCheck(()=>newB);
+    };
    const url = process.env.NEXT_PUBLIC_API;
    const getData = async () => {
       await axios.get(`${url}booking`)
-        .then((response) => {
-          console.clear()
-          setBooking(response.data)
+        .then((response) => { 
+          setBooking(()=>response.data)
           console.log(response.data)
         }).then(json => console.log(json))
     }
+    const getDataRoomG = async () => {
+      await axios.options(`${url}phong`)
+        .then((response) => {
+          setRoomG(response.data)
+          console.log(response.data)
+        }).then(json => console.log(json))
+    }
+    const getDataRoomN = async () => {
+      await axios.put(`${url}phong`)
+        .then((response) => {
+          setRoomN(response.data)
+          console.log(response.data)
+        }).then(json => console.log(json))
+    }
+    
     useEffect(()=>{
       getData();
-    })
+      getDataRoomG();
+      getDataRoomN();
+    },[check])
    return (
       <DefaultLayout>
          <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
@@ -95,19 +117,7 @@ const BookingManage = (props: Props) => {
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                            <tr>
                               <th scope="col" className="p-4">
-                                 <div className="flex items-center">
-                                    <input
-                                       id="checkbox-all"
-                                       type="checkbox"
-                                       className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                    <label
-                                       htmlFor="checkbox-all"
-                                       className="sr-only"
-                                    >
-                                       checkbox
-                                    </label>
-                                 </div>
+                                 
                               </th>
                               <th scope="col" className="px-4 py-3">
                                  Booking Code
@@ -138,7 +148,7 @@ const BookingManage = (props: Props) => {
                         <tbody>
                            {booking.map((item, index) => {
                               return (
-                                 <RowTableBooking item={item} key={index} />
+                                 <RowTableBooking item={item} key={index} dropdownN={roomN} dropdownG={roomG} check={check} updateCheck={updateCheck}/>
                               );
                            })}
                         </tbody>

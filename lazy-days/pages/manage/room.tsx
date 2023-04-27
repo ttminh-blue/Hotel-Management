@@ -1,47 +1,36 @@
-import RowTable from "@/components/RowTablePerson";
 import RowTableRoom from "@/components/RowTableRoom";
 import DefaultLayout from "@/layouts/DefaultLayout";
-import { RoomType } from "@/types/UserType";
-import React from "react";
-
+import { BookingGet, RoomType } from "@/types/UserType";
+import React, { useState,useEffect, useRef } from "react";
+import axios from "axios";
 type Props = {};
 
-const data: RoomType[] = [
-   {
-      roomID: "P101",
-      roomName: "Phong 101",
-      type: "VIP",
-      location: "Floor 1",
-      status: true,
-   },
-   {
-      roomID: "P202",
-      roomName: "Phong 202",
-      type: "VIP",
-      location: "Floor 2",
-      status: true,
-   },
-   {
-      roomID: "P501",
-      roomName: "Phong 504",
-      type: "VIP",
-      location: "Floor 5",
-      status: false,
-   },
-];
-const RoomManagement = (props: Props) => {
+
+const RoomManage = (props: Props) => {
+   const [room, setRoom]= useState<RoomType[]>([]);
+   const [roomG, setRoomG] = useState<RoomType[]>([])
+   const [roomN,setRoomN] = useState<RoomType[]>([])
+   const [check,setCheck] = useState<boolean>(true);
+   const updateCheck = (newB:boolean) => {
+      setCheck(()=>newB);
+    };
+   const url = process.env.NEXT_PUBLIC_API;
+   const getData = async () => {
+      await axios.get(`${url}Phong`)
+        .then((response) => { 
+          setRoom(()=>response.data)
+          console.log(response.data)
+        }).then(json => console.log(json))
+    }    
+    useEffect(()=>{
+      getData();
+    },[check])
    return (
       <DefaultLayout>
          <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
             <div className="px-4 mx-auto max-w-screen-2xl lg:px-12">
                <div className="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                   <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
-                     <div className="flex items-center flex-1 space-x-4">
-                        <h5>
-                           <span className="text-gray-500">All Products:</span>
-                           <span className="dark:text-white">123456</span>
-                        </h5>
-                     </div>
                      <div className="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
                         <button
                            type="button"
@@ -111,48 +100,39 @@ const RoomManagement = (props: Props) => {
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                            <tr>
                               <th scope="col" className="p-4">
-                                 <div className="flex items-center">
-                                    <input
-                                       id="checkbox-all"
-                                       type="checkbox"
-                                       className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                    <label
-                                       htmlFor="checkbox-all"
-                                       className="sr-only"
-                                    >
-                                       checkbox
-                                    </label>
-                                 </div>
+                                 
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Room ID
+                                 Booking Code
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Name Room
+                                 ID 
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Type
-                              </th>
-
-                              <th scope="col" className="px-4 py-3">
-                                 Location
+                                 Check-in Date
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Status
+                              Check-out Date
                               </th>
-                              <th
-                                 scope="col"
-                                 className="px-4 py-3 flex justify-center w-200"
-                              >
-                                 Activity
+                              <th scope="col" className="px-4 py-3">
+                              Type Room
                               </th>
-                              <th scope="col" className="px-4 py-3"></th>
+                              <th scope="col" className="px-4 py-3">
+                              Deposit
+                              </th>
+                              <th scope="col" className="px-4 py-3">
+                              Choice Room
+                              </th>
+                              <th scope="col" className="px-4 py-3">
+                                 Grant
+                              </th>
                            </tr>
                         </thead>
                         <tbody>
-                           {data.map((item, index) => {
-                              return <RowTableRoom item={item} key={index} />;
+                           {room.map((item, index) => {
+                              return (
+                                 <RowTableRoom item={item} key={index} check={check} updateCheck={updateCheck}/>
+                              );
                            })}
                         </tbody>
                      </table>
@@ -264,4 +244,4 @@ const RoomManagement = (props: Props) => {
    );
 };
 
-export default RoomManagement;
+export default RoomManage;

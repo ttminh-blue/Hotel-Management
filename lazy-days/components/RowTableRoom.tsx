@@ -14,6 +14,8 @@ import React from "react";
 
 type Props = {
    item: RoomType;
+   check: boolean;
+   updateCheck: Function;
 };
 
 const RowTableRoom = (props: Props) => {
@@ -33,37 +35,37 @@ const RowTableRoom = (props: Props) => {
          </td>
          <td className="px-4 py-2">
             <span className="bg-primary-100 text-primary-800 text-xs px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300 text-[15px] font-[600]">
-               {props.item.roomID}
+               {props.item.MA_PHONG}
             </span>
          </td>
 
          <td className="px-4 py-2">
             <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
-               {props.item.roomName}
+               {props.item.TEN_PHONG}
             </span>
          </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <div className="flex items-center">{props.item.type}</div>
+            <div className="flex items-center">{props.item.LOAI}</div>
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {props.item.location}
+            {props.item.SO_LUONG_DAP_UNG}
          </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex items-center">
                <div
                   className={`inline-block w-4 h-4 mr-2 ${
-                     props.item.status ? "bg-green-400" : "bg-red-600"
+                     props.item.TRANG_THAI ? "bg-green-400" : "bg-red-600"
                   } rounded-full`}
                ></div>
-               {props.item.status ? "Available" : "Not available"}
+               {props.item.TRANG_THAI ? "Available" : "Not available"}
             </div>
          </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex justify-center">
-               {props.item.status ? (
+               {props.item.LOAI ? (
                   <div></div>
                ) : (
                   <Button className="w-40 mr-2 bg-green-600  hover:bg-green-800 ">

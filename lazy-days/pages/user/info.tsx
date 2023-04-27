@@ -66,12 +66,12 @@ const Info = (props: Props) => {
          SoDemLuuTru: numberNightRef.current?.value,
          yeuCauDb: requireRef?.current.value
       };
-      const ngaydat = new Date();
+     
       const book = {
          MaPhieuDp:'0',
          Makh : 'KH' + random_num,
          MaNv: 'NV001',
-         NgayDat: ngaydat.getDate().toString,
+         NgayDat: null,
          TongTien: 0,
          TienCoc: 0,
          Loaiphong: typeRoomRef.current?.value,
@@ -258,8 +258,8 @@ const Info = (props: Props) => {
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
                      <option selected>Choose type of room</option>
-                     <option value="Guarantee">Guarantee</option>
-                     <option value="Not_Guarantee">Not Guarantee</option>
+                     <option value="Guarantee">GUARANTEE</option>
+                     <option value="Not Guarantee">NOT GUARANTEE</option>
                   </select>
                </div>
             </div>

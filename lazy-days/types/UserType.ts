@@ -9,20 +9,19 @@ export type UserType = {
  
 
 export type RoomType = {
-    roomID: string,
-    roomName: string,
-    type: string,
-    status: boolean,
-    location:string,
+    MA_PHONG: string,
+    TEN_PHONG: string,
+    SO_LUONG_DAP_UNG: number,
+    LOAI: string,
+    TRANG_THAI:string,
 };
 
 export type Booking = {
+    MaNvql: string,
     MaPhieuDp: string,
-    MaKh: string,
-    NgayDat: Date,
-    Loaiphong: string,
-    TienCoc: number,
-    NgayTraPhong: Date,
+    MaPhong: string,
+    NgayPhanPhong: string,
+    NgayNhan: string
  };
  export type BookingGet = {
     MA_PHIEU_DP: string,
