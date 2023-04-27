@@ -1,7 +1,4 @@
-﻿using lazy_days_API.Services;
-using Microsoft.AspNetCore.Mvc;
-
-namespace lazy_days_API.Controllers
+﻿namespace lazy_days_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]

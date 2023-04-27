@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
+using lazy_days_API.Services;
+using Dapper;
+
 namespace lazy_days_API.Controllers
 {
     [Route("api/[controller]")]
@@ -9,11 +12,13 @@ namespace lazy_days_API.Controllers
     public class KhachHangController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly IService _sqlFactory;
 
-        public KhachHangController(IConfiguration configuration)
+        public KhachHangController(IConfiguration configuration, IService sqlFactory)
         {
             _configuration = configuration;
-        }
+            _sqlFactory = sqlFactory;
+    }
 
         [HttpGet]
         public JsonResult Get()
@@ -36,8 +41,14 @@ namespace lazy_days_API.Controllers
             return new JsonResult(table);
         }
         [HttpPost]
-        public JsonResult Post(Khachhang kh)
+        public async Task<IActionResult> Post(Khachhang kh)
         {
+            await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
+            var allPhieuDKVC = await sqlConnection.QueryAsync("Select * from DBO.KHACHHANG WHERE CMND = @Cmnd" , new
+            {
+                Cmnd = kh.Cmnd
+            });
+            if (allPhieuDKVC.Count() >= 1) return Ok("Existed User");
             string query = @"INSERT INTO DBO.KHACHHANG VALUES (@MA_KH, @TEN_KH, 
 		@CMND, @DIA_CHI, @SDT, @Email, @Fax, @SO_DEM_LUU_TRU, @YEU_CAU_DB , N'Đang đặt phòng')";
             DataTable table = new DataTable();
@@ -78,7 +89,7 @@ namespace lazy_days_API.Controllers
         public JsonResult Put(Khachhang kh)
         {
 
-            string query = @"UPDATE DBO.KHACHHANG SET TRANG_THAI_DAT_PHONG = N'Đã cọc' WHERE MA_KH = @MA_KH";
+            string query = @"UPDATE DBO.KHACHHANG SET TRANG_THAI_DAT_PHONG = N'Checkin' WHERE MA_KH = @MA_KH";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("Database");
             SqlDataReader myReader;

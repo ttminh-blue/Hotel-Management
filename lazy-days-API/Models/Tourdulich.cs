@@ -11,11 +11,11 @@ public partial class Tourdulich
 
     public string? Mota { get; set; }
 
-    public double? Gia { get; set; }
+    public string? NguoiDaiDien { get; set; }
 
     public string? MaDv { get; set; }
 
-    public virtual Donviluuhanh? MaDvNavigation { get; set; }
 
-    public virtual ICollection<Phieudktour> Phieudktours { get; } = new List<Phieudktour>();
+
+
 }

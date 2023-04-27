@@ -9,11 +9,10 @@ type Props = {};
 
 const Info = (props: Props) => {
    const [arrInfo, setArrInfo] = useState<any>([]);
-   const numberNightRef = useRef<any>(null);
 
    const groupNameRef = useRef<any>(null);
-   const representativeRef = useRef<any>(null);
-   const numberPeopleRef = useRef<any>(null);
+   const addressRef = useRef<any>(null);
+   
    const [data, setData] = useState<any>([]);
    const current = new Date();
   
@@ -81,13 +80,11 @@ const Info = (props: Props) => {
     }
    const handleClick = async (event: any) => {
       event.preventDefault();
-      const doan_info = {
-         maDoan: 'GR' + random_num,
-         tenDoan: groupNameRef.current?.value,
-         tenNguoiDk: maNguoiDD,
-         soNguoi: arrInfo.length,
-         soDemLuuTru: numberNightRef.current?.value,
-         ngayDen: formatYmd(current) 
+      const tour_info = {
+        maCty: 'CT' + random_num,
+        tenCty: groupNameRef.current?.value,
+        diaChi: addressRef.current?.value,
+       
 
       };
 
@@ -99,17 +96,19 @@ const Info = (props: Props) => {
       }
 
       try {
-         console.log(doan_info, 22222)
+         console.log(tour_info, 22222)
 
-         const temp = await authFetch.post('/Doan', doan_info, config);
+         const temp = await authFetch.post('/Congtydulich', tour_info, config);
 
          arrInfo.forEach(async(makh : any) => {
             let info_chitietdoan = {
-               maDoan: 'GR' + random_num,
-               maKh : makh
+               maCty: 'CT' + random_num,
+               maKh : makh,
+               nguoiDaiDien: maNguoiDD,
+
             }
-            console.log(info_chitietdoan)
-            let post_chitietDoan = await authFetch.post('/Chitietdoan', info_chitietdoan, config);
+            console.log("Details: ", info_chitietdoan)
+            let post_chitietDoan = await authFetch.post('/Chitietdulich', info_chitietdoan, config);
          });
          notify(temp.data)
         
@@ -140,7 +139,7 @@ const Info = (props: Props) => {
                   htmlFor="group_name"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                >
-                  Group Name
+                  Travel Company Name
                </label>
             </div>
             {/* <div className="relative z-0 w-full mb-6 group">
@@ -177,10 +176,10 @@ const Info = (props: Props) => {
             </div> */}
             <div className="relative z-0 w-full mb-6 group">
                <input
-                  ref={numberNightRef}
+                  ref={addressRef}
                   type="text"
-                  name="number_night"
-                  id="number_night"
+                  name="Address"
+                  id="Address"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
@@ -189,9 +188,10 @@ const Info = (props: Props) => {
                   htmlFor="number_night"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                >
-                  Number of nights staying
+                  Address
                </label>
             </div>
+            
 
 
 
@@ -208,7 +208,7 @@ const Info = (props: Props) => {
                      <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
                         <div className="flex items-center flex-1 space-x-4">
                            <h5>
-                              <span className="text-red-500">Select customer in your group </span>
+                              <span className="text-red-500">Select customer in tour </span>
 
                            </h5>
                         </div>

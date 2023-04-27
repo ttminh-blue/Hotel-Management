@@ -1,13 +1,46 @@
 import EmptyLayout from "@/layouts/EmptyLayout";
 import { useRef, useState, useEffect, FormEvent } from "react";
+import axios from "axios";
+import { useRouter } from 'next/router'
+
 type Props = {};
 
 const Login = (props: Props) => {
+   const router = useRouter();
+
    const usernameRef = useRef<HTMLInputElement>(null);
    const passRef = useRef<HTMLInputElement>(null);
+   const config = {
+      headers: {
+         'content-type': 'application/json',
+         'Access-Control-Allow-Origin': "*"
+      }
+   }
+   const authFetch = axios.create({
+      baseURL: 'https://localhost:44335/api',
+   });
    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       console.log(usernameRef.current?.value, passRef.current?.value);
+
+      const account_info = {
+         maTaikhoan: "TK111",
+         tenTaikhoan: usernameRef.current?.value,
+         matkhau: passRef.current?.value,
+         maNv: "NV111"
+      }
+
+      const login = authFetch.post('/Taikhoan', account_info, config)
+      login.then(user => {
+         if(user.data[0].MA_NV){
+            sessionStorage.setItem("Ma_NV", user.data[0].MA_NV);
+            router.push("/")
+
+         }
+        
+         
+      })
+
    };
 
    return (
@@ -37,18 +70,18 @@ const Login = (props: Props) => {
                      >
                         <div>
                            <label
-                              htmlFor="email"
+                              htmlFor="text"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                            >
-                              Your email
+                              Username
                            </label>
                            <input
                               ref={usernameRef}
-                              type="email"
-                              name="email"
-                              id="email"
+                              type="text"
+                              name="Username"
+                              id="Username"
                               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                              placeholder="name@company.com"
+                              placeholder="abc123"
                            />
                         </div>
                         <div>

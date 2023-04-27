@@ -2,6 +2,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 type Props = {};
 
 const Info = (props: Props) => {
@@ -27,8 +28,29 @@ const Info = (props: Props) => {
    const authFetch = axios.create({
       baseURL: 'https://localhost:44335/api',
     });
-    const notify = () => {
-      toast('Add Customer Successfully !', { hideProgressBar: true, autoClose: 2000, type: 'success',  position:'top-right' })
+    const notify = (message : any) => {
+      if(message == "Existed User"){
+         toast.warning(message, {
+            position: "top-right",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+               
+          })
+      }
+      else{
+         toast.success(message, {
+         position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            
+       })
+      }
     }
     const handleClick = async(event: any) => {
       event.preventDefault();
@@ -57,14 +79,7 @@ const Info = (props: Props) => {
          SoDemLuuTru: numberNightRef.current?.value ||0,
          MaGoidv: null
       };
-      // const doan_info = {
-      //    MaDoan: 'DOAN' + random_num,
-      //    TenDoan: groupNameRef.current?.value,
-      //    NguoiDaiDien: representativeRef.current?.value,
-      //    SoNguoi: numberPeopleRef.current?.value,
-      //    SoDemLuuTru: numberNightRef.current?.value
-
-      // };
+      
      
       const config = {
          headers: { 
@@ -77,10 +92,12 @@ const Info = (props: Props) => {
         console.log(customer_info, 11111111)
        
         const data1 = await authFetch.post('/KhachHang' , customer_info, config);
-        const data = await authFetch.post('/booking' , book, config);
+        notify(data1.data);
+        console.log(data1);
+        const data = await authFetch.post('/Booking' , book, config);
        
         console.log(data1);
-       notify();
+       
          
        
 
@@ -369,7 +386,8 @@ const Info = (props: Props) => {
             >
                Submit
             </button>
-            <ToastContainer position="top-right" />
+            <ToastContainer  />
+            
          </form>
       </DefaultLayout>
    );

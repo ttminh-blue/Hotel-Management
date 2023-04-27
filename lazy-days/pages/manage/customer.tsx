@@ -58,12 +58,7 @@ const UserManagement = (props: Props) => {
                            </svg>
                            Add new product
                         </button>
-                        <button
-                           type="button"
-                           className="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                        >
-                           View Waiting List
-                        </button>
+                       
                      </div>
                   </div>
                   <div className="overflow-x-auto">
@@ -105,9 +100,9 @@ const UserManagement = (props: Props) => {
                            </tr>
                         </thead>
                         <tbody>
-                           {data.map((item, index) => {
+                           {/* {data.map((item, index) => {
                               return <RowTablePerson item={item} key={index} />;
-                           })}
+                           })} */}
                         </tbody>
                      </table>
                   </div>
