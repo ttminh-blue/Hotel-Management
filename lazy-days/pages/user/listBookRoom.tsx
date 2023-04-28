@@ -6,52 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from 'next/router'
 
 type Props = {};
-// const data_fake = [
-//    {
-//       makh: 'KH001',
-//       Name: "Nguyễn Phát Thịnh",
-//       PhoneNumber: "11111111",
-//       TypeRoom: "Guarantee",
-//       CMND: "543654365",
-//       Total: 500,
-//       Date: "07/03/2023",
-//       Prepay: 30,
-//       TRANG_THAI_DAT_PHONG: 'Đang xác nhận'
-//    },
-//    {
-//       makh: 'KH002',
-//       Name: "Nguyễn Văn A",
-//       PhoneNumber: "0000000",
-//       TypeRoom: "Not Guarantee",
-//       CMND: "543654365",
-//       Total: 500,
-//       Date: "07/03/2023",
-//       Prepay: 30,
-//       TRANG_THAI_DAT_PHONG: 'Đang chờ'
-//    },
-//    {
-//       makh: 'KH003',
-//       Name: "Nguyễn Sanh Tài",
-//       PhoneNumber: "2222222",
-//       TypeRoom: "Guarantee",
-//       CMND: "543654365",
-//       Total: 500,
-//       Date: "07/03/2023",
-//       Prepay: 30,
-//       TRANG_THAI_DAT_PHONG: 'Đang đặt phòng'
-//    },
-//    {
-//       makh: 'KH004',
-//       Name: "Nguyễn Phát Đăng",
-//       PhoneNumber: "555555555",
-//       TypeRoom: "Guarantee",
-//       CMND: "543654365",
-//       Total: 500,
-//       Date: "07/03/2023",
-//       Prepay: 30,
-//       TRANG_THAI_DAT_PHONG: 'Đang đặt phòng'
-//    },
-// ];
 
 const Info = (props: Props) => {
    const [data, setData] = useState<any>([]);
@@ -212,49 +166,7 @@ const Info = (props: Props) => {
 
                      </div>
                      }
-                     // <div
-                     //    className="bg-white rounded-lg shadow-md p-4"
-                     //    key={index}
-                     // >
-                     //    <p className="text-lg font-bold mb-2 mt-5">
-                     //       {item.TEN_KH}
-                     //    </p>
-                     //    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                     //       <div>
-                     //          <p className="text-sm text-gray-500 mb-2">
-                     //             <strong>Phone Number:</strong>{" "}
-                     //             {item.SDT}
-                     //          </p>
-                     //          <p className="text-sm text-gray-500 mb-2">
-                     //             <strong> Type room:</strong> {item.LOAIPHONG}
-                     //          </p>
-                     //          <p className="text-sm text-gray-500 mb-2">
-                     //             <strong> Total:</strong> {item.TONG_TIEN}
-                     //          </p>
-                     //       </div>
-                     //       <div>
-                     //          <p className="text-sm text-gray-500 mb-2">
-                     //             <strong>CMND:</strong> {item.CMND}
-                     //          </p>
-                     //          <p className="text-sm text-gray-500 mb-2">
-                     //             <strong>Date:</strong> {item.NGAY_DAT}
-                     //          </p>
-                     //          <p className="text-sm text-gray-500 mb-2">
-                     //             <strong>Prepay:</strong> {item.TIEN_COC}
-                     //          </p>
-                     //       </div>
-                     //    </div>
-                     //    {/* <input type="input" name="makh" value= {item.makh} ref={makhRef} /> */}
-
-                     //    <button className="container bg-blue-500 text-white px-4 py-2 rounded-lg mt-12 btn-custom "
-                     //       onClick={() => { handleClick(item.MA_KH) }}
-
-                     //       type="submit"
-                     //    >
-                     //       Payment Successfully
-                     //    </button>
-
-                     // </div>
+                    
 })}
                </div>
             </div>

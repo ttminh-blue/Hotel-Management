@@ -35,7 +35,7 @@ const Login = (props: Props) => {
          if(user.data[0].MA_NV){
             sessionStorage.setItem("Ma_NV", user.data[0].MA_NV);
             router.push("/")
-
+            
          }
         
          

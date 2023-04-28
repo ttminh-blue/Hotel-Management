@@ -60,7 +60,7 @@ const Receipt = () => {
                          {invoiceData.NGAY_DAT}
                      </div>
 
-
+                    
 
                      <div className="mb-4">
                         <p className="font-semibold">Services Used:</p>
