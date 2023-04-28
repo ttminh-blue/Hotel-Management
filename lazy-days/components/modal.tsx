@@ -1,13 +1,23 @@
 import { GuestType } from "@/types/UserType";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 type Props = {
     phong: string
 }
 export default function Modal(props: Props) {
     const [showModal, setShowModal] = useState(false);
     const [dataGuest, setDataGuest] = useState<GuestType[]>([])
-    axios.get(`${process.env.NEXT_PUBLIC_API}KhachHang`).then((response) => { setDataGuest(() => response.data) })
+    const [nameGuest,setNameGuest] = useState<string>('') 
+    useEffect(()=>{
+        axios.get(`${process.env.NEXT_PUBLIC_API}KhachHang/add`).then((response) => { setDataGuest(() => response.data) })
+    },[])
+    const handleClick =(name:string)=>{
+        setNameGuest(name)
+    }
+    const handleClickAdd = ()=>{
+        setShowModal(false)
+        axios.post(`${process.env.NEXT_PUBLIC_API}Phong/add?phong=${props.phong}&makh=${nameGuest}`)
+    }
     return (
         <>
             <button
@@ -28,7 +38,7 @@ export default function Modal(props: Props) {
                                 {/*header*/}
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-3xl font-semibold">
-                                        Modal Title
+                                        ADD MEMBERS TO {props.phong}
                                     </h3>
                                     <button
                                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -50,17 +60,17 @@ export default function Modal(props: Props) {
                                         </tr>
                                         {dataGuest.map((data) => (
                                             <tr className='border-[1px] border-[black]'>
-                                                <button className=" px-5 py-2 border-[1px]">
+                                                <button className=" px-5 py-2 border-[1px]" onClick={()=>handleClick(data.MA_KH)}>
                                                     <th className=" border-[black] w-[30px]">{data.MA_KH}</th>
                                                 </button>
                                                 <th className="px-5 py-2 border-[1px] border-[black] w-[200px]">{data.TEN_KH}</th>
                                                 <th className="px-5 py-2 border-[1px] border-[black] w-[135px]">{data.CMND}</th>
                                                 <th className="px-5 py-2 border-[1px] border-[black] w-[135px]">{data.SDT}</th>
-
                                             </tr>
                                         ))}
 
                                     </table>
+                                   
                                 </div>
                                 {/*footer*/}
                                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -74,9 +84,9 @@ export default function Modal(props: Props) {
                                     <button
                                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={() => setShowModal(false)}
+                                        onClick={handleClickAdd}
                                     >
-                                        Save Changes
+                                        ADD  {nameGuest}
                                     </button>
                                 </div>
                             </div>
