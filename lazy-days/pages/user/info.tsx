@@ -15,47 +15,46 @@ const Info = (props: Props) => {
    const typeRoomRef = useRef<any>(null);
    const numberNightRef = useRef<any>(null);
    const requireRef = useRef<any>(null);
-  
-  
+
+
    const [check, setCheck] = useState<any>(false);
    const current = new Date();
-   const date = `${current.getDate()}/${
-      current.getMonth() + 1
-   }/${current.getFullYear()}`;
-   
-   var random_num = Math.floor(Math.random() * (999 - 100) ) + 100;
+   const date = `${current.getDate()}/${current.getMonth() + 1
+      }/${current.getFullYear()}`;
+
+   var random_num = Math.floor(Math.random() * (999 - 100)) + 100;
 
    const authFetch = axios.create({
       baseURL: 'https://localhost:44335/api',
-    });
-    const notify = (message : any) => {
-      if(message == "Existed User"){
-         toast.warning(message, {  
-            position: "top-right",
-               autoClose: 5000,
-               hideProgressBar: false,
-               closeOnClick: true,
-               pauseOnHover: true,
-               draggable: true,
-               
-          })
-      }
-      else{
+   });
+   const notify = (message: any) => {
+      if (message == "Add Successfully") {
          toast.success(message, {
-         position: "top-right",
+            position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            
-       })
+
+         })
       }
-    }
-    const handleClickCreate = async(event:any)=>{
+      else {
+         toast.warning(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+
+         })
+      }
+   }
+   const handleClickCreate = async (event: any) => {
       event.preventDefault();
       const customer_info = {
-         Makh : 'KH' + random_num,
+         Makh: 'KH' + random_num,
          TenKh: fullnameRef.current?.value,
          Cmnd: cmndRef.current?.value,
          DiaChi: addressRef.current?.value,
@@ -67,23 +66,23 @@ const Info = (props: Props) => {
          yeuCauDb: requireRef?.current.value
       };
       const config = {
-         headers: { 
-             'content-type': 'application/json',
-             'Access-Control-Allow-Origin': "*"
+         headers: {
+            'content-type': 'application/json',
+            'Access-Control-Allow-Origin': "*"
          }
-     }
+      }
 
-      try{       
-        const data1 = await authFetch.post('/KhachHang' , customer_info, config);
-        notify(data1.data);
+      try {
+         const data1 = await authFetch.post('/KhachHang', customer_info, config);
+         notify(data1.data);
       }
-      catch(e){
+      catch (e) {
       }
-    }
-    const handleClick = async(event: any) => {
+   }
+   const handleClick = async (event: any) => {
       event.preventDefault();
       const customer_info = {
-         Makh : 'KH' + random_num,
+         Makh: 'KH' + random_num,
          TenKh: fullnameRef.current?.value,
          Cmnd: cmndRef.current?.value,
          DiaChi: addressRef.current?.value,
@@ -94,41 +93,50 @@ const Info = (props: Props) => {
          SoDemLuuTru: numberNightRef.current?.value,
          yeuCauDb: requireRef?.current.value
       };
-     
+
       const book = {
-         MaPhieuDp:'0',
-         Makh : 'KH' + random_num,
+         MaPhieuDp: '0',
+         Makh: 'KH' + random_num,
          MaNv: 'NV001',
          NgayDat: null,
          TongTien: 0,
          TienCoc: 0,
          Loaiphong: typeRoomRef.current?.value,
          NgayTraPhong: null,
-         SoDemLuuTru: numberNightRef.current?.value ||0,
+         SoDemLuuTru: numberNightRef.current?.value || 0,
          MaGoidv: null
       };
-      
-     
+
+
       const config = {
-         headers: { 
-             'content-type': 'application/json',
-             'Access-Control-Allow-Origin': "*"
+         headers: {
+            'content-type': 'application/json',
+            'Access-Control-Allow-Origin': "*"
          }
-     }
-
-      try{       
-        const data1 = await authFetch.post('/KhachHang' , customer_info, config);
-        notify(data1.data);
-        console.log(data1);
-        const data = await authFetch.post('/Booking' , book, config);
-        console.log(data1);
       }
-      catch(e){
+
+      try {
+         const data1 = await authFetch.post('/KhachHang', customer_info, config);
+         console.log(2222, data1 );
+         if (typeof data1 == 'object') {
+            const new_kh = data1.data[0].MA_KH
+            book.Makh = new_kh
+         }
+         const data = await authFetch.post('/Booking', book, config);
+         if (data1.data[0].MA_KH) {
+            notify('Existed user');
+         }
+         else {
+            notify('Add Successfully');
+         }
 
       }
-    }
+      catch (e) {
+
+      }
+   }
    // const handleClick = async() => {
-      
+
    //    const customer_info = {
    //       Makh : 'KH' + random_num,
    //       TenKh: fullnameRef.current?.value,
@@ -145,13 +153,13 @@ const Info = (props: Props) => {
    //    try{
    //       console.log(88888888888)
    //       const {data} =  await authFetch.post('/KhachHang' , customer_info);
-        
-         
+
+
    //    }
    //    catch(e){
 
    //    }
-      
+
    // };
    return (
       <DefaultLayout>
@@ -392,9 +400,9 @@ const Info = (props: Props) => {
                      </div>
                   </>
                )} */}
-            
+
             </div>
-            
+
             <button
                onClick={handleClick}
                type="submit"
@@ -402,7 +410,7 @@ const Info = (props: Props) => {
             >
                Booking
             </button>
-            
+
             <button
                onClick={handleClickCreate}
                type="submit"
@@ -410,8 +418,8 @@ const Info = (props: Props) => {
             >
                Create Customers
             </button>
-            <ToastContainer  />
-            
+            <ToastContainer />
+
          </form>
       </DefaultLayout>
    );

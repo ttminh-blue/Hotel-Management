@@ -93,24 +93,28 @@ const Info = (props: Props) => {
       setMakh(obj)
 
    }
+   const format_money = (money : any) => {
+      const arr = money.split(" ");
+      return parseFloat(arr[0])
+   }
    useEffect(() => {
 
 
       if (makh != null) {
 
          const receipt_data = data.filter((kh: any) => kh.MA_KH == makh)
-         console.log(555555, receipt_data)
          const data_invoce = {
             maHd : 'HD' + random_num,
             ngayLap: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
             tienDv: 0,
             tienPhatsinh: 0,
-            tongTien : receipt_data[0].TONG_TIEN,
-            nhanVienLap: sessionStorage.getItem("Ma_NV") || "",
+            tongTien : format_money(receipt_data[0].TONG_TIEN),
+            nhanVienLap: sessionStorage.getItem("Ma_NV"),
             maPhieuDp: receipt_data[0].MA_PHIEU_DP
          }
+      
          const post_invoice = authFetch.post('/HoaDon', data_invoce, config)
-            
+         
          sessionStorage.setItem("receipt", JSON.stringify(receipt_data[0]));
          update_state();
          router.push(
