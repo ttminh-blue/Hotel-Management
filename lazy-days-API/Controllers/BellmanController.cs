@@ -63,6 +63,28 @@ namespace lazy_days_API.Controllers
 			}
 		}
 
+
+		[HttpPut("confirm_occupied/{id}")]
+		public async Task<IActionResult> ConfirmOccupied([FromRoute] string id)
+		{
+			try
+			{
+				await using SqlConnection sqlConnection = _service.CreateConnection();
+				string queryStr = "update PHONG set TRANG_THAI = 'Occupied' " +
+					"Where MA_PHONG = @MaPhong";
+				await sqlConnection.ExecuteAsync(queryStr, new
+				{
+					MaPhong = id
+				});
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+
 		[HttpGet("cleanning_requests")]
 		public async Task<IActionResult> GetCleanningRequest()
 		{

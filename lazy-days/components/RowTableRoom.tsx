@@ -7,8 +7,8 @@ import {
    faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { } from "@fortawesome/free-regular-svg-icons";
-import { } from "@fortawesome/fontawesome-svg-core";
+import {} from "@fortawesome/free-regular-svg-icons";
+import {} from "@fortawesome/fontawesome-svg-core";
 import { Button } from "flowbite-react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -27,23 +27,36 @@ type Props = {
 
 const RowTableRoom = (props: Props) => {
    const url = process.env.NEXT_PUBLIC_API;
-   const handCheckIn = ()=>{
-   axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`)
-   const newCheck= !props.check
-   props.updateCheck(newCheck);
-   toast.success(`Booking ROOM ${props.item.MA_PHONG} successfully`, {
-      position: "top-right",
+   const handCheckIn = () => {
+      axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
+      const newCheck = !props.check;
+      props.updateCheck(newCheck);
+      toast.success(`Booking ROOM ${props.item.MA_PHONG} successfully`, {
+         position: "top-right",
          autoClose: 5000,
          hideProgressBar: false,
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
-    }
-   )
-}
+      });
+   };
+
+   const handleCustomerInst = () => {
+      axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
+      const newCheck = !props.check;
+      props.updateCheck(newCheck);
+      toast.success(`Booking ROOM ${props.item.MA_PHONG} successfully`, {
+         position: "top-right",
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+      });
+   };
+
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-       
          <td className="px-4 py-2">
             <span className="bg-primary-100 text-primary-800 text-xs px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300 text-[15px] font-[600]">
                {props.item.MA_PHONG}
@@ -60,42 +73,45 @@ const RowTableRoom = (props: Props) => {
             <div className="flex items-center">{props.item.LOAI}</div>
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <Ellipsis item={props.item.MA_PHONG} /> /  {props.item.SO_LUONG_DAP_UNG} 
+            <Ellipsis item={props.item.MA_PHONG} /> /{" "}
+            {props.item.SO_LUONG_DAP_UNG}
          </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex items-center">
                <div
-                  className={`inline-block w-4 h-4 mr-2 ${props.item.TRANG_THAI === 'Available' ? "bg-green-400" :
-                   props.item.TRANG_THAI === 'Booked' ? "bg-blue-600" :
-                    props.item.TRANG_THAI === 'Occupied' ? "bg-orange-600" : 
-                    "bg-yellow-00"
-                     } rounded-full`}
-               >
-
-               </div>
+                  className={`inline-block w-4 h-4 mr-2 ${
+                     props.item.TRANG_THAI === "Available"
+                        ? "bg-green-400"
+                        : props.item.TRANG_THAI === "Booked"
+                        ? "bg-blue-600"
+                        : props.item.TRANG_THAI === "Received"
+                        ? "bg-pink-600"
+                        : props.item.TRANG_THAI === "Occupied"
+                        ? "bg-orange-600"
+                        : "bg-yellow-00"
+                  } rounded-full`}
+               ></div>
                {props.item.TRANG_THAI}
             </div>
          </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex justify-center">
-               {props.item.TRANG_THAI === 'Booked' ? (
-                  <Button className="w-40 mr-2 bg-blue-600  hover:bg-blue-800 " onClick={handCheckIn}>
-                  <FontAwesomeIcon
-                     className="w-4 h-4 mr-1"
-                     icon={faMoneyBill}
-                  />
-                  Check-In
-               </Button>
-               ) : 
-               props.item.TRANG_THAI === 'Occupied' ? (
-                  
-                    <Modal phong={props.item.MA_PHONG}/>
-                
-               ) : 
-               (
-                <div></div>
+               {props.item.TRANG_THAI === "Booked" && (
+                  <Button
+                     className="w-40 mr-2 bg-blue-600  hover:bg-blue-800 "
+                     onClick={handCheckIn}
+                  >
+                     <FontAwesomeIcon
+                        className="w-4 h-4 mr-1"
+                        icon={faMoneyBill}
+                     />
+                     Check-In
+                  </Button>
+               )}
+               {props.item.TRANG_THAI === "Occupied" && (
+                  <Modal phong={props.item.MA_PHONG} />
                )}
 
                {/* <Button className="ml-2">

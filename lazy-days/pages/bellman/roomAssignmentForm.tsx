@@ -66,33 +66,35 @@ const ArrangeBill = (props: Props) => {
                         </p>
                      </div>
                   </div>
-
-                  <button className="container bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 btn-custom ">
-                     <Link
-                        href={{
-                           pathname: "/bellman/clean_request",
-                           query: {
-                              id: props.data.MA_PHONG,
-                           },
-                        }}
-                     >
-                        Create a cleanning request
-                     </Link>
-                  </button>
-
-                  <button className="container bg-slate-500 text-white px-4 py-2 rounded-lg mt-4 btn-custom ">
-                     <Link
-                        href={{
-                           pathname: "/bellman/baggage_request",
-                           query: {
-                              id: props.data.MA_PHIEU_DP,
-                              roomId: props.data.MA_PHONG,
-                           },
-                        }}
-                     >
-                        Create a baggage form
-                     </Link>
-                  </button>
+                  {props.data.TRANG_THAI === "Received" && (
+                     <button className="container bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 btn-custom ">
+                        <Link
+                           href={{
+                              pathname: "/bellman/clean_request",
+                              query: {
+                                 id: props.data.MA_PHONG,
+                              },
+                           }}
+                        >
+                           Create a cleanning request
+                        </Link>
+                     </button>
+                  )}
+                  {props.data.TRANG_THAI === "Received" && (
+                     <button className="container bg-slate-500 text-white px-4 py-2 rounded-lg mt-4 btn-custom ">
+                        <Link
+                           href={{
+                              pathname: "/bellman/baggage_request",
+                              query: {
+                                 id: props.data.MA_PHIEU_DP,
+                                 roomId: props.data.MA_PHONG,
+                              },
+                           }}
+                        >
+                           Create a baggage form
+                        </Link>
+                     </button>
+                  )}
                </div>
             </div>
          </div>

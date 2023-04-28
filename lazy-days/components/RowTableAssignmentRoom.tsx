@@ -1,5 +1,6 @@
 import { BellmanAssignmentRoom, BookingGet } from "@/types/UserType";
 import {
+   faCheckCircle,
    faMoneyBill,
    faPen,
    faPenToSquare,
@@ -11,11 +12,36 @@ import {} from "@fortawesome/fontawesome-svg-core";
 import { Button } from "flowbite-react";
 import Link from "next/link";
 import React from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 type Props = {
    item: BellmanAssignmentRoom;
+   refreshFunc: Function;
 };
 
 const RowTableAssignmentRoom = (props: Props) => {
+   const handleOccupied = () => {
+      axios
+         .put(
+            process.env.NEXT_PUBLIC_API +
+               "Bellman/confirm_occupied/" +
+               props.item.MA_PHONG
+         )
+         .then(() => {
+            toast("Update successfully.", {
+               theme: "dark",
+               type: "success",
+            });
+            props.refreshFunc();
+         })
+         .catch((ex) => {
+            toast(ex, {
+               theme: "dark",
+               type: "error",
+            });
+         });
+   };
+
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
          <td className="w-4 px-4 py-3">
@@ -37,29 +63,44 @@ const RowTableAssignmentRoom = (props: Props) => {
          </td>
 
          <td className="px-4 py-2">
-            <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
+            <span className=" text-sm font-medium px-2 py-0.5 rounded">
                {props.item.SDT}
             </span>
          </td>
          <td className="px-4 py-2">
-            <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
+            <span className=" text-sm font-medium px-2 py-0.5 rounded">
                {props.item.TEN_PHONG}
             </span>
          </td>
          <td className="px-4 py-2">
-            <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
+            <span className=" text-sm font-medium px-2 py-0.5 rounded">
                {new Date(props.item.NGAY_NHAN).toLocaleDateString("en-US")}
             </span>
          </td>
          <td className="px-4 py-2">
-            <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
-               {props.item.LOAI}
+            <span
+               className={`text-sm flex items-center font-medium px-2 py-0.5 rounded`}
+            >
+               <div
+                  className={`inline-block w-4 h-4 mr-2 ${
+                     props.item.TRANG_THAI === "Available"
+                        ? "bg-green-400"
+                        : props.item.TRANG_THAI === "Booked"
+                        ? "bg-blue-600"
+                        : props.item.TRANG_THAI === "Received"
+                        ? "bg-pink-600"
+                        : props.item.TRANG_THAI === "Occupied"
+                        ? "bg-yellow-400"
+                        : ""
+                  } rounded-full`}
+               ></div>
+               {props.item.TRANG_THAI}
             </span>
          </td>
 
-         <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <div>
-               <Button className="w-40 mr-2">
+         <td className="px-4  py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <div className="flex gap-2">
+               <Button className="w-28 mr-2">
                   <FontAwesomeIcon
                      className="w-4 h-4 mr-1"
                      icon={faPenToSquare}
@@ -76,6 +117,18 @@ const RowTableAssignmentRoom = (props: Props) => {
                      Detail
                   </Link>
                </Button>
+               {props.item.TRANG_THAI === "Received" && (
+                  <Button
+                     className="w-28 mr-2 bg-green-600"
+                     onClick={handleOccupied}
+                  >
+                     <FontAwesomeIcon
+                        className="w-4 h-4 mr-1"
+                        icon={faCheckCircle}
+                     />
+                     Occupied
+                  </Button>
+               )}
             </div>
          </td>
       </tr>
