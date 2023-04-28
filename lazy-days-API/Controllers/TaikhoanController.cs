@@ -22,7 +22,7 @@ namespace lazy_days_API.Controllers
 		[HttpGet]
 		public JsonResult Get()
 		{
-			string query = @"select TK.*, NV.CHUC_VU from TAIKHOAN  TK join NHANVIEN NV on NV.MA_NV = TK.MA_NV";
+			string query = @"select * FROM TAIKHOAN";
 			DataTable table = new DataTable();
 			string sqlDataSource = _config.GetConnectionString("Database");
 			SqlDataReader myReader;
@@ -45,11 +45,12 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
-				var taikhoan = await sqlConnection.QueryAsync("Select * from TAIKHOAN where TEN_TAIKHOAN = @TEN_TK and MATKHAU = @MK", new
-				{
-					TEN_TK = tk.TenTaikhoan,
-					MK = tk.Matkhau
-				});
+				var taikhoan = await sqlConnection.QueryAsync("Select TK.*, NV.CHUC_VU from TAIKHOAN  TK join NHANVIEN NV on NV.MA_NV = TK.MA_NV " +
+					"where TK.TEN_TAIKHOAN = @TEN_TK and TK.MATKHAU = @MK", new
+					{
+						TEN_TK = tk.TenTaikhoan,
+						MK = tk.Matkhau
+					});
 				if (taikhoan.Count() >= 1)
 				{
 					return Ok(taikhoan);
