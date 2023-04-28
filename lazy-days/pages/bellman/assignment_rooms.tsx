@@ -104,7 +104,7 @@ const RoomAssignmentManagement = (props: Props) => {
                                  Check-in Date
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Type Room
+                                 State
                               </th>
                               <th scope="col" className="px-4 py-3">
                                  Options
