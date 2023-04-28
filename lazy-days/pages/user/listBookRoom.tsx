@@ -14,7 +14,12 @@ const Info = (props: Props) => {
    const authFetch = axios.create({
       baseURL: 'https://localhost:44335/api',
    });
-
+   const config = {
+      headers: { 
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': "*"
+      }
+  }
    const notify = (message: any) => {
 
       toast.success("Success", {
@@ -28,6 +33,7 @@ const Info = (props: Props) => {
       })
 
    }
+   var random_num = Math.floor(Math.random() * (999 - 100) ) + 100;
 
    const formatter = new Intl.NumberFormat('it-IT', {
       style: 'currency',
@@ -93,7 +99,18 @@ const Info = (props: Props) => {
       if (makh != null) {
 
          const receipt_data = data.filter((kh: any) => kh.MA_KH == makh)
-
+         console.log(555555, receipt_data)
+         const data_invoce = {
+            maHd : 'HD' + random_num,
+            ngayLap: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+            tienDv: 0,
+            tienPhatsinh: 0,
+            tongTien : receipt_data[0].TONG_TIEN,
+            nhanVienLap: sessionStorage.getItem("Ma_NV") || "",
+            maPhieuDp: receipt_data[0].MA_PHIEU_DP
+         }
+         const post_invoice = authFetch.post('/HoaDon', data_invoce, config)
+            
          sessionStorage.setItem("receipt", JSON.stringify(receipt_data[0]));
          update_state();
          router.push(
