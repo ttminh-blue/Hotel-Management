@@ -74,7 +74,7 @@ namespace lazy_days_API.Controllers
                 {
                     Cmnd = kh.Cmnd
                 });
-                return Ok("Existed User");
+                return Ok(allPhieuDKVC);
             }
             string query = @"INSERT INTO DBO.KHACHHANG VALUES (@MA_KH, @TEN_KH, 
 		@CMND, @DIA_CHI, @SDT, @Email, @Fax, @SO_DEM_LUU_TRU, @YEU_CAU_DB , N'Đang đặt phòng')";
