@@ -48,7 +48,14 @@ namespace lazy_days_API.Controllers
             {
                 Cmnd = kh.Cmnd
             });
-            if (allPhieuDKVC.Count() >= 1) return Ok("Existed User");
+            if (allPhieuDKVC.Count() >= 1)
+            {
+                var update_state = await sqlConnection.QueryAsync("update DBO.KHACHHANG set TRANG_THAI_DAT_PHONG = N'Đang đặt phòng' WHERE CMND = @Cmnd", new
+                {
+                    Cmnd = kh.Cmnd
+                });
+                return Ok("Existed User");
+            }
             string query = @"INSERT INTO DBO.KHACHHANG VALUES (@MA_KH, @TEN_KH, 
 		@CMND, @DIA_CHI, @SDT, @Email, @Fax, @SO_DEM_LUU_TRU, @YEU_CAU_DB , N'Đang đặt phòng')";
             DataTable table = new DataTable();
@@ -89,7 +96,7 @@ namespace lazy_days_API.Controllers
         public JsonResult Put(Khachhang kh)
         {
 
-            string query = @"UPDATE DBO.KHACHHANG SET TRANG_THAI_DAT_PHONG = N'Checkin' WHERE MA_KH = @MA_KH";
+            string query = @"UPDATE DBO.KHACHHANG SET TRANG_THAI_DAT_PHONG = @TRANGTHAI WHERE MA_KH = @MA_KH";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("Database");
             SqlDataReader myReader;
@@ -100,6 +107,7 @@ namespace lazy_days_API.Controllers
                 {
 
                     myCommand.Parameters.AddWithValue("@MA_KH", kh.MaKh);
+                    myCommand.Parameters.AddWithValue("@TRANGTHAI", kh.TrangThaiDatPhong);
 
 
 
