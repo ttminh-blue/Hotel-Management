@@ -25,7 +25,7 @@ const RowTableAssignmentRoom = (props: Props) => {
          .put(
             process.env.NEXT_PUBLIC_API +
                "Bellman/confirm_occupied/" +
-               props.item.MA_PHONG
+               props.item.MA_PHIEU_DP
          )
          .then(() => {
             toast("Update successfully.", {
@@ -83,18 +83,18 @@ const RowTableAssignmentRoom = (props: Props) => {
             >
                <div
                   className={`inline-block w-4 h-4 mr-2 ${
-                     props.item.TRANG_THAI === "Available"
+                     props.item.TRANG_THAI_PDP === "Available"
                         ? "bg-green-400"
-                        : props.item.TRANG_THAI === "Booked"
+                        : props.item.TRANG_THAI_PDP === "Booked"
                         ? "bg-blue-600"
-                        : props.item.TRANG_THAI === "Received"
+                        : props.item.TRANG_THAI_PDP === "Received"
                         ? "bg-pink-600"
-                        : props.item.TRANG_THAI === "Occupied"
+                        : props.item.TRANG_THAI_PDP === "Occupied"
                         ? "bg-yellow-400"
                         : ""
                   } rounded-full`}
                ></div>
-               {props.item.TRANG_THAI}
+               {props.item.TRANG_THAI_PDP}
             </span>
          </td>
 
@@ -117,7 +117,7 @@ const RowTableAssignmentRoom = (props: Props) => {
                      Detail
                   </Link>
                </Button>
-               {props.item.TRANG_THAI === "Received" && (
+               {props.item.TRANG_THAI_PDP === "Received" && (
                   <Button
                      className="w-28 mr-2 bg-green-600"
                      onClick={handleOccupied}

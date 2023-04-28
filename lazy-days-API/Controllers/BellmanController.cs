@@ -24,10 +24,10 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection sqlConnection = _service.CreateConnection();
-				string queryStr = "SELECT PP.NGAY_PHAN_PHONG, PP.NGAY_NHAN, PP.MA_PHIEU_DP, KH.TEN_KH, KH.SDT, KH.SO_DEM_LUU_TRU, KH.YEU_CAU_DB, KH.TRANG_THAI_DAT_PHONG, P.*" +
-					" FROM PHANPHONG PP JOIN PHONG P ON PP.MA_PHONG = P.MA_PHONG " +
-					"JOIN PHIEUDATPHONG PDP ON PDP.MA_PHIEU_DP = PP.MA_PHIEU_DP " +
-					"JOIN KHACHHANG KH ON KH.MA_KH = PDP.MA_KH";
+				string queryStr = "SELECT PDP.TRANGTHAI AS TRANG_THAI_PDP, PP.NGAY_PHAN_PHONG, PP.NGAY_NHAN, PP.MA_PHIEU_DP, KH.TEN_KH, KH.SDT, KH.SO_DEM_LUU_TRU, KH.YEU_CAU_DB, KH.TRANG_THAI_DAT_PHONG, P.* " +
+							"FROM PHANPHONG PP JOIN PHONG P ON PP.MA_PHONG = P.MA_PHONG "
+							+ "JOIN PHIEUDATPHONG PDP ON PDP.MA_PHIEU_DP = PP.MA_PHIEU_DP " +
+							"JOIN KHACHHANG KH ON KH.MA_KH = PDP.MA_KH ";
 				var result = await sqlConnection.QueryAsync(queryStr);
 				if (result == null) return NotFound("Result empty.");
 				return Ok(result);
@@ -44,7 +44,7 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection sqlConnection = _service.CreateConnection();
-				string queryStr = "SELECT PP.NGAY_PHAN_PHONG, PP.NGAY_NHAN, PP.MA_PHIEU_DP, KH.TEN_KH, KH.SDT, KH.SO_DEM_LUU_TRU, KH.YEU_CAU_DB, KH.TRANG_THAI_DAT_PHONG, P.*" +
+				string queryStr = "SELECT PDP.TRANGTHAI AS TRANG_THAI_PDP, PP.NGAY_PHAN_PHONG, PP.NGAY_NHAN, PP.MA_PHIEU_DP, KH.TEN_KH, KH.SDT, KH.SO_DEM_LUU_TRU, KH.YEU_CAU_DB, KH.TRANG_THAI_DAT_PHONG, P.*" +
 					" FROM PHANPHONG PP JOIN PHONG P ON PP.MA_PHONG = P.MA_PHONG " +
 					"JOIN PHIEUDATPHONG PDP ON PDP.MA_PHIEU_DP = PP.MA_PHIEU_DP " +
 					"JOIN KHACHHANG KH ON KH.MA_KH = PDP.MA_KH " +
@@ -70,11 +70,11 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection sqlConnection = _service.CreateConnection();
-				string queryStr = "update PHONG set TRANG_THAI = 'Occupied' " +
-					"Where MA_PHONG = @MaPhong";
+				string queryStr = "update PHIEUDATPHONG set TRANGTHAI = 'Occupied' " +
+					"Where MA_PHIEU_DP = @MaPhieuDP";
 				await sqlConnection.ExecuteAsync(queryStr, new
 				{
-					MaPhong = id
+					MaPhieuDP = id
 				});
 				return Ok();
 			}

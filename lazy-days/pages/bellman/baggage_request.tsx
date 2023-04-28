@@ -7,6 +7,8 @@ import {
    PackageType,
 } from "@/types/UserType";
 import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -15,6 +17,8 @@ type Props = {
 };
 
 const DeliveryForm = (props: Props) => {
+   const router = useRouter();
+
    const [packages, setPackages] = useState<PackageFormType>({
       packages: [],
    });
@@ -55,6 +59,7 @@ const DeliveryForm = (props: Props) => {
                theme: "dark",
                type: "success",
             });
+            router.push("/bellman/baggage_forms");
          })
          .catch((ex) => {
             toast(ex, {
@@ -151,6 +156,12 @@ const DeliveryForm = (props: Props) => {
                className="text-white my-10 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
                Add
+            </button>
+            <button
+               type="submit"
+               className="text-white my-10 ml-4 bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+               <Link href={"/bellman/assignment_rooms"}>Cancel</Link>
             </button>
          </form>
       </DefaultLayout>

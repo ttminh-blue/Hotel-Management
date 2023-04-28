@@ -26,6 +26,7 @@ const CleanRoom = (props: Props) => {
                   theme: "dark",
                   type: "success",
                });
+               router.push("/clean");
             })
             .catch((error) => {
                toast(error, {
@@ -110,7 +111,6 @@ const CleanRoom = (props: Props) => {
 export default CleanRoom;
 
 export async function getServerSideProps(context: any) {
-   console.log("Context: ", context.query);
    const room = (
       await axios.get(process.env.NEXT_PUBLIC_API + "Phong/" + context.query.id)
    ).data;

@@ -68,6 +68,7 @@ export type Booking = {
     TEN_KH: string;
     TRANG_THAI_DAT_PHONG: string;
     YEU_CAU_DB: string;
+    TRANG_THAI_PDP: string
  };
 
 

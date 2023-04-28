@@ -1,7 +1,7 @@
 import EmptyLayout from "@/layouts/EmptyLayout";
 import { useRef, useState, useEffect, FormEvent } from "react";
 import axios from "axios";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 type Props = {};
 
@@ -12,12 +12,12 @@ const Login = (props: Props) => {
    const passRef = useRef<HTMLInputElement>(null);
    const config = {
       headers: {
-         'content-type': 'application/json',
-         'Access-Control-Allow-Origin': "*"
-      }
-   }
+         "content-type": "application/json",
+         "Access-Control-Allow-Origin": "*",
+      },
+   };
    const authFetch = axios.create({
-      baseURL: 'https://localhost:44335/api',
+      baseURL: "https://localhost:44335/api",
    });
    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -27,20 +27,18 @@ const Login = (props: Props) => {
          maTaikhoan: "TK111",
          tenTaikhoan: usernameRef.current?.value,
          matkhau: passRef.current?.value,
-         maNv: "NV111"
-      }
+         maNv: "NV111",
+      };
 
-      const login = authFetch.post('/Taikhoan', account_info, config)
-      login.then(user => {
-         if(user.data[0].MA_NV){
+      const login = authFetch.post("/Taikhoan", account_info, config);
+      login.then((user) => {
+         console.log(user.data[0]);
+         if (user.data[0].MA_NV) {
             sessionStorage.setItem("Ma_NV", user.data[0].MA_NV);
             router.push("/")
             
          }
-        
-         
-      })
-
+      });
    };
 
    return (

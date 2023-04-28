@@ -22,7 +22,6 @@ const CleaningManage = (props: Props) => {
 
    const handleAcceptRequest = (id: string) => {
       if (cleanningRequests.isSuccess) {
-         console.log(cleanningRequests.data);
          axios
             .put(process.env.NEXT_PUBLIC_API + "Cleanning/accept_request", {
                maPcdvs: id,
