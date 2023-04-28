@@ -10,8 +10,8 @@ type Props = {};
 const RoomManage = (props: Props) => {
    const [room, setRoom]= useState<RoomType[]>([]);
    const [check,setCheck] = useState<boolean>(true);
-   const updateCheck = (newB:boolean) => {
-      setCheck(()=>newB);
+   const updateCheck = () => {
+      setCheck(()=>!check);
     };
    const url = process.env.NEXT_PUBLIC_API;
    const getData = async () => {
@@ -122,7 +122,7 @@ const RoomManage = (props: Props) => {
                         <tbody>
                            {room.map((item, index) => {
                               return (
-                                 <RowTableRoom item={item} key={index} check={check} updateCheck={updateCheck}/>
+                                 <RowTableRoom item={item} key={index} updateCheck={updateCheck}/>
                               );
                            })}
                         </tbody>

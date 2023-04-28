@@ -30,7 +30,7 @@ const Info = (props: Props) => {
     });
     const notify = (message : any) => {
       if(message == "Existed User"){
-         toast.warning(message, {
+         toast.warning(message, {  
             position: "top-right",
                autoClose: 5000,
                hideProgressBar: false,

@@ -2,7 +2,8 @@ import { GuestType } from "@/types/UserType";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 type Props = {
-    phong: string
+    phong: string,
+    updateCheck: Function;
 }
 export default function Modal(props: Props) {
     const [showModal, setShowModal] = useState(false);
@@ -17,6 +18,7 @@ export default function Modal(props: Props) {
     const handleClickAdd = ()=>{
         setShowModal(false)
         axios.post(`${process.env.NEXT_PUBLIC_API}Phong/add?phong=${props.phong}&makh=${nameGuest}`)
+        props.updateCheck()
     }
     return (
         <>
@@ -84,7 +86,7 @@ export default function Modal(props: Props) {
                                     <button
                                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={handleClickAdd}
+                                        onClick={ handleClickAdd}
                                     >
                                         ADD  {nameGuest}
                                     </button>

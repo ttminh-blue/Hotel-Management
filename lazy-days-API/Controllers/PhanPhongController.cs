@@ -42,7 +42,7 @@ namespace lazy_days_API.Controllers
                 @MaPhong, @NgayPhanPhong, @NgayNhan);
 
 						UPDATE PHONG SET TRANG_THAI='Booked' WHERE MA_PHONG=@MaPhong;
-
+						UPDATE PHIEUDATPHONG SET TRANGTHAI='Received';
 						INSERT INTO CHITIETPHONG VALUES (@MaPhong,(SELECT MA_KH FROM PHIEUDATPHONG,PHANPHONG
 						WHERE PHIEUDATPHONG.MA_PHIEU_DP=PHANPHONG.MA_PHIEU_DP AND PHANPHONG.MA_PHONG=@MaPhong));";
             DataTable table = new DataTable();
@@ -65,35 +65,6 @@ namespace lazy_days_API.Controllers
 				}
             }
 			return new JsonResult("Add Succesfully");
-
-		}
-		[HttpPut]
-		public JsonResult Put(Phanphong pp)
-		{
-			string query = @"INSERT INTO DBO.KHACHHANG VALUES (@MaNvql, @MaPhieuDp, 
-                @MaPhong, @NgayPhanPhong, @NgayNhan)";
-			DataTable table = new DataTable();
-			string sqlDataSource = _configuration.GetConnectionString("Database");
-			SqlDataReader myReader;
-			using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-			{
-				myCon.Open();
-				using (SqlCommand myCommand = new SqlCommand(query, myCon))
-				{
-
-					myCommand.Parameters.AddWithValue("@MaNvql", pp.MaNvql);
-					myCommand.Parameters.AddWithValue("@MaPhieuDp", pp.MaPhieuDp);
-					myCommand.Parameters.AddWithValue("@MaPhong", pp.MaPhong);
-					myCommand.Parameters.AddWithValue("@NgayPhanPhong", pp.NgayPhanPhong);
-					myCommand.Parameters.AddWithValue("@NgayNhan", pp.NgayNhan);
-
-					myReader = myCommand.ExecuteReader();
-					table.Load(myReader);
-					myReader.Close();
-					myCon.Close();
-				}
-			}
-			return new JsonResult("UPDATED  Succesfully");
 
 		}
 	}

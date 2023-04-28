@@ -45,7 +45,7 @@ namespace lazy_days_API.Controllers
 				DP.TienCoc = giatien * 0.3;
 				DP.NgayDat = DateTime.Now;
 				string queryStr = @"INSERT INTO DBO.PHIEUDATPHONG VALUES (@MaPhieuDp, @MaKh, 
-                @MaNv, @NgayDat, @TongTien,@TienCoc,@Loaiphong,@NgayTraPhong, @SoDemLuuTru, @MaGoidv)";
+                @MaNv, @NgayDat, @TongTien,@TienCoc,@Loaiphong,@NgayTraPhong, @SoDemLuuTru, @MaGoidv,'Booked')";
 
 				var count = await sqlConnection.QueryAsync("Select * from PHIEUDATPHONG");
 				if (count == null) return NotFound();
@@ -67,22 +67,6 @@ namespace lazy_days_API.Controllers
 				DP.MaPhieuDp = newId;
 				await sqlConnection.ExecuteAsync(queryStr, DP);
 				return Ok(query + queryStr);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
-		[HttpPut]
-		public async Task<IActionResult> Put(Phieudatphong DP)
-		{
-			try
-			{
-				await using SqlConnection sqlConnection = _connectionFactory.CreateConnection();
-				string queryStr = @"UPDATE DBO.PHIEUDATPHONG SET MA_KH=@MaKh, 
-                MA_NV=@MaNv, NGAY_DAT=@NgayDat,TONG_TIEN= @TongTien,TIEN_COC=@TienCoc,LOAIPHONG=@Loaiphong,NGAY_TRA_PHONG=@NgayTraPhong WHERE MA_PHIEU_DP=@MaPhieuDp ";
-				await sqlConnection.ExecuteAsync(queryStr, DP);
-				return Ok("UPDATE successfully.");
 			}
 			catch (Exception ex)
 			{

@@ -21,7 +21,6 @@ import Modal from "@/components/modal";
 
 type Props = {
    item: RoomType;
-   check: boolean;
    updateCheck: Function;
 };
 
@@ -29,8 +28,7 @@ const RowTableRoom = (props: Props) => {
    const url = process.env.NEXT_PUBLIC_API;
    const handCheckIn = () => {
       axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
-      const newCheck = !props.check;
-      props.updateCheck(newCheck);
+      props.updateCheck();
       toast.success(`Booking ROOM ${props.item.MA_PHONG} successfully`, {
          position: "top-right",
          autoClose: 5000,
@@ -43,8 +41,7 @@ const RowTableRoom = (props: Props) => {
 
    const handleCustomerInst = () => {
       axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
-      const newCheck = !props.check;
-      props.updateCheck(newCheck);
+      props.updateCheck();
       toast.success(`Booking ROOM ${props.item.MA_PHONG} successfully`, {
          position: "top-right",
          autoClose: 5000,
@@ -111,7 +108,7 @@ const RowTableRoom = (props: Props) => {
                   </Button>
                )}
                {props.item.TRANG_THAI === "Occupied" && (
-                  <Modal phong={props.item.MA_PHONG} />
+                  <Modal phong={props.item.MA_PHONG} updateCheck={props.updateCheck}/>
                )}
 
                {/* <Button className="ml-2">
