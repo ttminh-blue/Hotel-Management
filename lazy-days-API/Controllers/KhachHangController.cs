@@ -40,6 +40,26 @@ namespace lazy_days_API.Controllers
             }
             return new JsonResult(table);
         }
+        [HttpGet("add")]
+        public JsonResult GetAL()
+        {
+            string query = @"select * from khachhang kh where not exists (select * from chitietphong ct where kh.MA_KH=ct.MA_KH)";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("Database");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
         [HttpPost]
         public async Task<IActionResult> Post(Khachhang kh)
         {

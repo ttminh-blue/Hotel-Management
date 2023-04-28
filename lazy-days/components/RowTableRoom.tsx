@@ -17,7 +17,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
- 
+import Modal from "@/components/modal";
+
 type Props = {
    item: RoomType;
    check: boolean;
@@ -42,7 +43,7 @@ const RowTableRoom = (props: Props) => {
 }
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-
+       
          <td className="px-4 py-2">
             <span className="bg-primary-100 text-primary-800 text-xs px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300 text-[15px] font-[600]">
                {props.item.MA_PHONG}
@@ -89,13 +90,9 @@ const RowTableRoom = (props: Props) => {
                </Button>
                ) : 
                props.item.TRANG_THAI === 'Occupied' ? (
-                  <Button className="w-40 mr-2 bg-orange-600  hover:bg-orange-800 ">
-                  <FontAwesomeIcon
-                     className="w-4 h-4 mr-1 "
-                     icon={faUser}
-                  />
-                  Add-Member
-               </Button>
+                  
+                    <Modal phong={props.item.MA_PHONG}/>
+                
                ) : 
                (
                 <div></div>

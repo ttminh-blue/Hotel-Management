@@ -54,7 +54,7 @@ namespace lazy_days_API.Controllers
             try
             {
                 await using SqlConnection connection = _sqlFactory.CreateConnection();
-                var result = await connection.ExecuteAsync("UPDATE PHONG SET TRANG_THAI='Occupied' WHERE MA_PHONG=@Phong", new {Phong=phong} );
+                var result = await connection.ExecuteAsync("UPDATE PHONG SET TRANG_THAI='Received' WHERE MA_PHONG=@Phong", new {Phong=phong} );
   
                 return Ok(result);
             }
@@ -70,7 +70,7 @@ namespace lazy_days_API.Controllers
             try
             {
                 await using SqlConnection connection = _sqlFactory.CreateConnection();
-                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='available' and LOAI='GUARANTEE'");
+                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='Available' and LOAI='GUARANTEE'");
                 if (result == null) return NotFound();
                 return Ok(result);
             }
@@ -85,7 +85,7 @@ namespace lazy_days_API.Controllers
             try
             {
                 await using SqlConnection connection = _sqlFactory.CreateConnection();
-                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='available' and LOAI='NOT GUARANTEE'");
+                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='Available' and LOAI='NOT GUARANTEE'");
                 if (result == null) return NotFound();
                 return Ok(result);
             }
