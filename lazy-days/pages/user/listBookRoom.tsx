@@ -113,7 +113,8 @@ const Info = (props: Props) => {
    const update_state = async () => {
       const path = '/KhachHang';
       const customer_info = {
-         Makh: makh
+         Makh: makh,
+         trangThaiDatPhong: 'Checkin'
 
       };
       console.log(customer_info)
