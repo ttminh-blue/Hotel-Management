@@ -33,14 +33,88 @@ namespace lazy_days_API.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+		[HttpGet("customers")]
+		public async Task<IActionResult> GetCustomer(string phong)
+		{
+			try
+			{
+				await using SqlConnection connection = _sqlFactory.CreateConnection();
+				var result = await connection.QueryAsync("Select KHACHHANG.* from Chitietphong,KHACHHANG where Chitietphong.MA_PHONG=@PHONG AND KHACHHANG.MA_KH=CHITIETPHONG.MA_KH", new { PHONG = phong });
+				if (result == null) return NotFound();
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		[HttpPost("update")]
+		public async Task<IActionResult> UpdateRoom(string phong)
+		{
+			try
+			{
+				await using SqlConnection connection = _sqlFactory.CreateConnection();
+				var result = await connection.ExecuteAsync("UPDATE PHONG SET TRANG_THAI='Received' WHERE MA_PHONG=@Phong", new { Phong = phong });
 
-		[HttpGet("{Id}")]
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		[HttpPost("add")]
+        public async Task<IActionResult> AddMem (string phong,string makh)
+        {
+            try
+            {
+                await using SqlConnection connection = _sqlFactory.CreateConnection();
+                var result = await connection.ExecuteAsync("INSERT INTO CHITIETPHONG VALUES(@phong,@makh)", new {phong=phong,makh=makh});
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpOptions]
+        public async Task<IActionResult> GetAvailable()
+        {
+            try
+            {
+                await using SqlConnection connection = _sqlFactory.CreateConnection();
+                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='Available' and LOAI='GUARANTEE'");
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut]
+        public async Task<IActionResult> GetNG()
+        {
+            try
+            {
+                await using SqlConnection connection = _sqlFactory.CreateConnection();
+                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='Available' and LOAI='NOT GUARANTEE'");
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{Id}")]
 		public async Task<IActionResult> Get([FromRoute] string Id)
 		{
 			try
 			{
 				await using SqlConnection connection = _sqlFactory.CreateConnection();
-				var result = await connection.QueryAsync("Select * from Phong where MA_PHONG = @Id", new
+				var result = await connection.QueryFirstOrDefaultAsync("Select * from Phong where MA_PHONG = @Id", new
 				{
 					Id = Id
 				});

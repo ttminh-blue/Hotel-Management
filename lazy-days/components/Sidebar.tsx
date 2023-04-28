@@ -45,9 +45,19 @@ const SidebarCustom = (props: Props) => {
                   <Sidebar.Collapse icon={InboxIcon} label="User">
                      <Sidebar.Item href="/user/info">Personal</Sidebar.Item>
                      <Sidebar.Item href="/user/group">Group</Sidebar.Item>
-               
+                     <Sidebar.Item href="/user/listBookRoom">Waiting List</Sidebar.Item>
+                     <Sidebar.Item href="/user/travel">Travel Company</Sidebar.Item>
                   </Sidebar.Collapse>
-                  <Sidebar.Item href="/clean/form" icon={RectangleStackIcon}>
+
+                  <Sidebar.Collapse icon={UserIcon} label="Bellman">
+                     <Sidebar.Item href="/bellman/assignment_rooms">
+                        Assignment Rooms
+                     </Sidebar.Item>
+                     <Sidebar.Item href="/bellman/baggage_forms">
+                        Baggage Forms
+                     </Sidebar.Item>
+                  </Sidebar.Collapse>
+                  <Sidebar.Item href="/clean" icon={RectangleStackIcon}>
                      Cleanning
                   </Sidebar.Item>
                </Sidebar.ItemGroup>

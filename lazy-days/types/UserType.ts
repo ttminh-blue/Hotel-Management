@@ -1,3 +1,5 @@
+import { type } from "os";
+
 export type UserType = {
     name: string;
     position: string;
@@ -5,21 +7,98 @@ export type UserType = {
     phone: number | string;
  };
  
-
+export type GuestType = {
+      MA_KH: string,
+      TEN_KH: string,
+      CMND: string,
+      DIA_CHI: string,
+      SDT: string,
+      Email: string,
+      Fax: string,
+      SO_DEM_LUU_TRU: number,
+      YEU_CAU_DB: string,
+      TRANG_THAI_DAT_PHONG: string,
+}
 export type RoomType = {
-    roomID: string,
-    roomName: string,
-    type: string,
-    status: boolean,
-    location:string,
+    MA_PHONG: string,
+    TEN_PHONG: string,
+    SO_LUONG_DAP_UNG: number,
+    LOAI: string,
+    TRANG_THAI:string,
+};
+export type Members = {
+   MA_PHONG: string,
+   MA_KH: string,
+};
+export type Booking = {
+    MaNvql: string,
+    MaPhieuDp: string,
+    MaPhong: string,
+    NgayPhanPhong: string,
+    NgayNhan: string
+ };
+ export type BookingGet = {
+    MA_PHIEU_DP: string,
+    MA_KH: string,
+    MA_NV: string,
+    NGAY_DAT: Date,
+    TONG_TIEN: any,
+    TIEN_COC: any,
+    LOAIPHONG: string,
+    NGAY_TRA_PHONG: Date,
+    SO_DEM_LUU_TRU: number,
+    MA_GOIDV: any
+ }
+
+ export type Room = {
+    MA_PHONG: string;
+    TEN_PHONG: string;
+    TRANG_THAI: string;
+    SO_LUONG_DAP_UNG: number;
+    LOAI: string;
+    DIADIEM: string;
+ }
+
+ export interface BellmanAssignmentRoom extends Room  {
+    MA_PHIEU_DP: string;
+    NGAY_NHAN: string;
+    NGAY_PHAN_PHONG: string;
+    SDT: string;
+    SO_DEM_LUU_TRU: number;
+    TEN_KH: string;
+    TRANG_THAI_DAT_PHONG: string;
+    YEU_CAU_DB: string;
+    TRANG_THAI_PDP: string
+ };
+
+
+export type PackageType = {
+   packageName?: string;
+   packageQuantity?: Number;
 };
 
-export type Booking = {
-    MaPhieuDp: string,
-    MaKh: string,
-    NgayDat: Date,
-    Loaiphong: string,
-    TienCoc: number,
-    NgayTraPhong: Date,
- };
- 
+
+export type PackageFormType = {
+   packages: PackageType[];
+};
+
+export type BaggageRequestType = {
+   MaPhong: string,
+   MaPhieuDp: string,
+   MaNv: string,
+   SoLuong: number,
+   HanhLy: string,
+   MaPhieudangkyvanchuyen: string
+}
+
+export type BaggageFormType = {
+   MA_PHIEUDANGKYVANCHUYEN: string,
+   NGAY_TAO: string,
+   HANH_LY: string,
+   SO_LUONG: number,
+   TEN_KH: string,
+   SDT: string,
+   TEN_PHONG: string,
+   TEN_NV: string,
+   CHUC_VU: string
+} 

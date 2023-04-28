@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 namespace lazy_days_API.Controllers
 {
-	[Route("grant/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class PhanPhong : ControllerBase
 	{
@@ -38,57 +38,41 @@ namespace lazy_days_API.Controllers
 		[HttpPost]
 		public JsonResult Post(Phanphong pp)
 		{
-			string query = @"INSERT INTO DBO.PHANPHONG VALUES (@MaNvql, @MaPhieuDp, 
-                @MaPhong, @NgayPhanPhong, @NgayNhan)";
-			DataTable table = new DataTable();
-			string sqlDataSource = _configuration.GetConnectionString("Database");
-			SqlDataReader myReader;
-			using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+			try
 			{
-				myCon.Open();
-				using (SqlCommand myCommand = new SqlCommand(query, myCon))
-				{
-					myCommand.Parameters.AddWithValue("@MaNvql", pp.MaNvql);
-					myCommand.Parameters.AddWithValue("@MaPhieuDp", pp.MaPhieuDp);
-					myCommand.Parameters.AddWithValue("@MaPhong", pp.MaPhong);
-					myCommand.Parameters.AddWithValue("@NgayPhanPhong", pp.NgayPhanPhong);
-					myCommand.Parameters.AddWithValue("@NgayNhan", pp.NgayNhan);
-					myReader = myCommand.ExecuteReader();
-					table.Load(myReader);
-					myReader.Close();
-					myCon.Close();
-				}
-			}
-			return new JsonResult("Add Succesfully");
+				string query = @"INSERT INTO DBO.PHANPHONG VALUES (@MaNvql, @MaPhieuDp, 
+                @MaPhong, @NgayPhanPhong, @NgayNhan);
 
-		}
-		[HttpPut]
-		public JsonResult Put(Phanphong pp)
-		{
-			string query = @"INSERT INTO DBO.KHACHHANG VALUES (@MaNvql, @MaPhieuDp, 
-                @MaPhong, @NgayPhanPhong, @NgayNhan)";
-			DataTable table = new DataTable();
-			string sqlDataSource = _configuration.GetConnectionString("Database");
-			SqlDataReader myReader;
-			using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+						UPDATE PHONG SET TRANG_THAI='Booked' WHERE MA_PHONG=@MaPhong;
+						UPDATE PHIEUDATPHONG SET TRANGTHAI='Received';
+						INSERT INTO CHITIETPHONG VALUES (@MaPhong,(SELECT MA_KH FROM PHIEUDATPHONG,PHANPHONG
+						WHERE PHIEUDATPHONG.MA_PHIEU_DP=PHANPHONG.MA_PHIEU_DP AND PHANPHONG.MA_PHONG=@MaPhong));";
+				DataTable table = new DataTable();
+				string sqlDataSource = _configuration.GetConnectionString("Database");
+				SqlDataReader myReader;
+				using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+				{
+					myCon.Open();
+					using (SqlCommand myCommand = new SqlCommand(query, myCon))
+					{
+						myCommand.Parameters.AddWithValue("@MaNvql", pp.MaNvql);
+						myCommand.Parameters.AddWithValue("@MaPhieuDp", pp.MaPhieuDp);
+						myCommand.Parameters.AddWithValue("@MaPhong", pp.MaPhong);
+						myCommand.Parameters.AddWithValue("@NgayPhanPhong", DateTime.Now);
+						myCommand.Parameters.AddWithValue("@NgayNhan", DateTime.Now);
+						myReader = myCommand.ExecuteReader();
+						table.Load(myReader);
+						myReader.Close();
+						myCon.Close();
+					}
+				}
+				return new JsonResult("Add Succesfully");
+			}
+			catch (Exception ex)
 			{
-				myCon.Open();
-				using (SqlCommand myCommand = new SqlCommand(query, myCon))
-				{
-
-					myCommand.Parameters.AddWithValue("@MaNvql", pp.MaNvql);
-					myCommand.Parameters.AddWithValue("@MaPhieuDp", pp.MaPhieuDp);
-					myCommand.Parameters.AddWithValue("@MaPhong", pp.MaPhong);
-					myCommand.Parameters.AddWithValue("@NgayPhanPhong", pp.NgayPhanPhong);
-					myCommand.Parameters.AddWithValue("@NgayNhan", pp.NgayNhan);
-
-					myReader = myCommand.ExecuteReader();
-					table.Load(myReader);
-					myReader.Close();
-					myCon.Close();
-				}
+				return new JsonResult(ex.Message);
 			}
-			return new JsonResult("UPDATED  Succesfully");
+
 
 		}
 	}

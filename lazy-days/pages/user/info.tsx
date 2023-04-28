@@ -2,6 +2,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 type Props = {};
 
 const Info = (props: Props) => {
@@ -14,26 +15,46 @@ const Info = (props: Props) => {
    const typeRoomRef = useRef<any>(null);
    const numberNightRef = useRef<any>(null);
    const requireRef = useRef<any>(null);
-  
-  
+
+
    const [check, setCheck] = useState<any>(false);
    const current = new Date();
-   const date = `${current.getDate()}/${
-      current.getMonth() + 1
-   }/${current.getFullYear()}`;
-   
-   var random_num = Math.floor(Math.random() * (999 - 100) ) + 100;
+   const date = `${current.getDate()}/${current.getMonth() + 1
+      }/${current.getFullYear()}`;
+
+   var random_num = Math.floor(Math.random() * (999 - 100)) + 100;
 
    const authFetch = axios.create({
       baseURL: 'https://localhost:44335/api',
-    });
-    const notify = () => {
-      toast('Add Customer Successfully !', { hideProgressBar: true, autoClose: 2000, type: 'success',  position:'top-right' })
-    }
-    const handleClick = async(event: any) => {
+   });
+   const notify = (message: any) => {
+      if (message == "Add Successfully") {
+         toast.success(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+
+         })
+      }
+      else {
+         toast.warning(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+
+         })
+      }
+   }
+   const handleClickCreate = async (event: any) => {
       event.preventDefault();
       const customer_info = {
-         Makh : 'KH' + random_num,
+         Makh: 'KH' + random_num,
          TenKh: fullnameRef.current?.value,
          Cmnd: cmndRef.current?.value,
          DiaChi: addressRef.current?.value,
@@ -43,47 +64,79 @@ const Info = (props: Props) => {
          // LoaiPhong: typeRoomRef.current?.value,
          SoDemLuuTru: numberNightRef.current?.value,
          yeuCauDb: requireRef?.current.value
-         
       };
-      // const doan_info = {
-      //    MaDoan: 'DOAN' + random_num,
-      //    TenDoan: groupNameRef.current?.value,
-      //    NguoiDaiDien: representativeRef.current?.value,
-      //    SoNguoi: numberPeopleRef.current?.value,
-      //    SoDemLuuTru: numberNightRef.current?.value
-
-      // };
-     
       const config = {
-         headers: { 
-             'content-type': 'application/json',
-             'Access-Control-Allow-Origin': "*"
+         headers: {
+            'content-type': 'application/json',
+            'Access-Control-Allow-Origin': "*"
          }
-     }
-
-      try{
-        console.log(customer_info, 11111111)
-       
-        const data1 = await authFetch.post('/KhachHang' , customer_info, config);
-        console.log(data1);
-   
-        
-       notify();
-         
-       
-
-       
-        
-        
-
-         
       }
-      catch(e){
+
+      try {
+         const data1 = await authFetch.post('/KhachHang', customer_info, config);
+         notify(data1.data);
+      }
+      catch (e) {
+      }
+   }
+   const handleClick = async (event: any) => {
+      event.preventDefault();
+      const customer_info = {
+         Makh: 'KH' + random_num,
+         TenKh: fullnameRef.current?.value,
+         Cmnd: cmndRef.current?.value,
+         DiaChi: addressRef.current?.value,
+         Email: emailRef.current?.value,
+         Fax: faxRef.current?.value,
+         Sdt: phoneRef.current?.value,
+         // LoaiPhong: typeRoomRef.current?.value,
+         SoDemLuuTru: numberNightRef.current?.value,
+         yeuCauDb: requireRef?.current.value
+      };
+
+      const book = {
+         MaPhieuDp: '0',
+         Makh: 'KH' + random_num,
+         MaNv: 'NV001',
+         NgayDat: null,
+         TongTien: 0,
+         TienCoc: 0,
+         Loaiphong: typeRoomRef.current?.value,
+         NgayTraPhong: null,
+         SoDemLuuTru: numberNightRef.current?.value || 0,
+         MaGoidv: null
+      };
+
+
+      const config = {
+         headers: {
+            'content-type': 'application/json',
+            'Access-Control-Allow-Origin': "*"
+         }
+      }
+
+      try {
+         const data1 = await authFetch.post('/KhachHang', customer_info, config);
+         console.log(2222, data1 );
+         if (typeof data1 == 'object') {
+            const new_kh = data1.data[0].MA_KH
+            book.Makh = new_kh
+         }
+         const data = await authFetch.post('/Booking', book, config);
+         if (data1.data[0].MA_KH) {
+            notify('Existed user');
+         }
+         else {
+            notify('Add Successfully');
+         }
 
       }
-    }
+      catch (e) {
+
+      }
+   }
    // const handleClick = async() => {
-      
+
    //    const customer_info = {
    //       Makh : 'KH' + random_num,
    //       TenKh: fullnameRef.current?.value,
@@ -100,13 +153,13 @@ const Info = (props: Props) => {
    //    try{
    //       console.log(88888888888)
    //       const {data} =  await authFetch.post('/KhachHang' , customer_info);
-        
-         
+
+
    //    }
    //    catch(e){
 
    //    }
-      
+
    // };
    return (
       <DefaultLayout>
@@ -229,8 +282,8 @@ const Info = (props: Props) => {
                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
                      <option selected>Choose type of room</option>
-                     <option value="Guarantee">Guarantee</option>
-                     <option value="Not_Guarantee">Not Guarantee</option>
+                     <option value="GUARANTEE">GUARANTEE</option>
+                     <option value="NOT GUARANTEE">NOT GUARANTEE</option>
                   </select>
                </div>
             </div>
@@ -347,17 +400,26 @@ const Info = (props: Props) => {
                      </div>
                   </>
                )} */}
-            
+
             </div>
-            
+
             <button
                onClick={handleClick}
                type="submit"
                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-               Submit
+               Booking
             </button>
-            <ToastContainer position="top-right" />
+
+            <button
+               onClick={handleClickCreate}
+               type="submit"
+               className="ml-[30px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+               Create Customers
+            </button>
+            <ToastContainer />
+
          </form>
       </DefaultLayout>
    );
