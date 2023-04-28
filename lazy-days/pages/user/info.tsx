@@ -118,7 +118,7 @@ const Info = (props: Props) => {
       try {
          const data1 = await authFetch.post('/KhachHang', customer_info, config);
          console.log(2222, data1 );
-         if (typeof data1 == 'object') {
+         if (data1.data[0].MA_KH) {
             const new_kh = data1.data[0].MA_KH
             book.Makh = new_kh
          }

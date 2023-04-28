@@ -42,7 +42,9 @@ namespace lazy_days_API.Controllers
 				await using SqlConnection sqlConnection = _connectionFactory.CreateConnection();
 				string query = $"Select GIATIEN from LOAIPHONG WHERE LOAIPHONG='{DP.Loaiphong}'";
 				int giatien = await sqlConnection.QueryFirstOrDefaultAsync<int>(query);
-				DP.TienCoc = giatien * 0.3;
+                query = $"Select GIA from GOIDICHVU WHERE MA_GOIDV='{DP.MaGoidv}'";
+                int giatiendv = await sqlConnection.QueryFirstOrDefaultAsync<int>(query);
+                DP.TienCoc = (giatien+giatiendv) * 0.3;
 				DP.NgayDat = DateTime.Now;
 				string queryStr = @"INSERT INTO DBO.PHIEUDATPHONG VALUES (@MaPhieuDp, @MaKh, 
                 @MaNv, @NgayDat, @TongTien,@TienCoc,@Loaiphong,@NgayTraPhong, @SoDemLuuTru, @MaGoidv,'Booked')";

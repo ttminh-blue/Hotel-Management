@@ -1,9 +1,11 @@
 import { GuestType } from "@/types/UserType";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 type Props = {
     phong: string,
-    updateCheck: Function;
+    updateRe: Function;
 }
 export default function Modal(props: Props) {
     const [showModal, setShowModal] = useState(false);
@@ -18,7 +20,15 @@ export default function Modal(props: Props) {
     const handleClickAdd = ()=>{
         setShowModal(false)
         axios.post(`${process.env.NEXT_PUBLIC_API}Phong/add?phong=${props.phong}&makh=${nameGuest}`)
-        props.updateCheck()
+        props.updateRe()
+        toast.success(`Add ${nameGuest} to ${props.phong} successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+         });
     }
     return (
         <>
