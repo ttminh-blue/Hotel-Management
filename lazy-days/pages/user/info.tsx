@@ -122,12 +122,14 @@ const Info = (props: Props) => {
             const new_kh = data1.data[0].MA_KH
             book.Makh = new_kh
          }
-         const data = await authFetch.post('/Booking', book, config);
+         await authFetch.post('/Booking', book, config);
          if (data1.data[0].MA_KH) {
-            notify('Existed user');
+            notify(`Existed user ${data1.data[0].MA_KH}`);
          }
          else {
-            notify('Add Successfully');
+        
+            notify(`Add ${customer_info.Makh} Successfully`);
+            
          }
 
       }

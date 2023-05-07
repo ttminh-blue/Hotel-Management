@@ -10,7 +10,7 @@ import {} from "@fortawesome/free-regular-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
 import { Button } from "flowbite-react";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -50,8 +50,9 @@ const RowTableBooking = (props: Props) => {
             .then((json) => console.log(json));
       };
       postGrantRoom();
-      props.updateCheck();
       setRe(!re)
+      props.updateCheck();
+    
       toast.success(
          `Grant ROOM ${phong.current?.value} to ID Booking ${props.item.MA_PHIEU_DP}`,
          {
