@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.VisualBasic;
+using System;
+using System.Diagnostics;
 
 namespace lazy_days_API.Controllers
 {
@@ -37,6 +40,8 @@ namespace lazy_days_API.Controllers
         public string? Ma_Nv { get; set; }
 
         public string? Loai { get; set; }
+
+        public string? Ma_PhieuDV { get; set; }
     }
 
     [Route("api/[controller]")]
@@ -76,6 +81,20 @@ namespace lazy_days_API.Controllers
             }
         }
 
+        [HttpGet("Tour")]
+        public IActionResult GetTour()
+        {
+            string sqlDataSource = _configuration.GetConnectionString("Database");
+
+            using (var conn = new SqlConnection(sqlDataSource))
+            {
+                conn.Open();
+                string query = "select TDL.*,DVLH.TEN_DV from TOURDULICH TDL join DONVILUUHANH DVLH on TDL.MA_DV = DVLH.MA_DV";
+                List<Tourdulich> ListTour = conn.Query<Tourdulich>(query).ToList();
+                return Ok(ListTour);
+            }
+        }
+
         [HttpGet("Check")]
         public IActionResult GetByPhone(string phone)
         {
@@ -111,14 +130,177 @@ namespace lazy_days_API.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound("Error");
+                return BadRequest("Error");
             }
 
         }
         [HttpPost("RegisterHS")]
         public IActionResult RegisterHS([FromBody] Form DetailRegistration)
         {
-            return Ok(DetailRegistration);
+            try
+            {
+
+                string sqlDataSource = _configuration.GetConnectionString("Database");
+
+                using (var conn = new SqlConnection(sqlDataSource))
+                {
+                    conn.Open();
+                    string query = "SELECT TOP 1 MA_PHIEUDV FROM PHIEUDANGKYDICHVU ORDER BY MA_PHIEUDV DESC";
+                    string PDK = conn.QueryFirstOrDefault<string>(query);
+                    if (PDK == null)
+                    {
+                        string maDK = "DK001";
+                        DateTime today = DateTime.Today;
+                        var temp = conn.Execute("INSERT INTO PHIEUDANGKYDICHVU VALUES(@MA_PDK,@NGAY_DK,@TONGTIEN,NULL,@MA_PDP,@MA_NV,@MA_DV,@SL,@LOAI)",
+                            new
+                            {
+                                MA_PDK = maDK,
+                                NGAY_DK = today,
+                                TONGTIEN = DetailRegistration.TongTien,
+                                MA_PDP = DetailRegistration.Ma_Phieu_DP,
+                                MA_NV = DetailRegistration.Ma_Nv,
+                                MA_DV = DetailRegistration.Ma_DV,
+                                SL = DetailRegistration.SoLuong,
+                                LOAI = DetailRegistration.Loai
+                            }) ;
+                        if (temp == 1) return Ok("DONE");
+                        else return BadRequest();
+                    }
+                    else
+                    {
+                        string ma_PDK = PDK.Substring(2);
+                        //string ma_PDK = "102";
+                        int n = int.Parse(ma_PDK) + 1;
+                        //string test;
+                        if (n < 10) ma_PDK = $"DK00{n}";
+                        if (n<100 && n>=10) ma_PDK = $"DK0{n}";
+                        if (n >= 100) ma_PDK = $"DK{n}";
+                        if (n >= 1000) return BadRequest();
+
+                        DateTime today = DateTime.Today;
+                        var temp = conn.Execute("INSERT INTO PHIEUDANGKYDICHVU VALUES(@MA_PDK,@NGAY_DK,@TONGTIEN,NULL,@MA_PDP,@MA_NV,@MA_DV,@SL,@LOAI)",
+                            new
+                            {
+                                MA_PDK = ma_PDK,
+                                NGAY_DK = today,
+                                TONGTIEN = DetailRegistration.TongTien,
+                                MA_PDP = DetailRegistration.Ma_Phieu_DP,
+                                MA_NV = DetailRegistration.Ma_Nv,
+                                MA_DV = DetailRegistration.Ma_DV,
+                                SL = DetailRegistration.SoLuong,
+                                LOAI = DetailRegistration.Loai
+                            });
+                        if (temp == 1) return Ok("DONE");
+                        else return BadRequest();
+                    }
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("RegisterTour")]
+        public IActionResult RegisterTour([FromBody] FormTour DetailRegistrationTour)
+        {
+            try
+            {
+
+                string sqlDataSource = _configuration.GetConnectionString("Database");
+
+                using (var conn = new SqlConnection(sqlDataSource))
+                {
+                    conn.Open();
+                    string query = "SELECT TOP 1 MAPDKTOUR FROM PHIEUDKTOUR ORDER BY MAPDKTOUR DESC";
+                    string MAPDKTOUR = conn.QueryFirstOrDefault<string>(query);
+                    if (MAPDKTOUR == null)
+                    {
+                        string maDK = "DK001";
+                        DateTime today = DateTime.Today;
+                        var temp = conn.Execute("INSERT INTO PHIEUDKTOUR VALUES(@MAPDKTOUR,@THOIGIANDANGKY,@TENNGUOIDK,@SDT,@THOIGIANKHOIHANH,@EMAIL,@CMND,@SONGUOITG,@DICHVUDUADON,@TRANGTHAI,@YEUCAUDACBIET,@MATOUR,@MANV)",
+                            new
+                            {
+                                MAPDKTOUR = maDK,
+                                THOIGIANDANGKY = DetailRegistrationTour.data3.registerDate,
+                                TENNGUOIDK = DetailRegistrationTour.data3.fullName,
+                                SDT = DetailRegistrationTour.data3.phone,
+                                THOIGIANKHOIHANH = DetailRegistrationTour.data3.departureDay,
+                                EMAIL = DetailRegistrationTour.data3.email,
+                                CMND = DetailRegistrationTour.data3.idCard,
+                                SONGUOITG = DetailRegistrationTour.data3.numberJoin,
+                                DICHVUDUADON = DetailRegistrationTour.data3.shuttle,
+                                TRANGTHAI = "Wait",
+                                YEUCAUDACBIET = DetailRegistrationTour.data3.request,
+                                MATOUR = DetailRegistrationTour.data1,
+                                MANV = "NV001"
+                            });
+                        foreach (var info in DetailRegistrationTour.data2)
+                        {
+                            var temp2 = conn.Execute("INSERT INTO TTNGUOITHAMGIA VALUES(@MAPDKTOUR,@STT,@SDT,@TENNGUOITG)",
+                            new
+                            {
+                                MAPDKTOUR = maDK,
+                                STT = info.STT,
+                                SDT = info.SDT,
+                                TENNGUOITG = info.TENNGUOITG
+                            });
+                        }
+                        if (temp == 1) return Ok("DONE");
+                        else return BadRequest();
+                    }
+                    else
+                    {
+                        string ma_PDK = MAPDKTOUR.Substring(2);
+                        //string ma_PDK = "102";
+                        int n = int.Parse(ma_PDK) + 1;
+                        //string test;
+                        if (n < 10) ma_PDK = $"DK00{n}";
+                        if (n < 100 && n >= 10) ma_PDK = $"DK0{n}";
+                        if (n >= 100) ma_PDK = $"DK{n}";
+                        if (n >= 1000) return BadRequest();
+
+                        DateTime today = DateTime.Today;
+                        var temp = conn.Execute("INSERT INTO PHIEUDKTOUR VALUES(@MAPDKTOUR,@THOIGIANDANGKY,@TENNGUOIDK,@SDT,@THOIGIANKHOIHANH,@EMAIL,@CMND,@SONGUOITG,@DICHVUDUADON,@TRANGTHAI,@YEUCAUDACBIET,@MATOUR,@MANV)",
+                            new
+                            {
+                                MAPDKTOUR = ma_PDK,
+                                THOIGIANDANGKY = DetailRegistrationTour.data3.registerDate,
+                                TENNGUOIDK = DetailRegistrationTour.data3.fullName,
+                                SDT = DetailRegistrationTour.data3.phone,
+                                THOIGIANKHOIHANH = DetailRegistrationTour.data3.departureDay,
+                                EMAIL = DetailRegistrationTour.data3.email,
+                                CMND = DetailRegistrationTour.data3.idCard,
+                                SONGUOITG = DetailRegistrationTour.data3.numberJoin,
+                                DICHVUDUADON = DetailRegistrationTour.data3.shuttle,
+                                TRANGTHAI = "Wait",
+                                YEUCAUDACBIET = DetailRegistrationTour.data3.request,
+                                MATOUR = DetailRegistrationTour.data1,
+                                MANV = "NV001"
+                            });
+                        foreach (var info in DetailRegistrationTour.data2)
+                        {
+                            var temp2 = conn.Execute("INSERT INTO TTNGUOITHAMGIA VALUES(@MAPDKTOUR,@STT,@SDT,@TENNGUOITG)",
+                            new
+                            {
+                                MAPDKTOUR = ma_PDK,
+                                STT = info.STT,
+                                SDT = info.SDT,
+                                TENNGUOITG = info.TENNGUOITG
+                            });
+                        }
+                        if (temp == 1) return Ok("DONE");
+                        else return BadRequest();
+                    }
+                    return Ok(DetailRegistrationTour);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace lazy_days_API.Models;
 
-public partial class Phieudangkydichvu
+public class Phieudangkydichvu
 {
     public string MaPhieudv { get; set; } = null!;
 
@@ -21,11 +21,4 @@ public partial class Phieudangkydichvu
 
     public string? MaDv { get; set; }
 
-    public virtual ICollection<Chitietthanhtoandv> Chitietthanhtoandvs { get; } = new List<Chitietthanhtoandv>();
-
-    public virtual Dichvukhachsan? MaDvNavigation { get; set; }
-
-    public virtual Nhanvien? MaNvNavigation { get; set; }
-
-    public virtual Phieudatphong? MaPhieuDpNavigation { get; set; }
 }

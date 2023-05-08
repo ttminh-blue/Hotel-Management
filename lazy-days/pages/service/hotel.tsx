@@ -6,6 +6,8 @@ import NoSSR from "../../components/NoSSR";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
+
 type Props = {
    serviceDetail?: Detail;
    type?: string;
@@ -176,6 +178,7 @@ const DetailChoose = (pros: Props) => {
    const saleCost = (combo: any, chose: any) => {
       // console.log("combo",combo)
       // console.log("chose", chose)
+      if (combo == null) return 0;
       let sale = combo.find((x: any) => x.Ma_Dv == chose)
       // console.log("sale",sale)
       if (sale != null) {
@@ -304,14 +307,18 @@ const Hotel = (props: Props) => {
    };
 
    const handleRegister = () => {
+      toast("In progress", {
+         theme: "dark",
+         type: "info",
+      });
       let ma;
       let loai;
       if (type === 'Service'){
-         ma = HotelService
+         ma = choose
          loai = "Service"
       }
       else{
-         ma = Product
+         ma = choose
          loai = "Product"
       }
       let formSend = {
@@ -323,12 +330,24 @@ const Hotel = (props: Props) => {
          "ma_Nv": "NV001",
          "loai": loai
       }
+      console.log(formSend)
       axios.post('https://localhost:44335/api/DichVu/RegisterHS', formSend,{
          headers: {
          'Content-Type': 'application/json'
          }
        })
-         .then(res => console.log(res))
+         .then(res => {
+            toast("Registation successfully.", {
+               theme: "dark",
+               type: "success",
+            });
+            console.log(res.data)
+         }).catch(e => {
+            toast("Error", {
+               theme: "dark",
+               type: "error",
+            });
+         })
    }
 
    useEffect(() => {
