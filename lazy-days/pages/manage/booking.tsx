@@ -11,8 +11,9 @@ const BookingManage = (props: Props) => {
    const [roomG, setRoomG] = useState<RoomType[]>([])
    const [roomN,setRoomN] = useState<RoomType[]>([])
    const [check,setCheck] = useState<boolean>(true);
-   const updateCheck = (newB:boolean) => {
-      setCheck(()=>newB);
+   const updateCheck = () => {
+      const bk= !check
+      setCheck(()=>bk);
     };
    const url = process.env.NEXT_PUBLIC_API;
    const getData = async () => {

@@ -9,10 +9,13 @@ const Receipt = () => {
 
 
    const [invoiceData , setInvoiceData] = useState<any>([]);
-   useEffect(() => {
+   const getData = () => {
       const invoice = JSON.parse(sessionStorage.receipt);
       console.log("My invoice: ", invoice)
       setInvoiceData(invoice)
+   }
+   useEffect(() => {
+      getData();
    }, [])
    return (
       <DefaultLayout>

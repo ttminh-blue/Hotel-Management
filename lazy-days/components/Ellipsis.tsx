@@ -5,6 +5,7 @@ import axios from "axios";
 import { GuestType, Members } from "@/types/UserType";
 type Props = {
    item: string;
+   re:boolean;
 };
 const Ellipsis = (props: Props) => {
    const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +16,7 @@ const Ellipsis = (props: Props) => {
          .get(`${url}Phong/customers?phong=${props.item}`)
          .then((response) => {
             setOption(() => response.data);
-            console.log(response.data);
+          
          })
          .then((json) => console.log(json));
    };
@@ -33,7 +34,7 @@ const Ellipsis = (props: Props) => {
    }
    useEffect(() => {
       getData();
-   }, []);
+   }, [props.re]);
    return (
       <div className="relative inline-block text-left">
          <div>

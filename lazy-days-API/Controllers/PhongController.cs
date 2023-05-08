@@ -33,7 +33,22 @@ namespace lazy_days_API.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
-		[HttpGet("customers")]
+        [HttpGet("CMND")]
+        public async Task<IActionResult> GetCMND(string cmnd)
+        {
+            try
+            {
+                await using SqlConnection connection = _sqlFactory.CreateConnection();
+                var result = await connection.QueryAsync($"select phong.* from phong, chitietphong,KHACHHANG where phong.MA_PHONG=CHITIETPHONG.MA_PHONG and CHITIETPHONG.MA_KH=KHACHHANG.MA_KH and KHACHHANG.CMND like '{cmnd}%'");
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("customers")]
 		public async Task<IActionResult> GetCustomer(string phong)
 		{
 			try

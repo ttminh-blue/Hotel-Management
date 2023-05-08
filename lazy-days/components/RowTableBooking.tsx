@@ -10,7 +10,7 @@ import {} from "@fortawesome/free-regular-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
 import { Button } from "flowbite-react";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -26,7 +26,7 @@ type Props = {
 const url = process.env.NEXT_PUBLIC_API;
 const RowTableBooking = (props: Props) => {
    const phong = useRef<HTMLSelectElement>(null);
-
+   const [re,setRe]= useState<boolean>(true)
    const handleClick = async () => {
       let data = {
          MaNvql: "NV001",
@@ -50,9 +50,9 @@ const RowTableBooking = (props: Props) => {
             .then((json) => console.log(json));
       };
       postGrantRoom();
-      const newCheck = !props.check;
-      props.updateCheck(newCheck);
-      console.log(newCheck);
+      setRe(!re)
+      props.updateCheck();
+    
       toast.success(
          `Grant ROOM ${phong.current?.value} to ID Booking ${props.item.MA_PHIEU_DP}`,
          {
@@ -98,6 +98,7 @@ const RowTableBooking = (props: Props) => {
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <select
+               id={props.item.MA_PHIEU_DP}
                ref={phong}
                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md"
             >
