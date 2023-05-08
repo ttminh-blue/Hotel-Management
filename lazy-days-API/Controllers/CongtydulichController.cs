@@ -13,32 +13,22 @@ namespace lazy_days_API.Controllers
     public class CongtydulichController : ControllerBase
     {
         private readonly IService _sqlFactory;
-        private readonly IConfiguration _configuration;
+       
 
-        public CongtydulichController(IService sqlFactory, IConfiguration configuration)
+        public CongtydulichController(IService sqlFactory)
         {
             _sqlFactory = sqlFactory;
-            _configuration = configuration;
+         
         }
         [HttpGet]
-        public JsonResult Get()
+        public async Task<IActionResult> Get()
         {
             string query = @"select * from dbo.CONGTYDULICH";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("Database");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult(table);
+
+            await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
+
+            var result = await sqlConnection.QueryAsync(query);
+            return new JsonResult(result);
         }
 
         [HttpPost]
@@ -55,29 +45,36 @@ namespace lazy_days_API.Controllers
 
 
                 string query = @"INSERT INTO DBO.CONGTYDULICH VALUES (@MA_CTY, @TEN_CTY, @DIA_CHI)";
-                DataTable table = new DataTable();
-                string sqlDataSource = _configuration.GetConnectionString("Database");
-                SqlDataReader myReader;
-                using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+                await sqlConnection.ExecuteAsync(query, new
                 {
-                    myCon.Open();
-                    using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                    {
+                    MA_CTY = ctdl.MaCty,
+                    TEN_CTY = ctdl.TenCty,
+                    DIA_CHI = ctdl.DiaChi
+                });
 
-                        myCommand.Parameters.AddWithValue("@MA_CTY", ctdl.MaCty);
-                        myCommand.Parameters.AddWithValue("@TEN_CTY", ctdl.TenCty);
-                       
-                        myCommand.Parameters.AddWithValue("@DIA_CHI", ctdl.DiaChi);
-                     
+                /* DataTable table = new DataTable();
+                 string sqlDataSource = _configuration.GetConnectionString("Database");
+                 SqlDataReader myReader;
+                 using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+                 {
+                     myCon.Open();
+                     using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                     {
+
+                         myCommand.Parameters.AddWithValue("@MA_CTY", ctdl.MaCty);
+                         myCommand.Parameters.AddWithValue("@TEN_CTY", ctdl.TenCty);
+
+                         myCommand.Parameters.AddWithValue("@DIA_CHI", ctdl.DiaChi);
 
 
-                        myReader = myCommand.ExecuteReader();
-                        table.Load(myReader);
-                        myReader.Close();
-                        myCon.Close();
-                    }
-                }
-         
+
+                         myReader = myCommand.ExecuteReader();
+                         table.Load(myReader);
+                         myReader.Close();
+                         myCon.Close();
+                     }
+                 }*/
+
                 return Ok("Added successfully.");
             }
             catch (Exception ex)
