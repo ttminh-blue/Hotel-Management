@@ -21,4 +21,9 @@ public partial class Khachhang
 	public string? YeuCauDb { get; set; }
 
 	public string? TrangThaiDatPhong { get; set; }
+
+	public void GetAPI()
+	{
+
+	}
 }
