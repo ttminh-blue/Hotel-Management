@@ -119,17 +119,26 @@ const Info = (props: Props) => {
          const data1 = await authFetch.post('/KhachHang', customer_info, config);
          console.log(2222, data1 );
          if (data1.data[0].MA_KH) {
+<<<<<<< HEAD
             console.log("Go hereeeeeeeeeee")
             const new_kh = data1.data[0].MA_KH
             book.Makh = new_kh
          }
          console.log(book)
          const data = await authFetch.post('/Booking', book, config);
+=======
+            const new_kh = data1.data[0].MA_KH
+            book.Makh = new_kh
+         }
+         await authFetch.post('/Booking', book, config);
+>>>>>>> 92253e12763cc8a00597724e09a64130136dcc6b
          if (data1.data[0].MA_KH) {
-            notify('Existed user');
+            notify(`Existed user ${data1.data[0].MA_KH}`);
          }
          else {
-            notify('Add Successfully');
+        
+            notify(`Add ${customer_info.Makh} Successfully`);
+            
          }
 
       }

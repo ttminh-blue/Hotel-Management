@@ -25,10 +25,15 @@ type Props = {
 };
 
 const RowTableRoom = (props: Props) => {
+   const [re,setRe]= useState<boolean>(true)
+   const updateRe = ()=>{
+      setRe(()=>!re);
+   }
    const url = process.env.NEXT_PUBLIC_API;
    const handCheckIn = () => {
       axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
       props.updateCheck();
+      updateRe()
       toast.success(`Booking ROOM ${props.item.MA_PHONG} successfully`, {
          position: "top-right",
          autoClose: 5000,
@@ -39,18 +44,6 @@ const RowTableRoom = (props: Props) => {
       });
    };
 
-   const handleCustomerInst = () => {
-      axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
-      props.updateCheck();
-      toast.success(`Booking ROOM ${props.item.MA_PHONG} successfully`, {
-         position: "top-right",
-         autoClose: 5000,
-         hideProgressBar: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-      });
-   };
 
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -70,7 +63,7 @@ const RowTableRoom = (props: Props) => {
             <div className="flex items-center">{props.item.LOAI}</div>
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <Ellipsis item={props.item.MA_PHONG} /> /{" "}
+            <Ellipsis item={props.item.MA_PHONG} re={re}/> /{" "}
             {props.item.SO_LUONG_DAP_UNG}
          </td>
 
@@ -108,7 +101,7 @@ const RowTableRoom = (props: Props) => {
                   </Button>
                )}
                {props.item.TRANG_THAI === "Occupied" && (
-                  <Modal phong={props.item.MA_PHONG} updateCheck={props.updateCheck}/>
+                  <Modal phong={props.item.MA_PHONG} updateRe={updateRe}/>
                )}
 
                {/* <Button className="ml-2">
