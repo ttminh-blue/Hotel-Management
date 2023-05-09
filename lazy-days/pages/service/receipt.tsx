@@ -19,8 +19,9 @@ const Receipt = () => {
       currency: 'VND',
 
    });
-   const invoice = JSON.parse(sessionStorage.receipt);
+  
    const getData = async () => {
+      const invoice = JSON.parse(sessionStorage.receipt);
       const goidv = await authFetch.get('/DichVu/Combo');
       console.log("Dich vu: ", goidv.data);
       for(var i = 0 ; i < goidv.data.length; i++){
