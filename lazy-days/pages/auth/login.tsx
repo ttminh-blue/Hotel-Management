@@ -2,6 +2,7 @@ import EmptyLayout from "@/layouts/EmptyLayout";
 import { useRef, useState, useEffect, FormEvent } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
 
 type Props = {};
 
@@ -19,6 +20,30 @@ const Login = (props: Props) => {
    const authFetch = axios.create({
       baseURL: "https://localhost:44335/api",
    });
+   const notify = (message: any) => {
+      if (message == 'Success') {
+         toast.success(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+
+         })
+      }
+      else {
+         toast.error(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+
+         })
+      }
+   }
    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       console.log(usernameRef.current?.value, passRef.current?.value);
@@ -32,14 +57,21 @@ const Login = (props: Props) => {
 
       const login = authFetch.post("/Taikhoan", account_info, config);
       login.then((user) => {
-         console.log(user.data[0].MA_NV);
+         console.log(user.data);
+         if(user.data == "Failed"){
+            notify("Accout wrong")
+            return;
+         }
          if (user.data[0].MA_NV) {
             authFetch.get("/NhanViens/" + user.data[0].MA_NV)
             .then((role) => {
                
                sessionStorage.setItem("Ma_NV", user.data[0].MA_NV);
                sessionStorage.setItem("CHUC_VU", role.data[0].CHUC_VU);
-               
+               if(user.data[0].MA_NV[0] == 'N'){
+                  notify('Success')
+               }
+              
 
                router.push("/")
             })
