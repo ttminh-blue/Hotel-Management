@@ -449,14 +449,14 @@ const Info = (props: Props) => {
                         {
                            combo.map((c: any, index: any) => {
                               return (
-                                 <div>
-                                       <input type="radio" id={`Combo${index}`} name="combo" value={c.Ma_Goidv} 
+                                 <div key = {index}>
+                                       <input type="radio" id={`Combo${index}`} name="combo" value={c.MA_GOIDV} 
                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                           setComboC(e.target.value)
                                           console.log(e.target.value)
                                        }}
                                        />
-                                       <label htmlFor={`Combo${index}`} className="p-4">{c.Ten_Goidv}</label>
+                                       <label htmlFor={`Combo${index}`} className="p-4">{c.TEN_GOIDV}</label>
                                  </div>
                               )
                            })
