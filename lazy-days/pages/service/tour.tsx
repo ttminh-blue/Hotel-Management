@@ -21,23 +21,23 @@ const RenderTour = (props: Props) => {
       <Table.Row>
          <Table.Cell className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600" >
             <input
-               id={props.tourDetail?.Ma_Tour}
+               id={props.tourDetail?.MA_TOUR}
                type="radio"
                name="Service"
-               value={props.tourDetail?.Ma_Tour}
+               value={props.tourDetail?.MA_TOUR}
                onChange={props.onChangeProps}
                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
             />
             <label
-               htmlFor={props.tourDetail?.Ma_Tour}
+               htmlFor={props.tourDetail?.MA_TOUR}
                className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
             >
-               {props.tourDetail?.Ten_Tour}
+               {props.tourDetail?.TEN_TOUR}
             </label>
          </Table.Cell>
-         <Table.Cell className="">{props.tourDetail?.Mota}</Table.Cell>
-         <Table.Cell>{props.tourDetail?.Gia}</Table.Cell>
-         <Table.Cell>{props.tourDetail?.Ten_DV}</Table.Cell>
+         <Table.Cell className="">{props.tourDetail?.MOTA}</Table.Cell>
+         <Table.Cell>{props.tourDetail?.GIA}</Table.Cell>
+         <Table.Cell>{props.tourDetail?.TEN_DV}</Table.Cell>
 
          {/* <Table.Cell>
             <input
@@ -117,17 +117,7 @@ const FormTour = (props: Props) => {
    const [departureDay,setDepartureDay] = useState('');
    const [request,setRequest] = useState('');
    const [shuttle,setShuttle] = useState('');
-   const ChaneValueName = (e: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(e.target.name)
-
-
-   }
-
-   const ChaneValueSDT = (e: React.ChangeEvent<HTMLInputElement>) => {
-      console.log("sdt", e.target.name)
-   }
-
-   const registerTour = (data: any) => {
+      const registerTour = (data: any) => {
       toast("In progress", {
          theme: "dark",
          type: "info",
@@ -169,11 +159,11 @@ const FormTour = (props: Props) => {
                         <h1>Detail Tour</h1>
                      </div>
                      <div className="relative z-0 w-full mb-6 group text-lg">
-                        <p>Price: {props.detailChoose.Gia}</p>
+                        <p>Price: {props.detailChoose.GIA}</p>
                      </div>
                      <div className="relative z-0 w-full mb-6 group text-lg">
                         <p>Tour schedule: </p>
-                        <span style={{ whiteSpace: "pre-line" }}>{props.detailChoose.LichTrinh}</span>
+                        <span style={{ whiteSpace: "pre-line" }}>{props.detailChoose.LICHTRINH}</span>
                      </div>
 
                   </div>
@@ -461,7 +451,7 @@ const FormTour = (props: Props) => {
                               registerDate: new Date(),
                            }
                            let data = {
-                              data1: props.detailChoose.Ma_Tour,
+                              data1: props.detailChoose.MA_TOUR,
                               data2: inputFields,
                               data3: temp
                            }
@@ -469,7 +459,7 @@ const FormTour = (props: Props) => {
                            console.log(data)
                         }}
                      >
-                        I accept</button>
+                        Booking Tour</button>
                      <button data-modal-hide="defaultModal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
                   </div>
                </div>
@@ -502,7 +492,8 @@ const Tour = (props: Props) => {
    const handleChangeList = (e: React.ChangeEvent<HTMLInputElement>) => {
       console.log(e.target.value);
       setChoose(e.target.value);
-      setDetailChoose(listTour.find((l: any) => l.Ma_Tour == e.target.value))
+      console.log("CA",listTour)
+      setDetailChoose(listTour.find((l: any) => l.MA_TOUR == e.target.value))
       setEn(true)
    };
 

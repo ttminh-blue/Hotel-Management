@@ -9,7 +9,7 @@ import { faL } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
 type Props = {
-   serviceDetail?: Detail;
+   serviceDetail?: any;
    type?: string;
    onChangeProps?: any;
    detailChoose?: any;
@@ -26,7 +26,7 @@ type Props = {
 };
 
 type Detail = {
-   Ma_Dv: string;
+   MA_DV: string;
    Tendichvu: string;
    Gia: number;
    Diadiem: string;
@@ -38,35 +38,38 @@ type Detail = {
 const RenderService = (props: Props) => {
    // const choose = 'DV001'
    const amount = 1
+   useEffect(()=>{
+      // console.log("DDDD",props.serviceDetail)
+   },[])
    return (
       <Table.Row>
          <Table.Cell className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600" >
             <input
-               id={props.serviceDetail?.Ma_Dv}
+               id={props.serviceDetail?.MA_DV}
                type="radio"
                name="Service"
-               value={props.serviceDetail?.Ma_Dv}
+               value={props.serviceDetail?.MA_DV}
                onChange={props.onChangeProps}
 
                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
             />
             <label
-               htmlFor={props.serviceDetail?.Ma_Dv}
+               htmlFor={props.serviceDetail?.MA_DV}
                className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
             >
-               {props.serviceDetail?.Tendichvu}
+               {props.serviceDetail?.TENDICHVU}
             </label>
          </Table.Cell>
-         <Table.Cell>{props.serviceDetail?.Gia}</Table.Cell>
-         <Table.Cell>{props.serviceDetail?.Diadiem}</Table.Cell>
+         <Table.Cell>{props.serviceDetail?.GIA}</Table.Cell>
+         <Table.Cell>{props.serviceDetail?.DIADIEM}</Table.Cell>
          <Table.Cell>
             <input
                type="number"
                className="w-24 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-               name={`Service${props.serviceDetail?.Ma_Dv}`}
+               name={`Service${props.serviceDetail?.MA_DV}`}
                min={1}
                defaultValue={0}
-               value={props.idChoose === props.serviceDetail?.Ma_Dv ? props.AmountValue : 0}
+               value={props.idChoose === props.serviceDetail?.MA_DV ? props.AmountValue : 0}
                onChange={props.onChangeAmount}
             />
          </Table.Cell>
@@ -79,21 +82,21 @@ const RenderProduct = (props: Props) => {
       <Table.Row>
          <Table.Cell className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
             <input
-               id={props.serviceDetail?.Ma_Dv}
+               id={props.serviceDetail?.MA_DV}
                type="radio"
                name="Service"
-               value={props.serviceDetail?.Ma_Dv}
+               value={props.serviceDetail?.MA_DV}
                onChange={props.onChangeProps}
                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
             />
             <label
-               htmlFor={props.serviceDetail?.Ma_Dv}
+               htmlFor={props.serviceDetail?.MA_DV}
                className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
             >
-               {props.serviceDetail?.Tendichvu}
+               {props.serviceDetail?.TENDICHVU}
             </label>
          </Table.Cell>
-         <Table.Cell>{props.serviceDetail?.Gia}</Table.Cell>
+         <Table.Cell>{props.serviceDetail?.GIA}</Table.Cell>
          <Table.Cell>
             <input
                type="number"
@@ -101,7 +104,7 @@ const RenderProduct = (props: Props) => {
                name="quanityProduct"
                min={0}
                defaultValue={0}
-               value={props.idChoose === props.serviceDetail?.Ma_Dv ? props.AmountValue : 0}
+               value={props.idChoose === props.serviceDetail?.MA_DV ? props.AmountValue : 0}
                onChange={props.onChangeAmount}
 
             />
@@ -111,6 +114,9 @@ const RenderProduct = (props: Props) => {
 };
 
 const ListService = (props: Props) => {
+   useEffect(()=>{
+      // console.log("CCC",props.listHS)
+   },[])
    return (
       <Table className="mt-5 overflow-y-scroll text-sm text-gray-700 dark:text-gray-200 h-64 block">
          <Table.Head>
@@ -142,7 +148,7 @@ const ListService = (props: Props) => {
 
 const ListProduct = (props: Props) => {
    useEffect(() => {
-      console.log("AAAA", props.listP)
+      // console.log("AAAA", props.listP)
    }, [])
    return (
       <>
@@ -182,7 +188,6 @@ const DetailChoose = (pros: Props) => {
       let sale = combo.find((x: any) => x.Ma_Dv == chose)
       // console.log("sale",sale)
       if (sale != null) {
-
          return sale.Giamgia
       }
       else {
@@ -191,22 +196,22 @@ const DetailChoose = (pros: Props) => {
    }
 
    useEffect(() => {
-      let sale1 = saleCost(pros.dataCheck.data2, pros.detailChoose.Ma_Dv)
-      let total1 = pros.detailChoose?.Gia * (Number(pros.AmountValue)) - pros.detailChoose?.Gia * sale1 * (Number(pros.AmountValue)) / 100
+      let sale1 = saleCost(pros.dataCheck.data2, pros.detailChoose.MA_DV)
+      let total1 = pros.detailChoose?.GIA * (Number(pros.AmountValue)) - pros.detailChoose?.GIA * sale1 * (Number(pros.AmountValue)) / 100
       setPrice(total1)
       pros.setTotal(total1)
       setSale(sale1)
    }, [])
    useEffect(() => {
-      let sale1 = saleCost(pros.dataCheck.data2, pros.detailChoose.Ma_Dv)
-      let total1 = pros.detailChoose?.Gia * (Number(pros.AmountValue)) - pros.detailChoose?.Gia * sale1 * (Number(pros.AmountValue)) / 100
+      let sale1 = saleCost(pros.dataCheck.data2, pros.detailChoose.MA_DV)
+      let total1 = pros.detailChoose?.GIA * (Number(pros.AmountValue)) - pros.detailChoose?.GIA * sale1 * (Number(pros.AmountValue)) / 100
       setPrice(total1)
       pros.setTotal(total1)
       setSale(sale1)
-   }, [pros.detailChoose.Ma_Dv])
+   }, [pros.detailChoose.MA_DV])
    useEffect(() => {
-      let sale1 = saleCost(pros.dataCheck.data2, pros.detailChoose.Ma_Dv)
-      let total1 = pros.detailChoose?.Gia * (Number(pros.AmountValue)) - pros.detailChoose?.Gia * sale1 * (Number(pros.AmountValue)) / 100
+      let sale1 = saleCost(pros.dataCheck.data2, pros.detailChoose.MA_DV)
+      let total1 = pros.detailChoose?.GIA * (Number(pros.AmountValue)) - pros.detailChoose?.GIA * sale1 * (Number(pros.AmountValue)) / 100
       setPrice(total1)
       pros.setTotal(total1)
    }, [pros.AmountValue])
@@ -226,10 +231,10 @@ const DetailChoose = (pros: Props) => {
                   Service name: {pros.detailChoose?.Tendichvu}
                </h3>
                <p className="text-3xl text-gray-900 leading-sm">
-                  Location: {pros.detailChoose?.Diadiem}
+                  Location: {pros.detailChoose?.DIADIEM}
                </p>
                <p className="text-3xl text-gray-900 leading-sm">
-                  Price: {pros.detailChoose?.Gia}
+                  Price: {pros.detailChoose?.GIA}
                </p>
                <p className="text-3xl text-gray-900 leading-sm">
                   Amount: {pros.AmountValue}
@@ -267,14 +272,14 @@ const Hotel = (props: Props) => {
    const handleChangeList = (e: React.ChangeEvent<HTMLInputElement>) => {
       setChoose(e.target.value);
       setAmount("1")
-      console.log("click", e.target.value)
+      // console.log("click", e.target.value)
       if (type === "Service") {
-         let serviceChoose = HotelService.find((s: any) => s.Ma_Dv == e.target.value)
+         let serviceChoose = HotelService.find((s: any) => s.MA_DV == e.target.value)
          // console.log(serviceChoose)
          setDetailChoose(serviceChoose)
       }
       if (type === "Product") {
-         let productChoose = Product.find((s: any) => s.Ma_Dv == e.target.value)
+         let productChoose = Product.find((s: any) => s.MA_DV == e.target.value)
          // console.log(productChoose)
          setDetailChoose(productChoose)
       }
@@ -296,7 +301,7 @@ const Hotel = (props: Props) => {
          axios.get(`https://localhost:44335/api/DichVu/Check?phone=${phone}`)
             .then(res => {
                setDataCheck(res.data)
-               // console.log(detailChoose)
+               console.log("AAAA",res.data)
             })
       }
    }
@@ -324,13 +329,13 @@ const Hotel = (props: Props) => {
       let formSend = {
          "ma_Phieu_DP": dataCheck?.data1.MA_PHIEU_DP,
          "sdt": dataCheck?.data1.SDT,
-         "ma_DV": ma,
+         "MA_DV": ma,
          "soLuong": amount,
          "tongTien": total,
          "ma_Nv": "NV001",
          "loai": loai
       }
-      console.log(formSend)
+      // console.log(formSend)
       axios.post('https://localhost:44335/api/DichVu/RegisterHS', formSend,{
          headers: {
          'Content-Type': 'application/json'
@@ -341,7 +346,7 @@ const Hotel = (props: Props) => {
                theme: "dark",
                type: "success",
             });
-            console.log(res.data)
+            // console.log(res.data)
          }).catch(e => {
             toast("Error", {
                theme: "dark",
@@ -374,18 +379,21 @@ const Hotel = (props: Props) => {
    useEffect(() => {
       setChoose("");
    }, [type]);
-   useEffect(() => {
+   const getData = () =>{
       axios.get('https://localhost:44335/api/DichVu/HotelService')
          .then(res => {
-            console.log(res.data)
-            // setChoose(res.data[0].Ma_Dv)
+            // console.log("AAAA",res.data)
+            // setChoose(res.data[0].MA_DV)
             setHoTelService(res.data)
          })
       axios.get('https://localhost:44335/api/DichVu/Product')
          .then(res => {
-            console.log(res.data)
+            // console.log("B BBB",res.data)
             setProduct(res.data)
          })
+   }
+   useEffect(() => {
+      getData()
    }, []);
 
    return (
@@ -454,7 +462,7 @@ const Hotel = (props: Props) => {
                         value="Product"
                         checked={type === "Product"}
                         onChange={(e) => {
-                           console.log(e.target.value);
+                           // console.log(e.target.value);
                            onOptionChange(e);
                         }}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
@@ -535,9 +543,12 @@ const Hotel = (props: Props) => {
                      >
                         Đăng ký
                      </button>
-                     <button className="text-black text-xl bg-slate-200  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                     <a 
+                     className="text-black text-xl bg-slate-200  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                     href="/service"
+                     >
                         Hủy
-                     </button>
+                     </a>
                   </div>
                </div>
             )}

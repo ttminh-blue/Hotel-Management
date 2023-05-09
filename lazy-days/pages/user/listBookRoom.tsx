@@ -142,6 +142,7 @@ const Info = (props: Props) => {
                <h1 className="text-2xl font-bold mb-10">Waiting List</h1>
                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   {data.map((item: any, index: any) => {
+                     console.log(item)
                      if(item.LOAIPHONG == "GUARANTEE" || item.LOAIPHONG == "NOT GUARANTEE"){ 
                         return <div
                         className="bg-white rounded-lg shadow-md p-4"
