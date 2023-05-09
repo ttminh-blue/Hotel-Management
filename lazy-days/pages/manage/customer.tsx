@@ -5,27 +5,28 @@ import React from "react";
 
 type Props = {};
 
-const data: UserType[] = [
+const data= [
    {
-      name: "Nguyễn Phát Thịnh",
-      position: "545465474575",
-      email: "thinhcute@gmail.com",
-      phone: "0101435345",
+      TEN_KH: "Nguyễn Phát Thịnh",
+      CMND: "545465474575",
+      Email: "thinhcute@gmail.com",
+      SDT: "0101435345",
    },
    {
-      name: "Nguyễn Phát Thịnh",
-      position: "545465474575",
-      email: "thinhcute@gmail.com",
-      phone: "0101435345",
+      TEN_KH: "Nguyễn Phát Thịnh",
+      CMND: "545465474575",
+      Email: "thinhcute@gmail.com",
+      SDT: "0101435345",
    },
    {
-      name: "Nguyễn Phát Thịnh",
-      position: "545465474575",
-      email: "thinhcute@gmail.com",
-      phone: "0101435345",
+      TEN_KH: "Nguyễn Phát Thịnh",
+      CMND: "545465474575",
+      Email: "thinhcute@gmail.com",
+      SDT: "0101435345",
    },
 ];
 const UserManagement = (props: Props) => {
+   const handleChangle = () => {}
    return (
       <DefaultLayout>
          <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
@@ -100,9 +101,9 @@ const UserManagement = (props: Props) => {
                            </tr>
                         </thead>
                         <tbody>
-                           {/* {data.map((item, index) => {
-                              return <RowTablePerson item={item} key={index} />;
-                           })} */}
+                           {data.map((item, index) => {
+                              return <RowTablePerson item={item} key={index} handleChangle={handleChangle} check_makh={'MVNAS'} check = {true}/>;
+                           })}
                         </tbody>
                      </table>
                   </div>
