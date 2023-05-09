@@ -39,7 +39,7 @@ namespace lazy_days_API.Controllers
             try
             {
                 await using SqlConnection connection = _sqlFactory.CreateConnection();
-                var result = await connection.QueryAsync($"select phong.* from phong, chitietphong,KHACHHANG where phong.MA_PHONG=CHITIETPHONG.MA_PHONG and CHITIETPHONG.MA_KH=KHACHHANG.MA_KH and KHACHHANG.CMND like '{cmnd}%'");
+                var result = await connection.QueryAsync($"select phong.* from phong, chitietphong,KHACHHANG where phong.MA_PHONG=CHITIETPHONG.MA_PHONG and CHITIETPHONG.MA_KH=KHACHHANG.MA_KH and KHACHHANG.CMND like '%{cmnd}%'");
                 if (result == null) return NotFound();
                 return Ok(result);
             }
@@ -93,7 +93,7 @@ namespace lazy_days_API.Controllers
             }
         }
         [HttpOptions]
-        public async Task<IActionResult> GetAvailable()
+        public async Task<IActionResult> GetGuarantee()
         {
             try
             {
@@ -108,7 +108,7 @@ namespace lazy_days_API.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> GetNG()
+        public async Task<IActionResult> GetNotGuarantee()
         {
             try
             {
