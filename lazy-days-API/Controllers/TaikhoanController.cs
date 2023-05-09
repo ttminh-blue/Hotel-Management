@@ -12,41 +12,23 @@ namespace lazy_days_API.Controllers
 	public class TaikhoanController : ControllerBase
 	{
 		private readonly IService _sqlFactory;
-		private readonly IConfiguration _config;
+		
 
-		public TaikhoanController(IService sqlFactory, IConfiguration config)
+		public TaikhoanController(IService sqlFactory)
 		{
 			_sqlFactory = sqlFactory;
-			_config = config;
+			
 		}
-		[HttpGet]
-		public JsonResult Get()
-		{
-			string query = @"select * FROM TAIKHOAN";
-			DataTable table = new DataTable();
-			string sqlDataSource = _config.GetConnectionString("Database");
-			SqlDataReader myReader;
-			using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-			{
-				myCon.Open();
-				using (SqlCommand myCommand = new SqlCommand(query, myCon))
-				{
-					myReader = myCommand.ExecuteReader();
-					table.Load(myReader);
-					myReader.Close();
-					myCon.Close();
-				}
-			}
-			return new JsonResult(table);
-		}
+	
+		
 		[HttpPost]
 		public async Task<IActionResult> DANGNHAP(Taikhoan tk)
 		{
 			try
 			{
 				await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
-				var taikhoan = await sqlConnection.QueryAsync("Select TK.*, NV.CHUC_VU from TAIKHOAN  TK join NHANVIEN NV on NV.MA_NV = TK.MA_NV " +
-					"where TK.TEN_TAIKHOAN = @TEN_TK and TK.MATKHAU = @MK", new
+				var taikhoan = await sqlConnection.QueryAsync("Select MA_NV from TAIKHOAN " +
+					"where TEN_TAIKHOAN = @TEN_TK and MATKHAU = @MK", new
 					{
 						TEN_TK = tk.TenTaikhoan,
 						MK = tk.Matkhau
@@ -57,7 +39,7 @@ namespace lazy_days_API.Controllers
 				}
 				else
 				{
-					return BadRequest("Failed");
+					return Ok("Failed");
 				}
 
 			}

@@ -16,6 +16,6 @@ public partial class Doan
     public int? SoNguoi { get; set; }
 
     public int? SoDemLuuTru { get; set; }
+   
 
-    public virtual ICollection<Khachhang> MaKhs { get; } = new List<Khachhang>();
 }
