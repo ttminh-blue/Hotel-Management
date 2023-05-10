@@ -40,31 +40,6 @@ namespace lazy_days_API.Controllers
                 SO_NGUOI= doan.SoNguoi,
                 SO_DEM = doan.SoDemLuuTru
             });
-
-
-            /*DataTable table = new DataTable();
-			string sqlDataSource = _configuration.GetConnectionString("Database");
-			SqlDataReader myReader;
-			using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-			{
-				myCon.Open();
-				using (SqlCommand myCommand = new SqlCommand(query, myCon))
-				{
-
-					myCommand.Parameters.AddWithValue("@MA_DOAN", doan.MaDoan);
-					myCommand.Parameters.AddWithValue("@TEN_DOAN", doan.TenDoan);
-					myCommand.Parameters.AddWithValue("@TEN_NGUOI_DK", doan.TenNguoiDk);
-					myCommand.Parameters.AddWithValue("@NGAY_DEN", doan.NgayDen);
-					myCommand.Parameters.AddWithValue("@SO_NGUOI", doan.SoNguoi);
-					myCommand.Parameters.AddWithValue("@SO_DEM", doan.SoDemLuuTru);
-
-
-					myReader = myCommand.ExecuteReader();
-					table.Load(myReader);
-					myReader.Close();
-					myCon.Close();
-				}
-			}*/
             return new JsonResult("Add Succesfully");
 
 		}

@@ -50,7 +50,7 @@ const Info = (props: Props) => {
 
       const get_PDD = await authFetch.get('/Booking');
       // console.log(11111111 , new_data)
-      // console.log(2222222, get_PDD.data)
+      //console.log(2222222, get_PDD.data)
       for (let i = 0; i < new_data.length; i++) {
 
          for (let j = 0; j < get_PDD.data.length; j++) {
@@ -62,11 +62,12 @@ const Info = (props: Props) => {
                new_data[i]['TONG_TIEN'] = formatter.format(get_PDD.data[j].TONG_TIEN)
                new_data[i]['NGAY_DAT'] = new Date(get_PDD.data[j].NGAY_DAT).toLocaleString()
                new_data[i]['MA_PHIEU_DP'] = get_PDD.data[j].MA_PHIEU_DP
+               new_data[i]['MA_GOIDV'] = get_PDD.data[j].MA_GOIDV
             }
          }
       }
 
-      console.log(333333333, new_data)
+      //console.log(333333333, new_data)
       setData(new_data);
       setPhieuDatPhong(get_PDD.data)
 

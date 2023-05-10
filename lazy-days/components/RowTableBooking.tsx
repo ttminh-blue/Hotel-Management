@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {} from "@fortawesome/free-regular-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
-import { Button } from "flowbite-react";
+import { Button, Select } from "flowbite-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
@@ -26,8 +26,9 @@ type Props = {
 const url = process.env.NEXT_PUBLIC_API;
 const RowTableBooking = (props: Props) => {
    const phong = useRef<HTMLSelectElement>(null);
+   
    const [re,setRe]= useState<boolean>(true)
-   const handleClick = async () => {
+   const handleAllocate = async () => {
       let data = {
          MaNvql: "NV001",
          MaPhieuDp: props.item.MA_PHIEU_DP,
@@ -42,28 +43,48 @@ const RowTableBooking = (props: Props) => {
          },
       };
       const postGrantRoom = async () => {
-         await axios
+         console.log(phong.current?.value[0] !=='P')
+         if(phong.current?.value[0] !=='P' ){
+            toast.warning(
+               `Allocate Room Fail(Please select Room)`,
+               {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+               }
+            );
+            setRe(!re)
+            return;
+         }
+         else {
+            await axios
             .post(`${url}phanphong`, data, config)
             .then((response) => {
                console.log(response.data);
             })
             .then((json) => console.log(json));
+            setRe(!re)
+            props.updateCheck();
+            toast.success(
+               `Grant ROOM ${phong.current?.value} to ID Booking ${props.item.MA_PHIEU_DP}`,
+               {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+               }
+            );
+         }
+        
       };
       postGrantRoom();
-      setRe(!re)
-      props.updateCheck();
-    
-      toast.success(
-         `Grant ROOM ${phong.current?.value} to ID Booking ${props.item.MA_PHIEU_DP}`,
-         {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-         }
-      );
+     
+     
    };
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -120,7 +141,7 @@ const RowTableBooking = (props: Props) => {
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div>
-               <Button className="w-40 mr-2" onClick={handleClick}>
+               <Button className="w-40 mr-2" onClick={handleAllocate}>
                   <FontAwesomeIcon
                      className="w-4 h-4 mr-1"
                      icon={faPenToSquare}

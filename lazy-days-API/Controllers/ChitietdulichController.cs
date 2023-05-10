@@ -41,27 +41,7 @@ namespace lazy_days_API.Controllers
                 MA_CTY = ct_dl.MaCty,
                 TEN_NGUOI_DAI_DIEN= ct_dl.NguoiDaiDien
             });
-            /* DataTable table = new DataTable();
-             string sqlDataSource = _configuration.GetConnectionString("Database");
-             SqlDataReader myReader;
-             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-             {
-                 myCon.Open();
-                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                 {
-
-                     myCommand.Parameters.AddWithValue("@MA_CTY", ct_dl.MaCty);
-                     myCommand.Parameters.AddWithValue("@MA_KH", ct_dl.MaKh);
-                     myCommand.Parameters.AddWithValue("@TEN_NGUOI_DAI_DIEN", ct_dl.NguoiDaiDien);
-
-
-
-                     myReader = myCommand.ExecuteReader();
-                     table.Load(myReader);
-                     myReader.Close();
-                     myCon.Close();
-                 }
-             }*/
+            
             return new JsonResult("Add Succesfully");
 
         }

@@ -37,11 +37,13 @@ const BookingManage = (props: Props) => {
           console.log(response.data)
         }).then(json => console.log(json))
     }
-    
-    useEffect(()=>{
+    const get = () => {
       getData();
       getDataRoomG();
       getDataRoomN();
+    }
+    useEffect(()=>{
+     get();
     },[check])
    return (
       <DefaultLayout>

@@ -28,7 +28,7 @@ const Info = (props: Props) => {
       baseURL: 'https://localhost:44335/api',
    });
    const notify = (message: any) => {
-      if (message == "Add Successfully") {
+      if (message.startsWith("Add")) {
          toast.success(message, {
             position: "top-right",
             autoClose: 5000,
@@ -139,32 +139,7 @@ const Info = (props: Props) => {
 
       }
    }
-   // const handleClick = async() => {
-
-   //    const customer_info = {
-   //       Makh : 'KH' + random_num,
-   //       TenKh: fullnameRef.current?.value,
-   //       Cmnd: cmndRef.current?.value,
-   //       DiaChi: addressRef.current?.value,
-   //       Email: emailRef.current?.value,
-   //       Fax: faxRef.current?.value,
-   //       Sdt: phoneRef.current?.value,
-   //       LoaiPhong: typeRoomRef.current?.value,
-   //       SoDemLuuTru: numberNightRef.current?.value,
-   //       NgayDen: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
-   //    };
-
-   //    try{
-   //       console.log(88888888888)
-   //       const {data} =  await authFetch.post('/KhachHang' , customer_info);
-
-
-   //    }
-   //    catch(e){
-
-   //    }
-
-   // };
+   
    const  getCombo = async () =>{
       const data = await authFetch.get('/DichVu/Combo')
       console.log(data)
@@ -449,7 +424,11 @@ const Info = (props: Props) => {
                         {
                            combo.map((c: any, index: any) => {
                               return (
+<<<<<<< HEAD
                                  <div>
+=======
+                                 <div key = {index}>
+>>>>>>> a60b52f8b1c456ed2f78e5a68d3fe3e870311604
                                        <input type="radio" id={`Combo${index}`} name="combo" value={c.MA_GOIDV} 
                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                           setComboC(e.target.value)

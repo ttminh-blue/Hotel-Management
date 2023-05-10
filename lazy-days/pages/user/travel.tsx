@@ -53,7 +53,6 @@ const Info = (props: Props) => {
       console.log("ABCCCCCCCCCCCCCC", obj)
       setMaNguoiDD(obj)
    }
-   const formatYmd = (date : any) => date.toISOString().slice(0, 10);
    const notify = (message : any) => {
       if(message == "Existed User"){
          toast.warning(message, {
