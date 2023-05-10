@@ -12,8 +12,7 @@ const BookingManage = (props: Props) => {
    const [roomN,setRoomN] = useState<RoomType[]>([])
    const [check,setCheck] = useState<boolean>(true);
    const updateCheck = () => {
-      const bk= !check
-      setCheck(()=>bk);
+      setCheck(()=>!check);
     };
    const url = process.env.NEXT_PUBLIC_API;
    const getData = async () => {
@@ -26,19 +25,19 @@ const BookingManage = (props: Props) => {
     const getDataRoomG = async () => {
       await axios.options(`${url}phong`)
         .then((response) => {
-          setRoomG(response.data)
+          setRoomG(()=>response.data)
           console.log(response.data)
         }).then(json => console.log(json))
     }
     const getDataRoomN = async () => {
       await axios.put(`${url}phong`)
         .then((response) => {
-          setRoomN(response.data)
+          setRoomN(()=>response.data)
           console.log(response.data)
         }).then(json => console.log(json))
     }
-    const get = () => {
-      getData();
+    const get = async() => {
+      await getData();
       getDataRoomG();
       getDataRoomN();
     }
@@ -131,9 +130,7 @@ const BookingManage = (props: Props) => {
                               <th scope="col" className="px-4 py-3">
                                  Check-in Date
                               </th>
-                              <th scope="col" className="px-4 py-3">
-                              Check-out Date
-                              </th>
+                              
                               <th scope="col" className="px-4 py-3">
                               Type Room
                               </th>
@@ -151,7 +148,7 @@ const BookingManage = (props: Props) => {
                         <tbody>
                            {booking.map((item, index) => {
                               return (
-                                 <RowTableBooking item={item} key={index} dropdownN={roomN} dropdownG={roomG} check={check} updateCheck={updateCheck}/>
+                                 <RowTableBooking item={item} key={index} dropdownN={roomN} dropdownG={roomG} updateCheck={updateCheck}/>
                               );
                            })}
                         </tbody>

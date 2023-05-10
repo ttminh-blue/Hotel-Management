@@ -3,11 +3,14 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import { BookingGet, RoomType } from "@/types/UserType";
 import React, { useState,useEffect, useRef } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 type Props = {};
 
 
 const RoomManage = (props: Props) => {
+   
+  
    const [room, setRoom]= useState<RoomType[]>([]);
    const [check,setCheck] = useState<boolean>(true);
    const updateCheck = () => {
@@ -34,7 +37,7 @@ const RoomManage = (props: Props) => {
           console.log(response.data)
         }).then(json => console.log(json))
     }    
-    const handleChange = async (event:any) => {
+    const SearchCMND = async (event:any) => {
       setSearch(()=>event.target.value);
       await getDataCMND(event.target.value);
     };
@@ -54,7 +57,7 @@ const RoomManage = (props: Props) => {
                            title="Enter CMND"
                            className="border-solid border-2 border-sky-500 flex items-center justify-center px-4 py-2 text-sm font-medium text-black rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                            value={search}
-                           onChange={handleChange}
+                           onChange={SearchCMND}
                         >
                           
                         </input>

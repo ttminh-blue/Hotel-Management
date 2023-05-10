@@ -28,12 +28,8 @@ const RowTableRoom = (props: Props) => {
    const updateRe = ()=>{
       setRe(()=>!re);
    }
-   const url = process.env.NEXT_PUBLIC_API;
-   const handCheckIn = () => {
-      axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
-      props.updateCheck();
-      updateRe()
-      toast.success(`Booking ROOM ${props.item.MA_PHONG} successfully`, {
+   const thongbao = (tb:string)=> {
+      toast.success(tb, {
          position: "top-right",
          autoClose: 5000,
          hideProgressBar: false,
@@ -41,6 +37,13 @@ const RowTableRoom = (props: Props) => {
          pauseOnHover: true,
          draggable: true,
       });
+   }
+   const url = process.env.NEXT_PUBLIC_API;
+   const handCheckIn = async () => {
+      await axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
+     await props.updateCheck();
+      updateRe()
+    thongbao(`Booking ROOM ${props.item.MA_PHONG} successfully`);
    };
 
 
@@ -100,7 +103,7 @@ const RowTableRoom = (props: Props) => {
                   </Button>
                )}
                {props.item.TRANG_THAI === "Occupied" && (
-                  <Modal phong={props.item.MA_PHONG} updateRe={updateRe}/>
+                  <Modal phong={props.item.MA_PHONG} updateRe={handCheckIn}/>
                )}
 
                {/* <Button className="ml-2">
