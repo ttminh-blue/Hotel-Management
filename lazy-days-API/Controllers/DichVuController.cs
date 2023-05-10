@@ -1,4 +1,10 @@
-﻿namespace lazy_days_API.Controllers
+﻿using Dapper;
+using lazy_days_API.Models;
+using lazy_days_API.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
+
+namespace lazy_days_API.Controllers
 {
 
 

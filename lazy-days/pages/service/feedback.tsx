@@ -1,17 +1,31 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 type Props = {};
 
 const Feedback = () => {
-   const [feedback, setFeedback] = useState("");
    const [rating, setRating] = useState(5);
 
-   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       // Submit feedback data to backend or perform other actions
-      setFeedback("");
-      setRating(5);
+      const formData = new FormData(event.currentTarget);
+      formData.set("MaKh", " ");
+      formData.set("MaFb", "NV" + Math.floor(Math.random() * 899) + 100);
+
+      await axios.post(process.env.NEXT_PUBLIC_API + "Feedback", {
+         MaFb: formData.get("MaFb"),
+         TenFb: formData.get("TenFb"),
+         MieuTaFb: formData.get("MieuTaFb"),
+         LoaiFb: formData.get("LoaiFb"),
+         DanhGia: formData.get("DanhGia"),
+         MaKh: formData.get("MaKh"),
+      });
+
+      // setFeedback("");
+      // setRating(5);
    };
    return (
       <DefaultLayout>
@@ -32,7 +46,7 @@ const Feedback = () => {
                   </label>
                   <input
                      id="feedback"
-                     value={feedback}
+                     name="TenFb"
                      type="text"
                      // onChange={handleFeedbackChange}
                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -51,10 +65,10 @@ const Feedback = () => {
                      type="number"
                      min="1"
                      max="5"
+                     name="DanhGia"
                      step="1"
                      value={rating}
                      onChange={(e) => setRating(() => Number(e.target.value))}
-                     // onChange={handleRatingChange}
                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                      required
                   />
@@ -68,8 +82,7 @@ const Feedback = () => {
                   </label>
                   <textarea
                      id="feedback"
-                     value={feedback}
-                     // onChange={handleFeedbackChange}
+                     name="MieuTaFb"
                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                      required
                   />
@@ -83,9 +96,8 @@ const Feedback = () => {
                   </label>
                   <input
                      id="feedback"
-                     value={feedback}
                      type="text"
-                     // onChange={handleFeedbackChange}
+                     name="LoaiFb"
                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                      required
                   />

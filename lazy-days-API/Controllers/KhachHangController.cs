@@ -1,4 +1,10 @@
-﻿namespace lazy_days_API.Controllers
+﻿using Dapper;
+using lazy_days_API.Models;
+using lazy_days_API.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
+
+namespace lazy_days_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
@@ -104,8 +110,8 @@
 			await sqlConnection.ExecuteAsync(query, new
 			{
 
-				TRANGTHAI = kh.TrangThaiDatPhong,
-				MA_KH = kh.MaKh
+				TRANGTHAI = kh.TRANG_THAI_DAT_PHONG,
+				MA_KH = kh.MA_KH
 			});
 
 			return new JsonResult("UPDATED  Succesfully");
@@ -124,15 +130,15 @@
 			{
 
 
-				MA_KH = kh.MaKh,
-				TEN_KH = kh.TenKh,
-				CMND = kh.Cmnd,
-				SDT = kh.Sdt,
+				MA_KH = kh.MA_KH,
+				TEN_KH = kh.TEN_KH,
+				CMND = kh.CMND,
+				SDT = kh.SDT,
 				EMAIL = kh.Email,
-				DIA_CHI = kh.DiaChi,
+				DIA_CHI = kh.DIA_CHI,
 				FAX = kh.Fax,
-				SO_DEM_LUU_TRU = kh.SoDemLuuTru,
-				YCDB = kh.YeuCauDb
+				SO_DEM_LUU_TRU = kh.SO_DEM_LUU_TRU,
+				YCDB = kh.YEU_CAU_DB
 			});
 
 			return new JsonResult("UPDATED Succesfully");
