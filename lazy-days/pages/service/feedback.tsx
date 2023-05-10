@@ -36,6 +36,22 @@ const Feedback = () => {
             >
                <div className="mb-4">
                   <label
+                     htmlFor="feedback"
+                     className="block text-gray-700 font-bold mb-2"
+                  >
+                     Tên feedback
+                  </label>
+                  <input
+                     id="feedback"
+                     value={feedback}
+                     type="text"
+                     // onChange={handleFeedbackChange}
+                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                     required
+                  />
+               </div>
+               <div className="mb-4">
+                  <label
                      htmlFor="rating"
                      className="block text-gray-700 font-bold mb-2"
                   >
@@ -68,12 +84,29 @@ const Feedback = () => {
                      required
                   />
                </div>
+               <div className="mb-4">
+                  <label
+                     htmlFor="feedback"
+                     className="block text-gray-700 font-bold mb-2"
+                  >
+                     Loại feedback
+                  </label>
+                  <input
+                     id="feedback"
+                     value={feedback}
+                     type="text"
+                     // onChange={handleFeedbackChange}
+                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                     required
+                  />
+               </div>
+
                <div className="flex items-center justify-between">
                   <button
                      type="submit"
                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
-                     Submit Feedback
+                     Submit
                   </button>
                </div>
             </form>

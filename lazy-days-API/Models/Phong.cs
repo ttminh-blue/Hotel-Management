@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace lazy_days_API.Models;
+﻿namespace lazy_days_API.Models;
 
 public partial class Phong
 {
-    public string MaPhong { get; set; } = null!;
+	public string MA_PHONG { get; set; } = null!;
 
-    public string? TenPhong { get; set; }
+	public string? TEN_PHONG { get; set; }
 
-    public int? SoLuongDapUng { get; set; }
+	public int? SO_LUONG_DAP_UNG { get; set; }
 
-    public string? Loai { get; set; }
+	public string? LOAI { get; set; }
 
-    public bool? TrangThai { get; set; }
+	public string? TRANG_THAI { get; set; }
 
-    public int? Gia { get; set; }
+	public string DIADIEM { get; set; }
 
-    public virtual Loaiphong? LoaiNavigation { get; set; }
-
-    public virtual ICollection<Phancongdonvesinh> Phancongdonvesinhs { get; } = new List<Phancongdonvesinh>();
-
-    public virtual ICollection<Phanphong> Phanphongs { get; } = new List<Phanphong>();
-
-    public virtual ICollection<Phieudangkyvanchuyen> Phieudangkyvanchuyens { get; } = new List<Phieudangkyvanchuyen>();
 }

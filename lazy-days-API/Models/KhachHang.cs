@@ -1,24 +1,24 @@
 ﻿namespace lazy_days_API.Models;
 
-public partial class Khachhang
+public class Khachhang
 {
-	public string MaKh { get; set; } = null!;
+	public string MA_KH { get; set; } = null!;
 
-	public string? TenKh { get; set; }
+	public string? TEN_KH { get; set; }
 
-	public string? Cmnd { get; set; }
+	public string? CMND { get; set; }
 
-	public string? DiaChi { get; set; }
+	public string? DIA_CHI { get; set; }
 
-	public string? Sdt { get; set; }
+	public string? SDT { get; set; }
 
 	public string? Email { get; set; }
 
 	public string? Fax { get; set; }
 
-	public int? SoDemLuuTru { get; set; }
+	public int? SO_DEM_LUU_TRU { get; set; }
 
-	public string? YeuCauDb { get; set; }
+	public string? YEU_CAU_DB { get; set; }
 
-	public string? TrangThaiDatPhong { get; set; }
+	public string? TRANG_THAI_DAT_PHONG { get; set; }
 }

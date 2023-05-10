@@ -6,11 +6,11 @@ using System.Data.SqlClient;
 
 namespace lazy_days_API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class Booking : ControllerBase
-    {
-        private readonly IService _connectionFactory;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class Booking : ControllerBase
+	{
+		private readonly IService _connectionFactory;
 
 		public Booking(IService connection)
 		{
@@ -40,12 +40,12 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection sqlConnection = _connectionFactory.CreateConnection();
-				string query = $"Select GIATIEN from LOAIPHONG WHERE LOAIPHONG='{DP.Loaiphong}'";
+				string query = $"Select GIATIEN from LOAIPHONG WHERE LOAIPHONG='{DP.LOAIPHONG}'";
 				int giatien = await sqlConnection.QueryFirstOrDefaultAsync<int>(query);
-				DP.TienCoc = giatien * 0.3;
-				DP.NgayDat = DateTime.Now;
-				string queryStr = @"INSERT INTO DBO.PHIEUDATPHONG VALUES (@MaPhieuDp, @MaKh, 
-                @MaNv, @NgayDat, @TongTien,@TienCoc,@Loaiphong,@NgayTraPhong, @SoDemLuuTru, @MaGoidv,'Booked')";
+				DP.TIEN_COC = giatien * 0.3;
+				DP.NGAY_DAT = DateTime.Now;
+				string queryStr = @"INSERT INTO DBO.PHIEUDATPHONG VALUES (@MA_PHIEU_DP, @MA_KH, 
+                @MA_NV, @NGAY_DAT, @TONG_TIEN,@TIEN_COC,@LOAIPHONG,@NGAY_TRA_PHONG, @SO_DEM_LUU_TRU, @MA_GOIDV,'Booked')";
 
 				var count = await sqlConnection.QueryAsync("Select * from PHIEUDATPHONG");
 				if (count == null) return NotFound();
@@ -64,7 +64,7 @@ namespace lazy_days_API.Controllers
 					newId += maxId.ToString();
 				}
 
-				DP.MaPhieuDp = newId;
+				DP.MA_PHIEU_DP = newId;
 				await sqlConnection.ExecuteAsync(queryStr, DP);
 				return Ok(query + queryStr);
 			}

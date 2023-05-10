@@ -73,10 +73,11 @@ namespace lazy_days_API.Controllers
 					newId += maxId.ToString();
 				}
 
-				phieudangkyvanchuyen.MaPhieudangkyvanchuyen = newId;
+				phieudangkyvanchuyen.MA_PHIEUDANGKYVANCHUYEN = newId;
+
 
 				string queryStr = "Insert into PHIEUDANGKYVANCHUYEN(MA_PHIEUDANGKYVANCHUYEN, MA_PHONG, MA_PHIEU_DP, " +
-					"MA_NV, NGAY_TAO, SO_LUONG, HANHLY) VALUES (@MaPhieudangkyvanchuyen, @MaPhong, @MaPhieuDp, @MaNv, @NgayTao, @SoLuong, @HanhLy)";
+					"MA_NV, NGAY_TAO, SO_LUONG, HANHLY) VALUES (@MA_PHIEUDANGKYVANCHUYEN, @MA_PHONG, @MA_PHIEU_DP, @MA_NV, @NGAY_TAO, @SO_LUONG, @HANH_LY)";
 				await sqlConnection.ExecuteAsync(queryStr, phieudangkyvanchuyen);
 				return Ok("Added successfully.");
 			}

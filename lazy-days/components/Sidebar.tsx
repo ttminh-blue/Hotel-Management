@@ -32,21 +32,25 @@ const SidebarCustom = (props: Props) => {
                      </Sidebar.Item>
                      <Sidebar.Item href="/manage/user">Users</Sidebar.Item>
                      <Sidebar.Item href="/manage/booking">Booking</Sidebar.Item>
+                     <Sidebar.Item href="/manage/booking">
+                        Feedback
+                     </Sidebar.Item>
                      <Sidebar.Item href="/manage/checkroom">
                         Check Room
                      </Sidebar.Item>
                   </Sidebar.Collapse>
-                  <Sidebar.Item href="/delivery/form" icon={InboxStackIcon}>
-                     Delivery Manage
-                  </Sidebar.Item>
                   <Sidebar.Item href="/service/receipt" icon={InboxIcon}>
                      Receipt
                   </Sidebar.Item>
                   <Sidebar.Collapse icon={InboxIcon} label="User">
                      <Sidebar.Item href="/user/info">Personal</Sidebar.Item>
                      <Sidebar.Item href="/user/group">Group</Sidebar.Item>
-                     <Sidebar.Item href="/user/listBookRoom">Waiting List</Sidebar.Item>
-                     <Sidebar.Item href="/user/travel">Travel Company</Sidebar.Item>
+                     <Sidebar.Item href="/user/listBookRoom">
+                        Waiting List
+                     </Sidebar.Item>
+                     <Sidebar.Item href="/user/travel">
+                        Travel Company
+                     </Sidebar.Item>
                   </Sidebar.Collapse>
 
                   <Sidebar.Collapse icon={UserIcon} label="Bellman">

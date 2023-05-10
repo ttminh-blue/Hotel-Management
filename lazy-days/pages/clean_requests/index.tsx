@@ -14,31 +14,51 @@ type Props = {};
 
 const CleaningManage = (props: Props) => {
    const [refresh, setRefresh] = useState(false);
-   const cleanningRequests = useQuery(
+   const cleanningRequestQuery = useQuery(
       ["cleanning_requests", refresh],
       async () =>
          (await axios.get(process.env.NEXT_PUBLIC_API + "Cleanning")).data
    );
 
+   const notify = (message: any) => {
+      if (message != "Accept request successfully.") {
+         toast.warning(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+         });
+      } else {
+         toast.success(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+         });
+      }
+   };
+
+   const refreshApi = () => {
+      setRefresh(() => !refresh);
+   };
+
    const handleAcceptRequest = (id: string) => {
-      if (cleanningRequests.isSuccess) {
+      if (cleanningRequestQuery.isSuccess) {
          axios
             .put(process.env.NEXT_PUBLIC_API + "Cleanning/accept_request", {
                maPcdvs: id,
                maNvvs: "NV004",
             })
             .then(() => {
-               toast("Accept request successfully.", {
-                  theme: "dark",
-                  type: "success",
-               });
-               setRefresh(() => !refresh);
+               notify("Accept request successfully.");
+               refreshApi();
             })
             .catch((ex) => {
-               toast(ex, {
-                  theme: "dark",
-                  type: "error",
-               });
+               notify(ex);
             });
       }
    };
@@ -53,8 +73,8 @@ const CleaningManage = (props: Props) => {
                         <h5>
                            <span className="text-gray-500">All Requests:</span>
                            <span className="dark:text-white">
-                              {cleanningRequests.isSuccess &&
-                                 cleanningRequests.data.length}
+                              {cleanningRequestQuery.isSuccess &&
+                                 cleanningRequestQuery.data.length}
                            </span>
                         </h5>
 
@@ -225,8 +245,8 @@ const CleaningManage = (props: Props) => {
                            </tr>
                         </thead>
                         <tbody>
-                           {cleanningRequests.isSuccess &&
-                              cleanningRequests.data.map((val: any) => {
+                           {cleanningRequestQuery.isSuccess &&
+                              cleanningRequestQuery.data.map((val: any) => {
                                  return (
                                     <>
                                        <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
