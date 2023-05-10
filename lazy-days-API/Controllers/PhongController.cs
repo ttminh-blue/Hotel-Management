@@ -1,10 +1,4 @@
-﻿using Dapper;
-using lazy_days_API.Models;
-using lazy_days_API.Services;
-using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
-
-namespace lazy_days_API.Controllers
+﻿namespace lazy_days_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
@@ -25,6 +19,21 @@ namespace lazy_days_API.Controllers
 			{
 				await using SqlConnection connection = _sqlFactory.CreateConnection();
 				var result = await connection.QueryAsync("Select * from Phong");
+				if (result == null) return NotFound();
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		[HttpGet("CMND")]
+		public async Task<IActionResult> GetCMND(string cmnd)
+		{
+			try
+			{
+				await using SqlConnection connection = _sqlFactory.CreateConnection();
+				var result = await connection.QueryAsync($"select phong.* from phong, chitietphong,KHACHHANG where phong.MA_PHONG=CHITIETPHONG.MA_PHONG and CHITIETPHONG.MA_KH=KHACHHANG.MA_KH and KHACHHANG.CMND like '%{cmnd}%'");
 				if (result == null) return NotFound();
 				return Ok(result);
 			}
@@ -78,7 +87,7 @@ namespace lazy_days_API.Controllers
 			}
 		}
 		[HttpOptions]
-		public async Task<IActionResult> GetAvailable()
+		public async Task<IActionResult> GetGuarantee()
 		{
 			try
 			{
@@ -93,7 +102,7 @@ namespace lazy_days_API.Controllers
 			}
 		}
 		[HttpPut]
-		public async Task<IActionResult> GetNG()
+		public async Task<IActionResult> GetNotGuarantee()
 		{
 			try
 			{

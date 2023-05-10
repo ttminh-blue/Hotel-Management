@@ -14,7 +14,12 @@ const Info = (props: Props) => {
    const authFetch = axios.create({
       baseURL: 'https://localhost:44335/api',
    });
-
+   const config = {
+      headers: { 
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': "*"
+      }
+  }
    const notify = (message: any) => {
 
       toast.success("Success", {
@@ -28,6 +33,7 @@ const Info = (props: Props) => {
       })
 
    }
+   var random_num = Math.floor(Math.random() * (999 - 100) ) + 100;
 
    const formatter = new Intl.NumberFormat('it-IT', {
       style: 'currency',
@@ -44,7 +50,7 @@ const Info = (props: Props) => {
 
       const get_PDD = await authFetch.get('/Booking');
       // console.log(11111111 , new_data)
-      // console.log(2222222, get_PDD.data)
+      //console.log(2222222, get_PDD.data)
       for (let i = 0; i < new_data.length; i++) {
 
          for (let j = 0; j < get_PDD.data.length; j++) {
@@ -56,11 +62,12 @@ const Info = (props: Props) => {
                new_data[i]['TONG_TIEN'] = formatter.format(get_PDD.data[j].TONG_TIEN)
                new_data[i]['NGAY_DAT'] = new Date(get_PDD.data[j].NGAY_DAT).toLocaleString()
                new_data[i]['MA_PHIEU_DP'] = get_PDD.data[j].MA_PHIEU_DP
+               new_data[i]['MA_GOIDV'] = get_PDD.data[j].MA_GOIDV
             }
          }
       }
 
-      console.log(333333333, new_data)
+      //console.log(333333333, new_data)
       setData(new_data);
       setPhieuDatPhong(get_PDD.data)
 
@@ -87,13 +94,28 @@ const Info = (props: Props) => {
       setMakh(obj)
 
    }
+   const format_money = (money : any) => {
+      const arr = money.split(" ");
+      return parseFloat(arr[0])
+   }
    useEffect(() => {
 
 
       if (makh != null) {
 
          const receipt_data = data.filter((kh: any) => kh.MA_KH == makh)
-
+         const data_invoce = {
+            maHd : 'HD' + random_num,
+            ngayLap: new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+            tienDv: 0,
+            tienPhatsinh: 0,
+            tongTien : format_money(receipt_data[0].TONG_TIEN),
+            nhanVienLap: sessionStorage.getItem("Ma_NV"),
+            maPhieuDp: receipt_data[0].MA_PHIEU_DP
+         }
+      
+         const post_invoice = authFetch.post('/HoaDon', data_invoce, config)
+         
          sessionStorage.setItem("receipt", JSON.stringify(receipt_data[0]));
          update_state();
          router.push(
@@ -121,6 +143,7 @@ const Info = (props: Props) => {
                <h1 className="text-2xl font-bold mb-10">Waiting List</h1>
                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   {data.map((item: any, index: any) => {
+                     console.log(item)
                      if(item.LOAIPHONG == "GUARANTEE" || item.LOAIPHONG == "NOT GUARANTEE"){ 
                         return <div
                         className="bg-white rounded-lg shadow-md p-4"

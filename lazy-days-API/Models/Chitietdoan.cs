@@ -8,4 +8,7 @@ public partial class Chitietdoan
 	public string MaDoan { get; set; } = null!;
 
 	public int? SoNguoi { get; set; }
+
+
+	
 }

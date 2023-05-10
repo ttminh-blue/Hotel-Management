@@ -8,9 +8,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {} from "@fortawesome/free-regular-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
-import { Button } from "flowbite-react";
+import { Button, Select } from "flowbite-react";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -26,8 +26,9 @@ type Props = {
 const url = process.env.NEXT_PUBLIC_API;
 const RowTableBooking = (props: Props) => {
    const phong = useRef<HTMLSelectElement>(null);
-
-   const handleClick = async () => {
+   
+   const [re,setRe]= useState<boolean>(true)
+   const handleAllocate = async () => {
       let data = {
          MaNvql: "NV001",
          MaPhieuDp: props.item.MA_PHIEU_DP,
@@ -42,28 +43,48 @@ const RowTableBooking = (props: Props) => {
          },
       };
       const postGrantRoom = async () => {
-         await axios
+         console.log(phong.current?.value[0] !=='P')
+         if(phong.current?.value[0] !=='P' ){
+            toast.warning(
+               `Allocate Room Fail(Please select Room)`,
+               {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+               }
+            );
+            setRe(!re)
+            return;
+         }
+         else {
+            await axios
             .post(`${url}phanphong`, data, config)
             .then((response) => {
                console.log(response.data);
             })
             .then((json) => console.log(json));
+            setRe(!re)
+            props.updateCheck();
+            toast.success(
+               `Grant ROOM ${phong.current?.value} to ID Booking ${props.item.MA_PHIEU_DP}`,
+               {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+               }
+            );
+         }
+        
       };
       postGrantRoom();
-      const newCheck = !props.check;
-      props.updateCheck(newCheck);
-      console.log(newCheck);
-      toast.success(
-         `Grant ROOM ${phong.current?.value} to ID Booking ${props.item.MA_PHIEU_DP}`,
-         {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-         }
-      );
+     
+     
    };
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -98,6 +119,7 @@ const RowTableBooking = (props: Props) => {
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <select
+               id={props.item.MA_PHIEU_DP}
                ref={phong}
                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md"
             >
@@ -119,7 +141,7 @@ const RowTableBooking = (props: Props) => {
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div>
-               <Button className="w-40 mr-2" onClick={handleClick}>
+               <Button className="w-40 mr-2" onClick={handleAllocate}>
                   <FontAwesomeIcon
                      className="w-4 h-4 mr-1"
                      icon={faPenToSquare}

@@ -14,5 +14,5 @@ public partial class Doan
 
 	public int? SoDemLuuTru { get; set; }
 
-	public virtual ICollection<Khachhang> MaKhs { get; } = new List<Khachhang>();
+
 }

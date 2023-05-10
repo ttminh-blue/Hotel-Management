@@ -1,18 +1,44 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { Card } from "flowbite-react";
 import React, { useState, useEffect } from "react";
-import { useRouter } from 'next/router'
-
+import { useRouter } from 'next/router';
+import axios from "axios";
 type Props = {};
 
 const Receipt = () => {
 
 
    const [invoiceData , setInvoiceData] = useState<any>([]);
-   useEffect(() => {
+   const authFetch = axios.create({
+      baseURL: 'https://localhost:44335/api',
+   });
+   const [tenDv, setTenDv] = useState<any>('');
+   const [giaDv, setGiaDv] = useState<any>('');
+   const formatter = new Intl.NumberFormat('it-IT', {
+      style: 'currency',
+      currency: 'VND',
+
+   });
+  
+   const getData = async () => {
       const invoice = JSON.parse(sessionStorage.receipt);
+      const goidv = await authFetch.get('/DichVu/Combo');
+      console.log("Dich vu: ", goidv.data);
+      for(var i = 0 ; i < goidv.data.length; i++){
+        
+         if(goidv.data[i].MA_GOIDV == invoice.MA_GOIDV){
+            console.log("aaaaaa: ", goidv.data[i].TEN_GOIDV, goidv.data[i].GIA)
+            setTenDv(goidv.data[i].TEN_GOIDV)
+            setGiaDv(goidv.data[i].GIA)
+         }
+      }
+     
       console.log("My invoice: ", invoice)
       setInvoiceData(invoice)
+   }
+   
+   useEffect(() => {
+      getData();
    }, [])
    return (
       <DefaultLayout>
@@ -79,17 +105,11 @@ const Receipt = () => {
                               </tr>
                            ))} */}
                               <tr>
-                                 <td>Gói Gại</td>
-                                 <td>3000$</td>
+                                 <td>{tenDv || "None"}</td>
+                                 <td>{formatter.format(giaDv)|| ""}</td>
                               </tr>
-                              <tr>
-                                 <td>Chơi khỉ</td>
-                                 <td>2000$</td>
-                              </tr>
-                              <tr>
-                                 <td>Play dog</td>
-                                 <td>229$</td>
-                              </tr>
+                             
+                             
                            </tbody>
                         </table>
                      </div>
