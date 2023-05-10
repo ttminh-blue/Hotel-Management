@@ -1,12 +1,12 @@
 ﻿using Dapper;
 using lazy_days_API.Models;
-using lazy_days_API.Models.DTO;
 using lazy_days_API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 
 namespace lazy_days_API.Controllers
 {
+
 	[Route("api/[controller]")]
 	[ApiController]
 	public class BellmanController : ControllerBase
@@ -18,6 +18,8 @@ namespace lazy_days_API.Controllers
 			_service = service;
 		}
 
+
+
 		[HttpGet("assignment_rooms")]
 		public async Task<IActionResult> GetAssignmentRooms()
 		{
@@ -28,7 +30,7 @@ namespace lazy_days_API.Controllers
 							"FROM PHANPHONG PP JOIN PHONG P ON PP.MA_PHONG = P.MA_PHONG "
 							+ "JOIN PHIEUDATPHONG PDP ON PDP.MA_PHIEU_DP = PP.MA_PHIEU_DP " +
 							"JOIN KHACHHANG KH ON KH.MA_KH = PDP.MA_KH ";
-				var result = await sqlConnection.QueryAsync(queryStr);
+				var result = await sqlConnection.QueryAsync<AssignmentRoom>(queryStr);
 				if (result == null) return NotFound("Result empty.");
 				return Ok(result);
 			}
@@ -49,7 +51,7 @@ namespace lazy_days_API.Controllers
 					"JOIN PHIEUDATPHONG PDP ON PDP.MA_PHIEU_DP = PP.MA_PHIEU_DP " +
 					"JOIN KHACHHANG KH ON KH.MA_KH = PDP.MA_KH " +
 					"WHERE PP.MA_PHIEU_DP = @MaPhieuDP AND PP.MA_PHONG = @MaPhong";
-				var result = await sqlConnection.QueryFirstOrDefaultAsync(queryStr, new
+				var result = await sqlConnection.QueryFirstOrDefaultAsync<AssignmentRoom>(queryStr, new
 				{
 					MaPhieuDP = id,
 					MaPhong = roomId
@@ -121,7 +123,7 @@ namespace lazy_days_API.Controllers
 		}
 
 		[HttpPost("cleanning_request")]
-		public async Task<IActionResult> AddCleanningRequest(PhancongdonvesinhCreateDTO phancongdonvesinh)
+		public async Task<IActionResult> AddCleanningRequest(Phancongdonvesinh phancongdonvesinh)
 		{
 			try
 			{
@@ -183,10 +185,10 @@ namespace lazy_days_API.Controllers
 					newId += maxId.ToString();
 				}
 
-				phieudangkyvanchuyen.MaPhieudangkyvanchuyen = newId;
+				phieudangkyvanchuyen.MA_PHIEUDANGKYVANCHUYEN = newId;
 
-				string sqlStr = "INSERT INTO PHIEUDANGKYVANCHUYEN " +
-					"VALUES(@MaPhieudangkyvanchuyen, @MaPhong, @MaPhieuDp, @MaNv, GetDate(), @HanhLy,  @SoLuong)";
+
+				string sqlStr = "INSERT INTO PHIEUDANGKYVANCHUYEN VALUES(@MA_PHIEUDANGKYVANCHUYEN, @MA_PHONG, @MA_PHIEU_DP, @MA_NV, GetDate(), @HANH_LY,  @SO_LUONG)";
 
 				await sqlConnection.ExecuteAsync(sqlStr, phieudangkyvanchuyen);
 				return Ok("Added baggage request successfully.");
@@ -198,7 +200,7 @@ namespace lazy_days_API.Controllers
 		}
 
 		[HttpGet("baggage_requests")]
-		public async Task<IActionResult> GetBaggageRequests()
+		public async Task<IActionResult> GetBaggageForms()
 		{
 			try
 			{
@@ -210,6 +212,9 @@ namespace lazy_days_API.Controllers
 					"JOIN KHACHHANG KH ON KH.MA_KH = PDP.MA_KH " +
 					"JOIN PHONG P ON P.MA_PHONG = PP.MA_PHONG " +
 					"JOIN NHANVIEN NV ON NV.MA_NV = VC.MA_NV");
+
+
+
 				if (result == null) return NotFound();
 				return Ok(result);
 			}
@@ -218,6 +223,9 @@ namespace lazy_days_API.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+
+
+
 
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using lazy_days_API.Models.DTO;
+using lazy_days_API.Models;
 using lazy_days_API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
@@ -10,11 +10,11 @@ namespace lazy_days_API.Controllers
 	[ApiController]
 	public class CleanningController : ControllerBase
 	{
-		private readonly IService _service;
+		private readonly IService _sqlFactory;
 
 		public CleanningController(IService service)
 		{
-			_service = service;
+			_sqlFactory = service;
 		}
 
 		[HttpGet]
@@ -22,8 +22,8 @@ namespace lazy_days_API.Controllers
 		{
 			try
 			{
-				await using SqlConnection sqlConnection = _service.CreateConnection();
-				var result = await sqlConnection.QueryAsync("SELECT VS.*, P.MA_PHONG, P.TEN_PHONG, P.LOAI, P.DIADIEM " +
+				await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
+				var result = await sqlConnection.QueryAsync<CleanningRequests>("SELECT VS.*, P.MA_PHONG, P.TEN_PHONG, P.LOAI, P.DIADIEM " +
 					"FROM PHANCONGDONVESINH VS,  PHONG P " +
 					"WHERE  P.MA_PHONG = VS.MA_PHONG");
 				if (result == null) return NotFound();
@@ -36,13 +36,41 @@ namespace lazy_days_API.Controllers
 		}
 
 		[HttpPut("accept_request")]
-		public async Task<IActionResult> UpdateCleanningRequest(PhancongdonvesinhUpdateDTO phancongdonvesinh)
+		public async Task<IActionResult> UpdateCleanningRequest(string maPcdvs, string maNvvs)
 		{
 			try
 			{
-				await using SqlConnection sqlConnection = _service.CreateConnection();
-				await sqlConnection.ExecuteAsync("Update PHANCONGDONVESINH SET MA_NVVS = @MaNvvs, THOIGIANKT = GETDATE() where MA_PCDVS = @MaPcdvs", phancongdonvesinh);
-				return Ok("Updated successfully.");
+				await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
+
+				var result = await sqlConnection.QueryFirstOrDefaultAsync("Select * from PHANCONGDONVESINH WHERE MA_PCDVS = @MA_PCDVS", new
+				{
+					MA_PCDVS = maPcdvs
+				});
+
+
+
+
+				if (result.MA_NVVS == null)
+				{
+					await sqlConnection.ExecuteAsync("Update PHANCONGDONVESINH SET MA_NVVS = @MaNvvs where MA_PCDVS = @MaPcdvs", new
+					{
+						MaNvvs = maNvvs,
+						MaPcdvs = maPcdvs
+					});
+					return Ok("Updated successfully.");
+
+				}
+				else if (result.MA_NVVS == maNvvs && result.THOIGIANKT == null)
+				{
+					await sqlConnection.ExecuteAsync("Update PHANCONGDONVESINH SET THOIGIANKT = GETDATE() where MA_PCDVS = @MaPcdvs", new
+					{
+						MaPcdvs = maPcdvs
+					});
+					return Ok("Updated successfully.");
+				}
+
+				return Ok("This request already accepted by another staff.");
+
 			}
 			catch (Exception ex)
 			{

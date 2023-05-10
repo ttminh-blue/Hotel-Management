@@ -55,9 +55,9 @@ namespace lazy_days_API.Controllers
 					myCon.Open();
 					using (SqlCommand myCommand = new SqlCommand(query, myCon))
 					{
-						myCommand.Parameters.AddWithValue("@MaNvql", pp.MaNvql);
-						myCommand.Parameters.AddWithValue("@MaPhieuDp", pp.MaPhieuDp);
-						myCommand.Parameters.AddWithValue("@MaPhong", pp.MaPhong);
+						myCommand.Parameters.AddWithValue("@MaNvql", pp.MA_NVQL);
+						myCommand.Parameters.AddWithValue("@MaPhieuDp", pp.MA_PHIEU_DP);
+						myCommand.Parameters.AddWithValue("@MaPhong", pp.MA_PHONG);
 						myCommand.Parameters.AddWithValue("@NgayPhanPhong", DateTime.Now);
 						myCommand.Parameters.AddWithValue("@NgayNhan", DateTime.Now);
 						myReader = myCommand.ExecuteReader();

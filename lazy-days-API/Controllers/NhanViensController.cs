@@ -79,6 +79,8 @@ namespace lazy_days_API.Controllers
 
 				nhanvien.MaNv = newId;
 
+
+
 				string queryStr = "Insert into NhanVien(MA_NV, TEN_NV, CHUC_VU, EMAIL, " +
 					"GIOI_TINH, SDT, CMND, NGAY_SINH, NGAY_THAM_GIA, DIA_CHI, LUONG) " +
 					"VALUES (@MaNv, @TenNv, @ChucVu, @Email, @GioiTinh, @Sdt, @Cmnd, @NgaySinh, @NgayThamGia, @DiaChi, @Luong)";

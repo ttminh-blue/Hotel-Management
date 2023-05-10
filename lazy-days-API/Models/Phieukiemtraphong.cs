@@ -17,9 +17,5 @@ public partial class Phieukiemtraphong
 
     public string? MaHd { get; set; }
 
-    public virtual ICollection<Chitietphieukiemtraphong> Chitietphieukiemtraphongs { get; } = new List<Chitietphieukiemtraphong>();
-
-    public virtual Hoadon? MaHdNavigation { get; set; }
-
-    public virtual Nhanvien? MaNvNavigation { get; set; }
+  
 }

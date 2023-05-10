@@ -1,28 +1,31 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 type Props = {};
 
 const Feedback = () => {
-   const [feedback, setFeedback] = useState("");
    const [rating, setRating] = useState(5);
 
-   const handleFeedbackChange = (
-      event: React.ChangeEvent<HTMLInputElement>
-   ) => {
-      setFeedback(event.target.value);
-   };
-
-   // const handleRatingChange = (event: React.FormEvent<HTMLFormElement>) => {
-   //    setRating(event.target.value);
-   // };
-
-   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       // Submit feedback data to backend or perform other actions
-      console.log("Feedback submitted:", { feedback, rating });
-      setFeedback("");
-      setRating(5);
+      const formData = new FormData(event.currentTarget);
+      formData.set("MaKh", " ");
+      formData.set("MaFb", "NV" + Math.floor(Math.random() * 899) + 100);
+
+      await axios.post(process.env.NEXT_PUBLIC_API + "Feedback", {
+         MaFb: formData.get("MaFb"),
+         TenFb: formData.get("TenFb"),
+         MieuTaFb: formData.get("MieuTaFb"),
+         LoaiFb: formData.get("LoaiFb"),
+         DanhGia: formData.get("DanhGia"),
+         MaKh: formData.get("MaKh"),
+      });
+
+      // setFeedback("");
+      // setRating(5);
    };
    return (
       <DefaultLayout>
@@ -36,6 +39,22 @@ const Feedback = () => {
             >
                <div className="mb-4">
                   <label
+                     htmlFor="feedback"
+                     className="block text-gray-700 font-bold mb-2"
+                  >
+                     Tên feedback
+                  </label>
+                  <input
+                     id="feedback"
+                     name="TenFb"
+                     type="text"
+                     // onChange={handleFeedbackChange}
+                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                     required
+                  />
+               </div>
+               <div className="mb-4">
+                  <label
                      htmlFor="rating"
                      className="block text-gray-700 font-bold mb-2"
                   >
@@ -46,9 +65,10 @@ const Feedback = () => {
                      type="number"
                      min="1"
                      max="5"
+                     name="DanhGia"
                      step="1"
                      value={rating}
-                     // onChange={handleRatingChange}
+                     onChange={(e) => setRating(() => Number(e.target.value))}
                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                      required
                   />
@@ -62,18 +82,33 @@ const Feedback = () => {
                   </label>
                   <textarea
                      id="feedback"
-                     value={feedback}
-                     // onChange={handleFeedbackChange}
+                     name="MieuTaFb"
                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                      required
                   />
                </div>
+               <div className="mb-4">
+                  <label
+                     htmlFor="feedback"
+                     className="block text-gray-700 font-bold mb-2"
+                  >
+                     Loại feedback
+                  </label>
+                  <input
+                     id="feedback"
+                     type="text"
+                     name="LoaiFb"
+                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                     required
+                  />
+               </div>
+
                <div className="flex items-center justify-between">
                   <button
                      type="submit"
                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
-                     Submit Feedback
+                     Submit
                   </button>
                </div>
             </form>

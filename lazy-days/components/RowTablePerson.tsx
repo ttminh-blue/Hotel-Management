@@ -127,12 +127,9 @@ const RowTable = (props: Props) => {
                      className="w-4 h-4 mr-1"
                      icon={faPenToSquare}
                   />
-                  <Link href="/user/info">Update user</Link>
+                  <Link href={{ pathname: '/user/update', query: { id: props.item.MA_KH } }}>Update user</Link>
                </Button>
-               <Button className="mr-2 bg-red-600 hover:bg-red-800">
-                  <FontAwesomeIcon className="w-4 h-4 mr-1" icon={faEye} />
-                  View user
-               </Button>
+              
                {/* <Button className="ml-2">
                   <FontAwesomeIcon className="ml-1" icon={faTrash} />
                   Delete user

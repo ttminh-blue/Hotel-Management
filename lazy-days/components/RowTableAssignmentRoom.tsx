@@ -20,7 +20,29 @@ type Props = {
 };
 
 const RowTableAssignmentRoom = (props: Props) => {
-   const handleOccupied = () => {
+   const notify = (message: any) => {
+      if (message != "Update successfully.") {
+         toast.warning(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+         });
+      } else {
+         toast.success(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+         });
+      }
+   };
+
+   const confirmOccupied = () => {
       axios
          .put(
             process.env.NEXT_PUBLIC_API +
@@ -28,17 +50,11 @@ const RowTableAssignmentRoom = (props: Props) => {
                props.item.MA_PHIEU_DP
          )
          .then(() => {
-            toast("Update successfully.", {
-               theme: "dark",
-               type: "success",
-            });
+            notify("Update successfully.");
             props.refreshFunc();
          })
          .catch((ex) => {
-            toast(ex, {
-               theme: "dark",
-               type: "error",
-            });
+            notify(ex);
          });
    };
 
@@ -120,7 +136,7 @@ const RowTableAssignmentRoom = (props: Props) => {
                {props.item.TRANG_THAI_PDP === "Received" && (
                   <Button
                      className="w-28 mr-2 bg-green-600"
-                     onClick={handleOccupied}
+                     onClick={confirmOccupied}
                   >
                      <FontAwesomeIcon
                         className="w-4 h-4 mr-1"

@@ -9,7 +9,7 @@ type Props = {};
 const RoomAssignmentManagement = (props: Props) => {
    const [check, setCheck] = useState(false);
 
-   const refreshAPI = () => {
+   const refreshApi = () => {
       setCheck(() => !check);
    };
 
@@ -22,6 +22,10 @@ const RoomAssignmentManagement = (props: Props) => {
             )
          ).data
    );
+
+   if (roomAssignmentQuery.isSuccess) {
+      console.log(roomAssignmentQuery.data);
+   }
 
    return (
       <DefaultLayout>
@@ -116,7 +120,7 @@ const RoomAssignmentManagement = (props: Props) => {
                               roomAssignmentQuery.data.map((item, index) => {
                                  return (
                                     <RowTableAssignmentRoom
-                                       refreshFunc={refreshAPI}
+                                       refreshFunc={refreshApi}
                                        item={item}
                                        key={index}
                                     />
