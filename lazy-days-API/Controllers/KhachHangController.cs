@@ -32,6 +32,22 @@ namespace lazy_days_API.Controllers
             
             return new JsonResult(result);
         }
+
+        [HttpGet("Personal")]
+        public async Task<IActionResult> Get_Personal([FromQuery] string id)
+        {
+            string query = @"select * from dbo.KHACHHANG where ma_kh = @id";
+
+            await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
+
+            var result = await sqlConnection.QueryAsync(query, new
+            {
+                id = id
+            });
+
+
+            return new JsonResult(result);
+        }
         [HttpGet("add")]
         public async Task<IActionResult> GetAL()
         {
@@ -100,6 +116,33 @@ namespace lazy_days_API.Controllers
             });
          
             return new JsonResult("UPDATED  Succesfully");
+        }
+        [HttpPut("PutAll")]
+        public async Task<IActionResult> UpdateUser(Khachhang kh)
+        {
+
+            string query = @"UPDATE DBO.KHACHHANG SET TEN_KH = @TEN_KH , 
+            CMND = @CMND, SDT= @SDT, EMAIL = @EMAIL, DIA_CHI = @DIA_CHI, 
+            FAX = @FAX, SO_DEM_LUU_TRU = @SO_DEM_LUU_TRU, YEU_CAU_DB = @YCDB where MA_KH = @MA_KH";
+
+            await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
+
+            await sqlConnection.ExecuteAsync(query, new
+            {
+
+               
+                MA_KH = kh.MaKh,
+                TEN_KH= kh.TenKh,
+                CMND = kh.Cmnd,
+                SDT= kh.Sdt,
+                EMAIL = kh.Email,
+                DIA_CHI = kh.DiaChi,
+                FAX= kh.Fax,
+                SO_DEM_LUU_TRU = kh.SoDemLuuTru,
+                YCDB = kh.YeuCauDb
+            });
+
+            return new JsonResult("UPDATED Succesfully");
         }
     }
 }
