@@ -496,16 +496,17 @@ const Tour = (props: Props) => {
       setDetailChoose(listTour.find((l: any) => l.MA_TOUR == e.target.value))
       setEn(true)
    };
-
-   useEffect(() => {
+   const getData = () =>{
       axios.get('https://localhost:44335/api/DichVu/Tour')
-         .then(res => {
-            console.log(res.data)
-            // setChoose(res.data[0].Ma_Dv)
-            setListTour(res.data)
-            setLoad(false)
-         })
-
+      .then(res => {
+         console.log(res.data)
+         // setChoose(res.data[0].Ma_Dv)
+         setListTour(res.data)
+         setLoad(false)
+      })
+   }
+   useEffect(() => {
+      getData()
    }, []);
 
    return (

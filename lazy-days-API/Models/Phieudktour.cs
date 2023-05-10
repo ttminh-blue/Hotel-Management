@@ -34,8 +34,8 @@ public class Phieudktour
     public string? MaNv { get; set; }
 }
 
-
-public class TTNTG
+//TT NGƯỜI THAM GIA
+public class TTNTG 
 {
     public string? MAPDKTOUR { get; set; } = null!;
     public int? STT { get; set; } = null;
@@ -43,6 +43,7 @@ public class TTNTG
     public string? TENNGUOITG { get; set; } = null;
 }
 
+//TT ĐĂNG KÝ
 public class TTDK
 {
     public string? fullName { get; set; } = null;
