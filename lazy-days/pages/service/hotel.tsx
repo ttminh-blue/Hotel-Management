@@ -38,9 +38,9 @@ type Detail = {
 const RenderService = (props: Props) => {
    // const choose = 'DV001'
    const amount = 1
-   useEffect(()=>{
+   useEffect(() => {
       // console.log("DDDD",props.serviceDetail)
-   },[])
+   }, [])
    return (
       <Table.Row>
          <Table.Cell className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600" >
@@ -114,9 +114,9 @@ const RenderProduct = (props: Props) => {
 };
 
 const ListService = (props: Props) => {
-   useEffect(()=>{
+   useEffect(() => {
       // console.log("CCC",props.listHS)
-   },[])
+   }, [])
    return (
       <Table className="mt-5 overflow-y-scroll text-sm text-gray-700 dark:text-gray-200 h-64 block">
          <Table.Head>
@@ -300,8 +300,19 @@ const Hotel = (props: Props) => {
          phoneClass?.classList.add('hidden')
          axios.get(`https://localhost:44335/api/DichVu/Check?phone=${phone}`)
             .then(res => {
+               if (res.data === 'Not found') {
+                  setLoading(true)
+
+               }
+               else if (res.data === 'Error') {
+                  setLoading(true)
+               }
+               else {
+                  setLoading(false)
+               }
                setDataCheck(res.data)
-               console.log("AAAA",res.data)
+
+               console.log("AAAA", res.data)
             })
       }
    }
@@ -311,18 +322,20 @@ const Hotel = (props: Props) => {
       setAmount(e.target.value)
    };
 
+   const toastShow = (message: string, config: any) => {
+      toast(message, config);
+   }
+
    const handleRegister = () => {
-      toast("In progress", {
-         theme: "dark",
-         type: "info",
-      });
+
+      toastShow("In progress", { theme: "dark", type: "info", })
       let ma;
       let loai;
-      if (type === 'Service'){
+      if (type === 'Service') {
          ma = choose
          loai = "Service"
       }
-      else{
+      else {
          ma = choose
          loai = "Product"
       }
@@ -336,32 +349,27 @@ const Hotel = (props: Props) => {
          "loai": loai
       }
       // console.log(formSend)
-      axios.post('https://localhost:44335/api/DichVu/RegisterHS', formSend,{
+      axios.post('https://localhost:44335/api/DichVu/RegisterHS', formSend, {
          headers: {
-         'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
          }
-       })
+      })
          .then(res => {
-            toast("Registation successfully.", {
-               theme: "dark",
-               type: "success",
-            });
+            toastShow("Registation successfully.", { theme: "dark", type: "success", })
+
             // console.log(res.data)
          }).catch(e => {
-            toast("Error", {
-               theme: "dark",
-               type: "error",
-            });
+            toastShow("Error.", { theme: "dark", type: "error", })
+
          })
    }
-
-   useEffect(() => {
-      console.log(dataCheck)
+   const showError = () => {
       if (dataCheck) {
          if (dataCheck === 'Not found') {
             let alertClass = document.querySelector('#alert1')
             // console.log(phoneClass)
             alertClass?.classList.remove('hidden')
+
          }
          else if (dataCheck === 'Error') {
             let alertClass = document.querySelector('#alert2')
@@ -375,11 +383,15 @@ const Hotel = (props: Props) => {
             setLoading(false)
          }
       }
+   }
+   useEffect(() => {
+      // console.log(dataCheck)
+      showError()
    }, [dataCheck])
    useEffect(() => {
       setChoose("");
    }, [type]);
-   const getData = () =>{
+   const getData = () => {
       axios.get('https://localhost:44335/api/DichVu/HotelService')
          .then(res => {
             // console.log("AAAA",res.data)
@@ -395,6 +407,31 @@ const Hotel = (props: Props) => {
    useEffect(() => {
       getData()
    }, []);
+
+
+   const RenderInfo = (pros: Props) => {
+      return (
+         <div>
+            <div>
+               <DetailChoose dataCheck={dataCheck} detailChoose={detailChoose} AmountValue={amount} setTotal={setTotal} />
+            </div>
+            <div className="flex justify-evenly   items-center px-2 pb-24 pt-10">
+               <button
+                  className="mr-5 text-white text-xl bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  onClick={() => { handleRegister() }}
+               >
+                  Đăng ký
+               </button>
+               <a
+                  className="text-black text-xl bg-slate-200  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  href="/service"
+               >
+                  Hủy
+               </a>
+            </div>
+         </div>
+      );
+   }
 
    return (
       <DefaultLayout>
@@ -532,25 +569,7 @@ const Hotel = (props: Props) => {
                </div>
             </div>
             {!loading && (
-               <div>
-                  <div>
-                     <DetailChoose dataCheck={dataCheck} detailChoose={detailChoose} AmountValue={amount} setTotal={setTotal} />
-                  </div>
-                  <div className="flex justify-evenly   items-center px-2 pb-24 pt-10">
-                     <button
-                        className="mr-5 text-white text-xl bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        onClick={() => { handleRegister() }}
-                     >
-                        Đăng ký
-                     </button>
-                     <a 
-                     className="text-black text-xl bg-slate-200  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                     href="/service"
-                     >
-                        Hủy
-                     </a>
-                  </div>
-               </div>
+               <RenderInfo />
             )}
          </NoSSR>
       </DefaultLayout>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace lazy_days_API.Models;
 
-public partial class Tourdulich
+public class Tourdulich
 {
     public string Ma_Tour { get; set; } = null!;
 

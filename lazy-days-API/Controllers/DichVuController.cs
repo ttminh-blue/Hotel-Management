@@ -10,14 +10,6 @@ namespace lazy_days_API.Controllers
 {
 
 
-    public class TTDP
-    {
-        public string? MA_PHIEU_DP { get; set; }
-        public string? Ten_KH { get; set; }
-        public string? SDT { get; set; }
-        public string? Ma_GoiDV { get; set; }
-    }
-
     public class ResultCheck
     {
         public TTDP? data1 { get; set; }
