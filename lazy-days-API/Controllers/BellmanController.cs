@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using lazy_days_API.Models;
-using lazy_days_API.Models.DTO;
 using lazy_days_API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
@@ -124,7 +123,7 @@ namespace lazy_days_API.Controllers
 		}
 
 		[HttpPost("cleanning_request")]
-		public async Task<IActionResult> AddCleanningRequest(PhancongdonvesinhCreateDTO phancongdonvesinh)
+		public async Task<IActionResult> AddCleanningRequest(Phancongdonvesinh phancongdonvesinh)
 		{
 			try
 			{
@@ -188,8 +187,8 @@ namespace lazy_days_API.Controllers
 
 				phieudangkyvanchuyen.MA_PHIEUDANGKYVANCHUYEN = newId;
 
-				string sqlStr = "INSERT INTO PHIEUDANGKYVANCHUYEN " +
-					"VALUES(@MA_PHIEUDANGKYVANCHUYEN, @MA_PHONG, @MA_PHIEU_DP, @MA_NV, GetDate(), @HANH_LY,  @SO_LUONG)";
+
+				string sqlStr = "INSERT INTO PHIEUDANGKYVANCHUYEN VALUES(@MA_PHIEUDANGKYVANCHUYEN, @MA_PHONG, @MA_PHIEU_DP, @MA_NV, GetDate(), @HANH_LY,  @SO_LUONG)";
 
 				await sqlConnection.ExecuteAsync(sqlStr, phieudangkyvanchuyen);
 				return Ok("Added baggage request successfully.");
@@ -206,7 +205,7 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection sqlConnection = _service.CreateConnection();
-				var result = await sqlConnection.QueryAsync<BaggageForm>("SELECT  VC.MA_PHIEUDANGKYVANCHUYEN, VC.NGAY_TAO, VC.HANH_LY, " +
+				var result = await sqlConnection.QueryAsync("SELECT  VC.MA_PHIEUDANGKYVANCHUYEN, VC.NGAY_TAO, VC.HANH_LY, " +
 					"VC.SO_LUONG, KH.TEN_KH, KH.SDT, P.TEN_PHONG, NV.TEN_NV, NV.CHUC_VU " +
 					"FROM PHIEUDANGKYVANCHUYEN VC JOIN PHANPHONG PP ON PP.MA_PHIEU_DP = VC.MA_PHIEU_DP AND PP.MA_PHONG = VC.MA_PHONG " +
 					"JOIN PHIEUDATPHONG PDP ON PDP.MA_PHIEU_DP = PP.MA_PHIEU_DP " +

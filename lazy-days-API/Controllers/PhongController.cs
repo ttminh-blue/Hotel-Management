@@ -1,4 +1,10 @@
-﻿namespace lazy_days_API.Controllers
+﻿using Dapper;
+using lazy_days_API.Models;
+using lazy_days_API.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
+
+namespace lazy_days_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
@@ -164,7 +170,6 @@
 				}
 
 				phong.MA_PHONG = newId;
-
 
 
 				string queryStr = "Insert into Phong(MA_PHONG, TEN_PHONG, SO_LUONG_DAP_UNG, LOAI, TRANG_THAI) " +

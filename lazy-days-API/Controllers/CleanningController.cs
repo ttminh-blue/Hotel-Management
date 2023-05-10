@@ -42,12 +42,35 @@ namespace lazy_days_API.Controllers
 			{
 				await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
 
-				await sqlConnection.ExecuteAsync("Update PHANCONGDONVESINH SET MA_NVVS = @MaNvvs, THOIGIANKT = GETDATE() where MA_PCDVS = @MaPcdvs", new
+				var result = await sqlConnection.QueryFirstOrDefaultAsync("Select * from PHANCONGDONVESINH WHERE MA_PCDVS = @MA_PCDVS", new
 				{
-					MaNvvs = maNvvs,
-					MaPcdvs = maPcdvs
+					MA_PCDVS = maPcdvs
 				});
-				return Ok("Updated successfully.");
+
+
+
+
+				if (result.MA_NVVS == null)
+				{
+					await sqlConnection.ExecuteAsync("Update PHANCONGDONVESINH SET MA_NVVS = @MaNvvs where MA_PCDVS = @MaPcdvs", new
+					{
+						MaNvvs = maNvvs,
+						MaPcdvs = maPcdvs
+					});
+					return Ok("Updated successfully.");
+
+				}
+				else if (result.MA_NVVS == maNvvs && result.THOIGIANKT == null)
+				{
+					await sqlConnection.ExecuteAsync("Update PHANCONGDONVESINH SET THOIGIANKT = GETDATE() where MA_PCDVS = @MaPcdvs", new
+					{
+						MaPcdvs = maPcdvs
+					});
+					return Ok("Updated successfully.");
+				}
+
+				return Ok("This request already accepted by another staff.");
+
 			}
 			catch (Exception ex)
 			{

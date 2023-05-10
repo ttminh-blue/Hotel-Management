@@ -41,7 +41,7 @@ const CleanRoom = (props: Props) => {
          axios
             .post(process.env.NEXT_PUBLIC_API + "Bellman/cleanning_request", {
                maPcdvs: "",
-               maNvbellman: "NV003",
+               maNvbellman: sessionStorage.getItem("Ma_NV"),
                maPhong: props.data.MA_PHONG,
             })
             .then(() => {

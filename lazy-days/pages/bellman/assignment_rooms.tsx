@@ -23,6 +23,10 @@ const RoomAssignmentManagement = (props: Props) => {
          ).data
    );
 
+   if (roomAssignmentQuery.isSuccess) {
+      console.log(roomAssignmentQuery.data);
+   }
+
    return (
       <DefaultLayout>
          <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">

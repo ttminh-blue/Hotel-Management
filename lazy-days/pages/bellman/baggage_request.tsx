@@ -64,7 +64,7 @@ const DeliveryForm = (props: Props) => {
 
       const formData: BaggageRequestType = {
          HanhLy: packageStr,
-         MaNv: "NV003",
+         MaNv: sessionStorage.getItem("Ma_NV"),
          MaPhieuDp: props.data.MA_PHIEU_DP,
          MaPhong: props.data.MA_PHONG,
          SoLuong: quantity,

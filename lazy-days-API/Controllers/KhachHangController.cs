@@ -1,4 +1,10 @@
-﻿namespace lazy_days_API.Controllers
+﻿using Dapper;
+using lazy_days_API.Models;
+using lazy_days_API.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
+
+namespace lazy_days_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
@@ -42,13 +48,13 @@
 			await using SqlConnection sqlConnection = _sqlFactory.CreateConnection();
 			var allPhieuDKVC = await sqlConnection.QueryAsync("Select * from DBO.KHACHHANG WHERE CMND = @Cmnd", new
 			{
-				Cmnd = kh.Cmnd
+				Cmnd = kh.CMND
 			});
 			if (allPhieuDKVC.Count() >= 1)
 			{
 				var update_state = await sqlConnection.QueryAsync("update DBO.KHACHHANG set TRANG_THAI_DAT_PHONG = N'Đang đặt phòng' WHERE CMND = @Cmnd", new
 				{
-					Cmnd = kh.Cmnd
+					Cmnd = kh.CMND
 				});
 				return Ok(allPhieuDKVC);
 			}
@@ -59,15 +65,15 @@
 			{
 				await sqlConnection.ExecuteAsync(query, new
 				{
-					MA_KH = kh.MaKh,
-					TEN_KH = kh.TenKh,
-					CMND = kh.Cmnd,
-					DIA_CHI = kh.DiaChi,
-					SDT = kh.Sdt,
+					MA_KH = kh.MA_KH,
+					TEN_KH = kh.TEN_KH,
+					CMND = kh.CMND,
+					DIA_CHI = kh.DIA_CHI,
+					SDT = kh.SDT,
 					Email = kh.Email,
 					Fax = kh.Fax,
-					SO_DEM_LUU_TRU = kh.SoDemLuuTru,
-					YEU_CAU_DB = kh.YeuCauDb
+					SO_DEM_LUU_TRU = kh.SO_DEM_LUU_TRU,
+					YEU_CAU_DB = kh.YEU_CAU_DB
 
 				});
 				return new JsonResult("Add Succesfully");
@@ -88,8 +94,8 @@
 			await sqlConnection.ExecuteAsync(query, new
 			{
 
-				TRANGTHAI = kh.TrangThaiDatPhong,
-				MA_KH = kh.MaKh
+				TRANGTHAI = kh.TRANG_THAI_DAT_PHONG,
+				MA_KH = kh.MA_KH
 			});
 
 			return new JsonResult("UPDATED  Succesfully");

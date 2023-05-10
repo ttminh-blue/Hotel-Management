@@ -7,20 +7,9 @@ const Feedback = () => {
    const [feedback, setFeedback] = useState("");
    const [rating, setRating] = useState(5);
 
-   const handleFeedbackChange = (
-      event: React.ChangeEvent<HTMLInputElement>
-   ) => {
-      setFeedback(event.target.value);
-   };
-
-   // const handleRatingChange = (event: React.FormEvent<HTMLFormElement>) => {
-   //    setRating(event.target.value);
-   // };
-
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       // Submit feedback data to backend or perform other actions
-      console.log("Feedback submitted:", { feedback, rating });
       setFeedback("");
       setRating(5);
    };
@@ -64,6 +53,7 @@ const Feedback = () => {
                      max="5"
                      step="1"
                      value={rating}
+                     onChange={(e) => setRating(() => Number(e.target.value))}
                      // onChange={handleRatingChange}
                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                      required

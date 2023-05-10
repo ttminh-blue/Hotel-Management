@@ -1,20 +1,20 @@
 import { Sidebar } from "flowbite-react";
 import {
-   ArrowRightIcon,
    ChartPieIcon,
    InboxIcon,
-   InboxStackIcon,
    RectangleStackIcon,
-   ShoppingBagIcon,
-   SignalIcon,
    UserIcon,
-   ViewColumnsIcon,
-   WalletIcon,
 } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
 
 type Props = {};
 
 const SidebarCustom = (props: Props) => {
+   const [chucVu, setChucVu] = useState<string | null | undefined>();
+
+   useEffect(() => {
+      setChucVu(() => sessionStorage.getItem("CHUC_VU"));
+   }, []);
    return (
       <div className="w-fit ">
          <Sidebar aria-label="Sidebar with multi-level dropdown example">
@@ -52,18 +52,26 @@ const SidebarCustom = (props: Props) => {
                         Travel Company
                      </Sidebar.Item>
                   </Sidebar.Collapse>
-
-                  <Sidebar.Collapse icon={UserIcon} label="Bellman">
-                     <Sidebar.Item href="/bellman/assignment_rooms">
-                        Assignment Rooms
-                     </Sidebar.Item>
-                     <Sidebar.Item href="/bellman/baggage_forms">
-                        Baggage Forms
-                     </Sidebar.Item>
-                  </Sidebar.Collapse>
-                  <Sidebar.Item href="/clean" icon={RectangleStackIcon}>
-                     Cleanning
-                  </Sidebar.Item>
+                  {chucVu && chucVu === "NHAN VIEN BELLMAN" && (
+                     <Sidebar.Collapse icon={UserIcon} label="Bellman">
+                        <Sidebar.Item href="/bellman/assignment_rooms">
+                           Assignment Rooms
+                        </Sidebar.Item>
+                        <Sidebar.Item href="/bellman/baggage_forms">
+                           Baggage Forms
+                        </Sidebar.Item>
+                     </Sidebar.Collapse>
+                  )}
+                  {chucVu &&
+                     (chucVu === "NHAN VIEN BELLMAN" ||
+                        chucVu === "NHAN VIEN VE SINH") && (
+                        <Sidebar.Item
+                           href="/clean_requests"
+                           icon={RectangleStackIcon}
+                        >
+                           Cleanning
+                        </Sidebar.Item>
+                     )}
                </Sidebar.ItemGroup>
             </Sidebar.Items>
          </Sidebar>

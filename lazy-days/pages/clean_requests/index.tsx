@@ -6,13 +6,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 
 type Props = {};
 
 const CleaningManage = (props: Props) => {
+   const [chucVu, setChucVu] = useState<string | null | undefined>();
+
+   useEffect(() => {
+      setChucVu(() => sessionStorage.getItem("CHUC_VU"));
+   }, []);
+
    const [refresh, setRefresh] = useState(false);
    const cleanningRequestQuery = useQuery(
       ["cleanning_requests", refresh],
@@ -21,7 +27,7 @@ const CleaningManage = (props: Props) => {
    );
 
    const notify = (message: any) => {
-      if (message != "Accept request successfully.") {
+      if (message != "Updated successfully.") {
          toast.warning(message, {
             position: "top-right",
             autoClose: 5000,
@@ -49,16 +55,20 @@ const CleaningManage = (props: Props) => {
    const handleAcceptRequest = (id: string) => {
       if (cleanningRequestQuery.isSuccess) {
          axios
-            .put(process.env.NEXT_PUBLIC_API + "Cleanning/accept_request", {
-               maPcdvs: id,
-               maNvvs: "NV004",
-            })
-            .then(() => {
-               notify("Accept request successfully.");
+            .put(
+               process.env.NEXT_PUBLIC_API +
+                  "Cleanning/accept_request?" +
+                  "maPcdvs=" +
+                  id +
+                  "&maNvvs=" +
+                  sessionStorage.getItem("Ma_NV")
+            )
+            .then((res) => {
+               notify(res.data);
                refreshApi();
             })
             .catch((ex) => {
-               notify(ex);
+               notify(ex.data);
             });
       }
    };
@@ -239,9 +249,11 @@ const CleaningManage = (props: Props) => {
                               <th scope="col" className="p-4">
                                  Ended Date
                               </th>
-                              <th scope="col" className="p-4">
-                                 Options
-                              </th>
+                              {chucVu && chucVu === "NHAN VIEN VE SINH" && (
+                                 <th scope="col" className="p-4">
+                                    Options
+                                 </th>
+                              )}
                            </tr>
                         </thead>
                         <tbody>
@@ -300,43 +312,50 @@ const CleaningManage = (props: Props) => {
                                                    ).toLocaleString("en")}
                                              </div>
                                           </td>
-                                          <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                             <div className="flex items-center space-x-4">
-                                                <button
-                                                   type="button"
-                                                   onClick={() =>
-                                                      handleAcceptRequest(
-                                                         val.MA_PCDVS
-                                                      )
-                                                   }
-                                                   disabled={
-                                                      val.THOIGIANKT
-                                                         ? true
-                                                         : false
-                                                   }
-                                                   data-drawer-target="drawer-update-product"
-                                                   data-drawer-show="drawer-update-product"
-                                                   aria-controls="drawer-update-product"
-                                                   className={`py-2 px-3 flex ${
-                                                      val.THOIGIANKT
-                                                         ? "bg-gray-600"
-                                                         : "bg-blue-600"
-                                                   } text-white ${
-                                                      !val.THOIGIANKT &&
-                                                      "hover:bg-blue-800"
-                                                   } 
+                                          {chucVu &&
+                                             chucVu === "NHAN VIEN VE SINH" && (
+                                                <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                   <div className="flex items-center space-x-4">
+                                                      <button
+                                                         type="button"
+                                                         onClick={() =>
+                                                            handleAcceptRequest(
+                                                               val.MA_PCDVS
+                                                            )
+                                                         }
+                                                         disabled={
+                                                            val.THOIGIANKT
+                                                               ? true
+                                                               : false
+                                                         }
+                                                         data-drawer-target="drawer-update-product"
+                                                         data-drawer-show="drawer-update-product"
+                                                         aria-controls="drawer-update-product"
+                                                         className={`py-2 px-3 flex ${
+                                                            val.MA_NVVS &&
+                                                            val.THOIGIANKT
+                                                               ? "bg-gray-600"
+                                                               : val.MA_NVVS &&
+                                                                 !val.THOIGIANKT
+                                                               ? "bg-green-600"
+                                                               : "bg-blue-600"
+                                                         } text-white ${
+                                                            !val.THOIGIANKT &&
+                                                            "hover:bg-blue-800"
+                                                         } 
                                                     items-center text-sm font-medium text-center text-black bg-primary-700 
                                                     rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 
                                                     dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}
-                                                >
-                                                   <FontAwesomeIcon
-                                                      className="w-4 h-4 mr-2"
-                                                      icon={faCheckCircle}
-                                                   />
-                                                   Accept
-                                                </button>
-                                             </div>
-                                          </td>
+                                                      >
+                                                         <FontAwesomeIcon
+                                                            className="w-4 h-4 mr-2"
+                                                            icon={faCheckCircle}
+                                                         />
+                                                         Accept
+                                                      </button>
+                                                   </div>
+                                                </td>
+                                             )}
                                        </tr>
                                     </>
                                  );

@@ -21,7 +21,7 @@ const Login = (props: Props) => {
       baseURL: "https://localhost:44335/api",
    });
    const notify = (message: any) => {
-      if (message == 'Success') {
+      if (message == "Success") {
          toast.success(message, {
             position: "top-right",
             autoClose: 5000,
@@ -29,10 +29,8 @@ const Login = (props: Props) => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-
-         })
-      }
-      else {
+         });
+      } else {
          toast.error(message, {
             position: "top-right",
             autoClose: 5000,
@@ -40,10 +38,9 @@ const Login = (props: Props) => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-
-         })
+         });
       }
-   }
+   };
    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       console.log(usernameRef.current?.value, passRef.current?.value);
@@ -58,27 +55,20 @@ const Login = (props: Props) => {
       const login = authFetch.post("/Taikhoan", account_info, config);
       login.then((user) => {
          console.log(user.data);
-         if(user.data == "Failed"){
-            notify("Accout wrong")
+         if (user.data == "Failed") {
+            notify("Accout wrong");
             return;
          }
          if (user.data[0].MA_NV) {
-            authFetch.get("/NhanViens/" + user.data[0].MA_NV)
-            .then((role) => {
-               
+            authFetch.get("/NhanViens/" + user.data[0].MA_NV).then((role) => {
                sessionStorage.setItem("Ma_NV", user.data[0].MA_NV);
                sessionStorage.setItem("CHUC_VU", role.data[0].CHUC_VU);
-               if(user.data[0].MA_NV[0] == 'N'){
-                  notify('Success')
+               if (user.data[0].MA_NV[0] == "N") {
+                  notify("Success");
                }
-              
 
-               router.push("/")
-            })
-         
-
-          
-            
+               router.push("/");
+            });
          }
       });
    };
@@ -140,7 +130,7 @@ const Login = (props: Props) => {
                               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            />
                         </div>
-                      
+
                         <button
                            type="submit"
                            className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

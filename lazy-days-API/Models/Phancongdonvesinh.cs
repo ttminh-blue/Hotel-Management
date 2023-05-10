@@ -8,9 +8,9 @@ public partial class Phancongdonvesinh
 
 	public string? MaNvvs { get; set; }
 
-	public string? MaPhong { get; set; }
+	public string? MaPhong { get; set; } = String.Empty!;
 
-	public DateTime? Thoigianbd { get; set; }
+	public DateTime? Thoigianbd { get; set; } = DateTime.Now;
 
-	public DateTime? Thoigiankt { get; set; }
+	public DateTime? Thoigiankt { get; set; } = DateTime.Now;
 }
