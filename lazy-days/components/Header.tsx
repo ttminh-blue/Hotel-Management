@@ -5,11 +5,11 @@ import React, { useEffect, useState } from "react";
 type Props = {};
 
 const Header = (props: Props) => {
-   const [user, setUser] = useState<string | null>();
+   const [chucVu, setChucVu] = useState<string | null | undefined>();
 
    useEffect(() => {
-      setUser(() => sessionStorage.getItem("Ma_NV"));
-   });
+      setChucVu(() => sessionStorage.getItem("CHUC_VU"));
+   }, []);
 
    return (
       <header className="">
@@ -27,7 +27,7 @@ const Header = (props: Props) => {
                      </span>
                   </a>
                   <div className="flex items-center lg:order-2">
-                     {user ? (
+                     {chucVu ? (
                         <Link
                            onClick={() => {
                               sessionStorage.clear();
@@ -102,7 +102,7 @@ const Header = (props: Props) => {
                               Room Manage
                            </a>
                         </li>
-                        {user === "LE TAN" && (
+                        {chucVu && chucVu === "LE TAN" && (
                            <>
                               <li>
                                  <a
