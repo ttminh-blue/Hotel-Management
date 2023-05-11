@@ -11,18 +11,23 @@ export default function Modal(props: Props) {
    const [showModal, setShowModal] = useState(false);
    const [dataGuest, setDataGuest] = useState<GuestType[]>([]);
    const [nameGuest, setNameGuest] = useState<string>("");
+   const [reset,setReset] = useState(false);
+   const getKH = async() =>{
+      await axios
+      .get(`${process.env.NEXT_PUBLIC_API}KhachHang/add`)
+      .then((response) => {
+         setDataGuest(() => response.data);
+      });
+      console.log(dataGuest)
+   }
    useEffect(() => {
-      axios
-         .get(`${process.env.NEXT_PUBLIC_API}KhachHang/add`)
-         .then((response) => {
-            setDataGuest(() => response.data);
-         });
-   }, []);
+      getKH();
+   }, [reset]);
    const handleClick = (name: string) => {
       setNameGuest(name);
    };
    const handleClickAdd = () => {
-      setShowModal(false);
+     
       axios.post(
          `${process.env.NEXT_PUBLIC_API}Phong/add?phong=${props.phong}&makh=${nameGuest}`
       );
@@ -35,13 +40,14 @@ export default function Modal(props: Props) {
          pauseOnHover: true,
          draggable: true,
       });
+      setReset(!reset);
    };
    return (
       <>
          <button
             className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
             type="button"
-            onClick={handleClickAdd}
+            onClick={()=> setShowModal(true)}
          >
             Add members
          </button>
@@ -61,7 +67,7 @@ export default function Modal(props: Props) {
                               onClick={() => setShowModal(false)}
                            >
                               <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                 ×
+                                X
                               </span>
                            </button>
                         </div>

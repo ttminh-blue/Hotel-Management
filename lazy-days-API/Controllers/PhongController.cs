@@ -39,7 +39,7 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection connection = _sqlFactory.CreateConnection();
-				var result = await connection.QueryAsync($"select phong.* from phong, chitietphong,KHACHHANG where phong.MA_PHONG=CHITIETPHONG.MA_PHONG and CHITIETPHONG.MA_KH=KHACHHANG.MA_KH and KHACHHANG.CMND like '%{cmnd}%'");
+				var result = await connection.QueryAsync($"select distinct phong.* from phong, chitietphong,KHACHHANG where phong.MA_PHONG=CHITIETPHONG.MA_PHONG and CHITIETPHONG.MA_KH=KHACHHANG.MA_KH and KHACHHANG.CMND like '%{cmnd}%'");
 				if (result == null) return NotFound();
 				return Ok(result);
 			}
