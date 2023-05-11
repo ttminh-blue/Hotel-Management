@@ -86,7 +86,6 @@ namespace lazy_days_API.Controllers
 			}
 		}
 
-
 		[HttpGet("cleanning_requests")]
 		public async Task<IActionResult> GetCleanningRequest()
 		{
@@ -212,9 +211,6 @@ namespace lazy_days_API.Controllers
 					"JOIN KHACHHANG KH ON KH.MA_KH = PDP.MA_KH " +
 					"JOIN PHONG P ON P.MA_PHONG = PP.MA_PHONG " +
 					"JOIN NHANVIEN NV ON NV.MA_NV = VC.MA_NV");
-
-
-
 				if (result == null) return NotFound();
 				return Ok(result);
 			}

@@ -26,11 +26,9 @@ const SidebarCustom = (props: Props) => {
 
                   <Sidebar.Collapse icon={InboxIcon} label="Manage">
                      <Sidebar.Item href="/manage/room">Room</Sidebar.Item>
-                     <Sidebar.Item href="/manage/staff">Staff</Sidebar.Item>
                      <Sidebar.Item href="/manage/customer">
                         Customer
                      </Sidebar.Item>
-                     <Sidebar.Item href="/manage/user">Users</Sidebar.Item>
                      <Sidebar.Item href="/manage/booking">Booking</Sidebar.Item>
                      <Sidebar.Item href="/service/feedback">
                         Feedback

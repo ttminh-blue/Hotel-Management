@@ -1,49 +1,50 @@
 import RowTableRoom from "@/components/RowTableRoom";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { BookingGet, RoomType } from "@/types/UserType";
-import React, { useState,useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 type Props = {};
 
-
 const RoomManage = (props: Props) => {
-   
-  
-   const [room, setRoom]= useState<RoomType[]>([]);
-   const [check,setCheck] = useState<boolean>(true);
+   const [room, setRoom] = useState<RoomType[]>([]);
+   const [check, setCheck] = useState<boolean>(true);
    const updateCheck = () => {
-      setCheck(()=>!check);
-    };
-    const [search,setSearch] = useState<string>("");
+      setCheck(() => !check);
+   };
+   const [search, setSearch] = useState<string>("");
    const url = process.env.NEXT_PUBLIC_API;
    const getData = async () => {
-      await axios.get(`${url}Phong`)
-        .then((response) => { 
-          setRoom(()=>response.data)
-          console.log(response.data)
-        }).then(json => console.log(json))
-    }    
-    const getDataCMND = async (CMND:string) => {
-      if(CMND==="") {
-         setCheck(()=>!check);
+      await axios
+         .get(`${url}Phong`)
+         .then((response) => {
+            setRoom(() => response.data);
+            console.log(response.data);
+         })
+         .then((json) => console.log(json));
+   };
+   const getDataCMND = async (CMND: string) => {
+      if (CMND === "") {
+         setCheck(() => !check);
          return;
       }
- 
-      await axios.get(`${url}Phong/CMND?cmnd=${CMND}`)
-        .then((response) => { 
-          setRoom(()=>response.data)
-          console.log(response.data)
-        }).then(json => console.log(json))
-    }    
-    const SearchCMND = async (event:any) => {
-      setSearch(()=>event.target.value);
+
+      await axios
+         .get(`${url}Phong/CMND?cmnd=${CMND}`)
+         .then((response) => {
+            setRoom(() => response.data);
+            console.log(response.data);
+         })
+         .then((json) => console.log(json));
+   };
+   const SearchCMND = async (event: any) => {
+      setSearch(() => event.target.value);
       await getDataCMND(event.target.value);
-    };
-    useEffect(()=>{
+   };
+   useEffect(() => {
       getData();
-    },[check])
+   }, [check]);
    return (
       <DefaultLayout>
          <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5 ">
@@ -58,42 +59,44 @@ const RoomManage = (props: Props) => {
                            className="border-solid border-2 border-sky-500 flex items-center justify-center px-4 py-2 text-sm font-medium text-black rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                            value={search}
                            onChange={SearchCMND}
-                        >
-                          
-                        </input>
-                   
-                      
+                        ></input>
                      </div>
                   </div>
                   <div className="overflow-x-auto h-screen">
                      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                            <tr>
-                             
                               <th scope="col" className="px-4 py-3">
                                  Room ID
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 Room 
+                                 Room
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                Type
+                                 Type
                               </th>
                               <th scope="col" className="px-4 py-3">
-                              Occupancy
+                                 Occupancy
                               </th>
                               <th scope="col" className="px-4 py-3">
-                              Status
+                                 Status
                               </th>
-                              <th scope="col" className="px-4 py-3 flex justify-center">
-                              Activities
+                              <th
+                                 scope="col"
+                                 className="px-4 py-3 flex justify-center"
+                              >
+                                 Activities
                               </th>
                            </tr>
                         </thead>
                         <tbody>
                            {room.map((item, index) => {
                               return (
-                                 <RowTableRoom item={item} key={index} updateCheck={updateCheck}/>
+                                 <RowTableRoom
+                                    item={item}
+                                    key={index}
+                                    updateCheck={updateCheck}
+                                 />
                               );
                            })}
                         </tbody>
@@ -199,9 +202,7 @@ const RoomManage = (props: Props) => {
                         </li>
                      </ul>
                   </nav>
-            
                </div>
-               
             </div>
          </section>
       </DefaultLayout>

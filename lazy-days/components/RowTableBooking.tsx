@@ -1,5 +1,5 @@
 import { BookingGet, RoomType } from "@/types/UserType";
-import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {} from "@fortawesome/free-regular-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
@@ -19,18 +19,18 @@ type Props = {
 const url = process.env.NEXT_PUBLIC_API;
 const RowTableBooking = (props: Props) => {
    const phong = useRef<HTMLSelectElement>(null);
-   
-   const [re,setRe]= useState<boolean>(true)
+
+   const [re, setRe] = useState<boolean>(true);
    const handleClickAllocate = async () => {
       console.log(sessionStorage.getItem("Ma_NV"));
       let data = {
-         MaNvql:  sessionStorage.getItem("Ma_NV"),
-         MaPhieuDp: props.item.MA_PHIEU_DP,
-         MaPhong: phong.current?.value,
-         NgayPhanPhong: null,
-         NgayNhan: null,
+         mA_NVQL: sessionStorage.getItem("Ma_NV"),
+         mA_PHIEU_DP: props.item.MA_PHIEU_DP,
+         mA_PHONG: phong.current?.value,
+         ngaY_PHAN_PHONG: null,
+         ngaY_NHAN: null,
       };
-   
+
       const config = {
          headers: {
             "content-type": "application/json",
@@ -38,28 +38,24 @@ const RowTableBooking = (props: Props) => {
          },
       };
       const postGrantRoom = async () => {
-         if(phong.current?.value[0] !=='P' ){
-            toast.warning(
-               `Allocate Room Fail(Please select Room)`,
-               {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-               }
-            );
-            setRe(!re)
-         }
-         else {
+         if (phong.current?.value[0] !== "P") {
+            toast.warning(`Allocate Room Fail(Please select Room)`, {
+               position: "top-right",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+            });
+            setRe(!re);
+         } else {
             await axios
-            .post(`${url}phanphong`, data, config)
-            .then((response) => {
-               console.log(response.data);
-            })
-            .then((json) => console.log(json));
-            setRe(!re)
+               .post(`${url}phanphong`, data, config)
+               .then((response) => {
+                  console.log(response.data);
+               })
+               .then((json) => console.log(json));
+            setRe(!re);
             props.updateCheck();
             toast.success(
                `Allocate ROOM ${phong.current?.value} to ID Booking ${props.item.MA_PHIEU_DP}`,
@@ -73,11 +69,8 @@ const RowTableBooking = (props: Props) => {
                }
             );
          }
-        
       };
       await postGrantRoom();
-    
-     
    };
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -98,7 +91,6 @@ const RowTableBooking = (props: Props) => {
                {moment(props.item.NGAY_DAT).format("MM/DD/YYYY")}
             </span>
          </td>
-        
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {props.item.LOAIPHONG}
