@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
@@ -72,6 +73,17 @@ const CleaningManage = (props: Props) => {
             });
       }
    };
+
+   const router = useRouter();
+
+   useEffect(() => {
+      if (
+         sessionStorage.getItem("CHUC_VU") != "NHAN VIEN BELLMAN" &&
+         sessionStorage.getItem("CHUC_VU") != "NHAN VIEN VE SINH"
+      ) {
+         router.push("/access-denied");
+      }
+   }, []);
 
    return (
       <DefaultLayout>

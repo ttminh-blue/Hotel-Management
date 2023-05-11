@@ -8,22 +8,44 @@ type Props = {};
 const Feedback = () => {
    const [rating, setRating] = useState(5);
 
+   const ThongBao = (message: any) => {
+      toast.success(message, {
+         position: "top-right",
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+      });
+   };
+
    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       // Submit feedback data to backend or perform other actions
       const formData = new FormData(event.currentTarget);
-      formData.set("MaKh", " ");
-      formData.set("MaFb", "NV" + Math.floor(Math.random() * 899) + 100);
+      formData.set("MaKh", "KH");
+      formData.set(
+         "MaFb",
+         "Fb" + Math.round(100 + Math.random() * (999 - 100))
+      );
 
-      await axios.post(process.env.NEXT_PUBLIC_API + "Feedback", {
-         MaFb: formData.get("MaFb"),
-         TenFb: formData.get("TenFb"),
-         MieuTaFb: formData.get("MieuTaFb"),
-         LoaiFb: formData.get("LoaiFb"),
-         DanhGia: formData.get("DanhGia"),
-         MaKh: formData.get("MaKh"),
-      });
-
+      await axios.post(
+         process.env.NEXT_PUBLIC_API + "Feedback",
+         {
+            MaFb: formData.get("MaFb"),
+            TenFb: formData.get("TenFb"),
+            MieuTaFb: formData.get("MieuTaFb"),
+            LoaiFb: formData.get("LoaiFb"),
+            DanhGia: formData.get("DanhGia"),
+            MaKh: formData.get("MaKh"),
+         },
+         {
+            headers: {
+               "Content-Type": "multipart/form-data",
+            },
+         }
+      );
+      ThongBao("Feedback successfully.");
       // setFeedback("");
       // setRating(5);
    };

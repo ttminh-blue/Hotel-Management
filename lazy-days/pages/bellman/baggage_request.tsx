@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -88,6 +88,12 @@ const DeliveryForm = (props: Props) => {
             notify(ex);
          });
    };
+
+   useEffect(() => {
+      if (sessionStorage.getItem("CHUC_VU") != "NHAN VIEN BELLMAN") {
+         router.push("/access-denied");
+      }
+   }, []);
 
    return (
       <DefaultLayout>

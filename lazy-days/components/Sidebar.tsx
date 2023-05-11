@@ -32,7 +32,7 @@ const SidebarCustom = (props: Props) => {
                      </Sidebar.Item>
                      <Sidebar.Item href="/manage/user">Users</Sidebar.Item>
                      <Sidebar.Item href="/manage/booking">Booking</Sidebar.Item>
-                     <Sidebar.Item href="/manage/booking">
+                     <Sidebar.Item href="/service/feedback">
                         Feedback
                      </Sidebar.Item>
                      <Sidebar.Item href="/manage/checkroom">

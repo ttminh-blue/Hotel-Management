@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import RowTableAssignmentRoom from "@/components/RowTableAssignmentRoom";
 import { useQuery } from "react-query";
+import { useRouter } from "next/router";
 type Props = {};
 
 const RoomAssignmentManagement = (props: Props) => {
@@ -22,10 +23,13 @@ const RoomAssignmentManagement = (props: Props) => {
             )
          ).data
    );
+   const router = useRouter();
 
-   if (roomAssignmentQuery.isSuccess) {
-      console.log(roomAssignmentQuery.data);
-   }
+   useEffect(() => {
+      if (sessionStorage.getItem("CHUC_VU") != "NHAN VIEN BELLMAN") {
+         router.push("/access-denied");
+      }
+   }, []);
 
    return (
       <DefaultLayout>

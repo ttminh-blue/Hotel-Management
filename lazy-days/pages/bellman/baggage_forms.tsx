@@ -8,6 +8,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
 import RowTableBaggageForms from "@/components/RowTableBaggageForms";
+import { useRouter } from "next/router";
 type Props = {};
 
 const BaggageFormManage = (props: Props) => {
@@ -20,6 +21,14 @@ const BaggageFormManage = (props: Props) => {
             )
          ).data
    );
+
+   const router = useRouter();
+
+   useEffect(() => {
+      if (sessionStorage.getItem("CHUC_VU") != "NHAN VIEN BELLMAN") {
+         router.push("/access-denied");
+      }
+   }, []);
 
    return (
       <DefaultLayout>
