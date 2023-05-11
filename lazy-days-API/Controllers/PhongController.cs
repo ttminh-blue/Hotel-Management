@@ -69,7 +69,7 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection connection = _sqlFactory.CreateConnection();
-				var result = await connection.ExecuteAsync("UPDATE PHONG SET TRANG_THAI='Received' WHERE MA_PHONG=@Phong", new { Phong = phong });
+				var result = await connection.ExecuteAsync("UPDATE PHONG SET TRANG_THAI='Occupied' WHERE MA_PHONG=@Phong", new { Phong = phong });
 
 				return Ok(result);
 			}

@@ -115,6 +115,21 @@ const RowTable = (props: Props) => {
          {props.check && (
             <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                <div className="flex items-center">
+                  <Button className="mr-2">
+                     <FontAwesomeIcon
+                        className="w-4 h-4 mr-1"
+                        icon={faPenToSquare}
+                     />
+                     <Link
+                        href={{
+                           pathname: "/user/update",
+                           query: { id: props.item.MA_KH },
+                        }}
+                     >
+                        Update user
+                     </Link>
+                  </Button>
+
                   {/* <Button className="ml-2">
                   <FontAwesomeIcon className="ml-1" icon={faTrash} />
                   Delete user
