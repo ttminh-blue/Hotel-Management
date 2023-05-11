@@ -34,6 +34,7 @@ const Ellipsis = (props: Props) => {
    }
    useEffect(() => {
       getData();
+    
    }, [props.re]);
    return (
       <div className="relative inline-block text-left">

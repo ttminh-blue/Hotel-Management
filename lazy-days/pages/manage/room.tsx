@@ -10,6 +10,7 @@ type Props = {};
 const RoomManage = (props: Props) => {
    const [room, setRoom] = useState<RoomType[]>([]);
    const [check, setCheck] = useState<boolean>(true);
+   const [reset, setReset] = useState<boolean>(true);
    const updateCheck = () => {
       setCheck(() => !check);
    };
@@ -37,6 +38,7 @@ const RoomManage = (props: Props) => {
             console.log(response.data);
          })
          .then((json) => console.log(json));
+         setReset(!reset);
    };
    const SearchCMND = async (event: any) => {
       setSearch(() => event.target.value);
@@ -95,6 +97,7 @@ const RoomManage = (props: Props) => {
                                  <RowTableRoom
                                     item={item}
                                     key={index}
+                                    res={reset}
                                     updateCheck={updateCheck}
                                  />
                               );

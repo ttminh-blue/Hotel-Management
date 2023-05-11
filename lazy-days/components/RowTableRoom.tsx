@@ -21,6 +21,7 @@ import Modal from "@/components/modal";
 type Props = {
    item: RoomType;
    updateCheck: Function;
+   res: boolean;
 };
 
 const RowTableRoom = (props: Props) => {
@@ -64,7 +65,7 @@ const RowTableRoom = (props: Props) => {
             <div className="flex items-center">{props.item.LOAI}</div>
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <Ellipsis item={props.item.MA_PHONG} re={re} /> /{" "}
+            <Ellipsis item={props.item.MA_PHONG} re={props.res} /> /{" "}
             {props.item.SO_LUONG_DAP_UNG}
          </td>
 

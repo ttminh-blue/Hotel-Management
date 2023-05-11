@@ -26,9 +26,9 @@ export default function Modal(props: Props) {
    const handleClick = (name: string) => {
       setNameGuest(name);
    };
-   const handleClickAdd = () => {
+   const handleClickAdd = async() => {
      
-      axios.post(
+      await axios.post(
          `${process.env.NEXT_PUBLIC_API}Phong/add?phong=${props.phong}&makh=${nameGuest}`
       );
       props.updateRe();
