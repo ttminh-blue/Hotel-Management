@@ -430,7 +430,7 @@ namespace lazy_days_API.Controllers
                             TRANGTHAI = "Wait",
                             YEUCAUDACBIET = DetailRegistrationTour.data3.request,
                             MATOUR = DetailRegistrationTour.data1,
-                            MANV = "NV001"
+                            MANV = DetailRegistrationTour.data3.ma_nv
                         });
                     foreach (var info in DetailRegistrationTour.data2)
                     {
@@ -473,7 +473,7 @@ namespace lazy_days_API.Controllers
                             TRANGTHAI = "Wait",
                             YEUCAUDACBIET = DetailRegistrationTour.data3.request,
                             MATOUR = DetailRegistrationTour.data1,
-                            MANV = "NV001"
+                            MANV = DetailRegistrationTour.data3.ma_nv
                         });
                     foreach (var info in DetailRegistrationTour.data2)
                     {
@@ -490,6 +490,43 @@ namespace lazy_days_API.Controllers
                     else return BadRequest();
                 }
                 return Ok(DetailRegistrationTour);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("listService")]
+        public async Task<IActionResult> getListService()
+        {
+            try
+            {
+                await using SqlConnection sqlConnection = _service.CreateConnection();
+                string query = "select MA_DV,NGAY_DANG_KY,PHIEUDANGKYDICHVU.TONG_TIEN,SOLUONG,KHACHHANG.TEN_KH,KHACHHANG.SDT from PHIEUDANGKYDICHVU JOIN PHIEUDATPHONG ON PHIEUDANGKYDICHVU.MA_PHIEU_DP = PHIEUDATPHONG.MA_PHIEU_DP JOIN KHACHHANG ON KHACHHANG.MA_KH = PHIEUDATPHONG.MA_KH";
+                var result = await sqlConnection.QueryAsync<TTDKDV>(query);
+                List<TTDKDV> res = (List<TTDKDV>)result;
+
+                if (result == null) return NotFound("Result empty.");
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("listTour")]
+        public async Task<IActionResult> getListTour()
+        {
+            try
+            {
+                await using SqlConnection sqlConnection = _service.CreateConnection();
+                string query = "select TENNGUOIDK,SDT,THOIGIANDANGKY,SONGUOITG,TEN_TOUR,GIA,EMAIL,TRANGTHAI from PHIEUDKTOUR JOIN TOURDULICH ON PHIEUDKTOUR.MATOUR = TOURDULICH.MA_TOUR";
+                var result = await sqlConnection.QueryAsync<TTPDT>(query);
+                List<TTPDT> res = (List<TTPDT>)result;
+
+                if (result == null) return NotFound("Result empty.");
+                return Ok(res);
             }
             catch (Exception ex)
             {

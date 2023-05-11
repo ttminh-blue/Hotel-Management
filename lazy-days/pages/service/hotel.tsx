@@ -345,7 +345,7 @@ const Hotel = (props: Props) => {
          "MA_DV": ma,
          "soLuong": amount,
          "tongTien": total,
-         "ma_Nv": "NV001",
+         "ma_Nv": sessionStorage.getItem('Ma_NV'),
          "loai": loai
       }
       // console.log(formSend)
@@ -404,8 +404,13 @@ const Hotel = (props: Props) => {
             setProduct(res.data)
          })
    }
+   const [role, setRole] = useState<string | null>(null)
+
    useEffect(() => {
       getData()
+      console.log(typeof (sessionStorage.getItem('CHUC_VU')))
+      let temp = sessionStorage.getItem('CHUC_VU')
+      setRole(temp)
    }, []);
 
 
@@ -435,143 +440,146 @@ const Hotel = (props: Props) => {
 
    return (
       <DefaultLayout>
-         <NoSSR>
-            <div className="flex justify-around justify-items-center">
-               <p className="text-3xl px-6 py-4">Lựa chọn loại hình</p>
-            </div>
-            <div className="flex justify-around justify-items-center">
-               <div className="px-6 py-4" onClick={() => setShowTables(0)}>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                     <input
-                        id="Service"
-                        type="radio"
-                        name="Type"
-                        value="Service"
-                        checked={type === "Service"}
-                        onChange={(e) => {
-                           onOptionChange(e);
-                        }}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                     />
-                     <label
-                        htmlFor="Service"
-                        className="w-full text-xl px-6 py-4 text-gray-900 rounded dark:text-gray-300"
-                     >
-                        Đăng ký dịch vụ
-                     </label>
+         {
+            role === 'LE TAN' ?
+               <NoSSR>
+                  <div className="flex justify-around justify-items-center">
+                     <p className="text-3xl px-6 py-4">Lựa chọn loại hình</p>
                   </div>
-               </div>
-               <div className="px-6 py-4 flex  gap-4  ">
-                  <div>
-                     <label
-                        htmlFor="Phone"
-                        className="w-full text-xl px-6 py-4 text-gray-900 rounded dark:text-gray-300"
+                  <div className="flex justify-around justify-items-center">
+                     <div className="px-6 py-4" onClick={() => setShowTables(0)}>
+                        <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                           <input
+                              id="Service"
+                              type="radio"
+                              name="Type"
+                              value="Service"
+                              checked={type === "Service"}
+                              onChange={(e) => {
+                                 onOptionChange(e);
+                              }}
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                           />
+                           <label
+                              htmlFor="Service"
+                              className="w-full text-xl px-6 py-4 text-gray-900 rounded dark:text-gray-300"
+                           >
+                              Đăng ký dịch vụ
+                           </label>
+                        </div>
+                     </div>
+                     <div className="px-6 py-4 flex  gap-4  ">
+                        <div>
+                           <label
+                              htmlFor="Phone"
+                              className="w-full text-xl px-6 py-4 text-gray-900 rounded dark:text-gray-300"
+                           >
+                              Phone
+                           </label>
+                           <input
+                              type="tel"
+                              name="Phone"
+                              id="Phone"
+                              onChange={(e) => {
+                                 setPhone(e.target.value)
+                              }}
+                              className="bg-gray-50 border h-fit mt-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           />
+                           <label
+                              htmlFor="Phone"
+                              id="waringPhone"
+                              className="w-full text-sm px-6 py-4 text-red-600 rounded dark:text-gray-300 hidden"
+                           >
+                              Please check phone
+                           </label>
+                        </div>
+                     </div>
+                     <div
+                        className="px-6 py-4"
+                        onClick={() => setShowTables(() => 1)}
                      >
-                        Phone
-                     </label>
-                     <input
-                        type="tel"
-                        name="Phone"
-                        id="Phone"
-                        onChange={(e) => {
-                           setPhone(e.target.value)
-                        }}
-                        className="bg-gray-50 border h-fit mt-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                     />
-                     <label
-                        htmlFor="Phone"
-                        id="waringPhone"
-                        className="w-full text-sm px-6 py-4 text-red-600 rounded dark:text-gray-300 hidden"
-                     >
-                        Please check phone
-                     </label>
+                        <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                           <input
+                              id="Product"
+                              type="radio"
+                              name="Type"
+                              value="Product"
+                              checked={type === "Product"}
+                              onChange={(e) => {
+                                 // console.log(e.target.value);
+                                 onOptionChange(e);
+                              }}
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                           />
+                           <label
+                              htmlFor="Product"
+                              className="w-full text-xl px-6 py-4 text-gray-900 rounded dark:text-gray-300"
+                           >
+                              Mua sản phẩm
+                           </label>
+                        </div>
+                     </div>
                   </div>
-               </div>
-               <div
-                  className="px-6 py-4"
-                  onClick={() => setShowTables(() => 1)}
-               >
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                     <input
-                        id="Product"
-                        type="radio"
-                        name="Type"
-                        value="Product"
-                        checked={type === "Product"}
-                        onChange={(e) => {
-                           // console.log(e.target.value);
-                           onOptionChange(e);
-                        }}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                     />
-                     <label
-                        htmlFor="Product"
-                        className="w-full text-xl px-6 py-4 text-gray-900 rounded dark:text-gray-300"
-                     >
-                        Mua sản phẩm
-                     </label>
+                  <div className="flex justify-center items-center mb-3">
+                     {showTables === 0 ? (
+                        <ListService
+                           type={type}
+                           listHS={HotelService}
+                           onChangeProps={(e: React.ChangeEvent<HTMLInputElement>) =>
+                              handleChangeList(e)
+                           }
+                           idChoose={choose}
+                           onChangeAmount={(e: React.ChangeEvent<HTMLInputElement>) => {
+                              handleChangeValue(e)
+                           }}
+                           AmountValue={amount.toString()}
+                        />
+                     ) : (
+                        showTables === 1 && (
+                           <ListProduct
+                              type={type}
+                              listP={Product}
+                              onChangeProps={(
+                                 e: React.ChangeEvent<HTMLInputElement>
+                              ) => handleChangeList(e)}
+                              idChoose={choose}
+                              onChangeAmount={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                 handleChangeValue(e)
+                              }}
+                              AmountValue={amount.toString()}
+                           />
+                        )
+                     )}
                   </div>
-               </div>
-            </div>
-            <div className="flex justify-center items-center mb-3">
-               {showTables === 0 ? (
-                  <ListService
-                     type={type}
-                     listHS={HotelService}
-                     onChangeProps={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChangeList(e)
-                     }
-                     idChoose={choose}
-                     onChangeAmount={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        handleChangeValue(e)
-                     }}
-                     AmountValue={amount.toString()}
-                  />
-               ) : (
-                  showTables === 1 && (
-                     <ListProduct
-                        type={type}
-                        listP={Product}
-                        onChangeProps={(
-                           e: React.ChangeEvent<HTMLInputElement>
-                        ) => handleChangeList(e)}
-                        idChoose={choose}
-                        onChangeAmount={(e: React.ChangeEvent<HTMLInputElement>) => {
-                           handleChangeValue(e)
+                  <div className="flex justify-center p-4 mt-8">
+                     <button
+                        className="text-white text-xl bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg px-5 py-2.5 text-center mr-2 mb-2"
+                        onClick={() => {
+                           // console.log(phone)
+                           handleCheck();
                         }}
-                        AmountValue={amount.toString()}
-                     />
-                  )
-               )}
-            </div>
-            <div className="flex justify-center p-4 mt-8">
-               <button
-                  className="text-white text-xl bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg px-5 py-2.5 text-center mr-2 mb-2"
-                  onClick={() => {
-                     // console.log(phone)
-                     handleCheck();
-                  }}
-                  disabled={choose === ""}
-               >
-                  Kiểm tra thông tin và giá
-               </button>
-            </div>
-            <div className="flex justify-center">
+                        disabled={choose === ""}
+                     >
+                        Kiểm tra thông tin và giá
+                     </button>
+                  </div>
+                  <div className="flex justify-center">
 
-               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden" id="alert1">
-                  <strong className="font-bold text-xl">Can't find booking information from phone number</strong>
-               </div>
-            </div>
-            <div className="flex justify-center">
+                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden" id="alert1">
+                        <strong className="font-bold text-xl">Can't find booking information from phone number</strong>
+                     </div>
+                  </div>
+                  <div className="flex justify-center">
 
-               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden" id="alert2">
-                  <strong className="font-bold text-xl">Error while loading, please refesh page</strong>
-               </div>
-            </div>
-            {!loading && (
-               <RenderInfo />
-            )}
-         </NoSSR>
+                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden" id="alert2">
+                        <strong className="font-bold text-xl">Error while loading, please refesh page</strong>
+                     </div>
+                  </div>
+                  {!loading && (
+                     <RenderInfo />
+                  )}
+               </NoSSR> : <div>You don't have premisson</div>
+         }
       </DefaultLayout>
    );
 };

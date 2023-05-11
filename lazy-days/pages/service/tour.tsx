@@ -112,21 +112,21 @@ const FormTour = (props: Props) => {
    const [fullName, setFullName] = useState('')
    const [idCard, setIdCrad] = useState('')
    const [email, setEmail] = useState('')
-   const [inputFields, setInputFields] = useState([{ TENNGUOITG: '', SDT: '',STT: 1 }])
-   const [error,setError] = useState(false)
-   const [departureDay,setDepartureDay] = useState('');
-   const [request,setRequest] = useState('');
-   const [shuttle,setShuttle] = useState('');
-      const registerTour = (data: any) => {
+   const [inputFields, setInputFields] = useState([{ TENNGUOITG: '', SDT: '', STT: 1 }])
+   const [error, setError] = useState(false)
+   const [departureDay, setDepartureDay] = useState('');
+   const [request, setRequest] = useState('');
+   const [shuttle, setShuttle] = useState('');
+   const registerTour = (data: any) => {
       toast("In progress", {
          theme: "dark",
          type: "info",
       });
-      axios.post('https://localhost:44335/api/DichVu/RegisterTour', data,{
+      axios.post('https://localhost:44335/api/DichVu/RegisterTour', data, {
          headers: {
-         'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
          }
-       })
+      })
          .then(res => {
             toast("Registation successfully.", {
                theme: "dark",
@@ -284,10 +284,10 @@ const FormTour = (props: Props) => {
                                  day = '0' + day;
 
                               let t = [year, month, day].join('-');
-                              if (new Date(t) >= new Date(UserDate)){
+                              if (new Date(t) >= new Date(UserDate)) {
                                  setError(true)
                               }
-                              else{
+                              else {
                                  setError(false)
                               }
                               setDepartureDay(UserDate)
@@ -449,6 +449,7 @@ const FormTour = (props: Props) => {
                               shuttle: shuttle,
                               request: request,
                               registerDate: new Date(),
+                              ma_nv : sessionStorage.getItem('Ma_NV')
                            }
                            let data = {
                               data1: props.detailChoose.MA_TOUR,
@@ -492,48 +493,59 @@ const Tour = (props: Props) => {
    const handleChangeList = (e: React.ChangeEvent<HTMLInputElement>) => {
       console.log(e.target.value);
       setChoose(e.target.value);
-      console.log("CA",listTour)
+      console.log("CA", listTour)
       setDetailChoose(listTour.find((l: any) => l.MA_TOUR == e.target.value))
       setEn(true)
    };
-   const getData = () =>{
+   const getData = () => {
       axios.get('https://localhost:44335/api/DichVu/Tour')
-      .then(res => {
-         console.log(res.data)
-         // setChoose(res.data[0].Ma_Dv)
-         setListTour(res.data)
-         setLoad(false)
-      })
+         .then(res => {
+            console.log(res.data)
+            // setChoose(res.data[0].Ma_Dv)
+            setListTour(res.data)
+            setLoad(false)
+         })
    }
+   const [role, setRole] = useState<string | null>(null)
    useEffect(() => {
       getData()
+      console.log(typeof (sessionStorage.getItem('CHUC_VU')))
+      let temp = sessionStorage.getItem('CHUC_VU')
+      setRole(temp)
    }, []);
 
    return (
       <DefaultLayout>
-         <div className="flex justify-around justify-items-center">
-            <div className="px-6 py-4 ">
-               <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 ">
-                  <p className="w-full text-3xl px-6 py-4 text-gray-900 rounded dark:text-gray-300">
-                     Đăng ký dịch vụ
-                  </p>
+         {
+            role === 'LE TAN' ?
+               <div>
+
+                  <div className="flex justify-around justify-items-center">
+                     <div className="px-6 py-4 ">
+                        <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 ">
+                           <p className="w-full text-3xl px-6 py-4 text-gray-900 rounded dark:text-gray-300">
+                              Đăng ký dịch vụ
+                           </p>
+                        </div>
+                        {!load &&
+                           <ListService
+                              listTour={listTour}
+                              onChangeProps={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                 handleChangeList(e)
+                              }
+                           // idChoose={choose}
+                           // onChangeAmount={(e: React.ChangeEvent<HTMLInputElement>) => {
+                           //    handleChangeValue(e)
+                           // }}
+                           // AmountValue={amount.toString()}
+                           />
+                        }
+                     </div>
+                  </div>
+                  <FormTour detailChoose={detailChoose} en={en} />
                </div>
-               {!load &&
-                  <ListService
-                     listTour={listTour}
-                     onChangeProps={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChangeList(e)
-                     }
-                  // idChoose={choose}
-                  // onChangeAmount={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  //    handleChangeValue(e)
-                  // }}
-                  // AmountValue={amount.toString()}
-                  />
-               }
-            </div>
-         </div>
-         <FormTour detailChoose={detailChoose} en={en} />
+               : <div>You don't have premisson</div>
+         }
       </DefaultLayout>
    );
 };

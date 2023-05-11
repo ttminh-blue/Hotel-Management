@@ -60,6 +60,14 @@ const SidebarCustom = (props: Props) => {
                   <Sidebar.Item href="/clean" icon={RectangleStackIcon}>
                      Cleanning
                   </Sidebar.Item>
+                  <Sidebar.Collapse icon={UserIcon} label="List registration">
+                     <Sidebar.Item href="/service/listHotelService">
+                        Hotel service 
+                     </Sidebar.Item>
+                     <Sidebar.Item href="/service/listTour">
+                        Tour 
+                     </Sidebar.Item>
+                  </Sidebar.Collapse>
                </Sidebar.ItemGroup>
             </Sidebar.Items>
          </Sidebar>

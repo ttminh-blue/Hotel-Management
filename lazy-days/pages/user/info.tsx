@@ -424,11 +424,7 @@ const Info = (props: Props) => {
                         {
                            combo.map((c: any, index: any) => {
                               return (
-<<<<<<< HEAD
-                                 <div>
-=======
                                  <div key = {index}>
->>>>>>> a60b52f8b1c456ed2f78e5a68d3fe3e870311604
                                        <input type="radio" id={`Combo${index}`} name="combo" value={c.MA_GOIDV} 
                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                           setComboC(e.target.value)

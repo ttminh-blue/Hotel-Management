@@ -55,6 +55,8 @@ public class TTDK
     public DateTime? registerDate { get; set; } = null;
     public string? request { get; set; } = null;
     public string? shuttle { get; set; } = null;
+
+    public string? ma_nv { get; set; } = null;
 }
 
 public class FormTour
@@ -62,4 +64,19 @@ public class FormTour
     public string? data1 { get; set; }
     public List<TTNTG> data2 { get; set; }
     public TTDK data3 { get; set; }
+}
+
+
+public class TTPDT
+{
+    public string? TENNGUOIDK { get; set; } = null;
+    public string? SDT { get; set; } = null;
+    public DateTime? THOIGIANDANGKY { get; set; } = null;
+    public int? SONGUOITG { get; set; } = null;
+    public string? TEN_TOUR { get; set; } = null;
+    public int? GIA { get; set; } = null;
+
+    public string? EMAIL { get; set; } = null;
+
+    public string? TRANGTHAI { get; set; } = null;
 }

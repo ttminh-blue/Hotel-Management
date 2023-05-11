@@ -1,12 +1,21 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { imageAssets } from "@/public/assets/imgs";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {};
 
 const Service = (props: Props) => {
+   const [role,setRole] = useState<string | null> (null)
+   useEffect(() => {
+      console.log(typeof(sessionStorage.getItem('CHUC_VU')))
+      let temp = sessionStorage.getItem('CHUC_VU')
+      setRole(temp)
+   },[])
+
    return (
       <DefaultLayout>
+         {
+            role === 'LE TAN' ?
          <div
             className="flex justify-around justify-items-center h-screen pt-12"
             style={{ height: "90%" }}
@@ -68,7 +77,8 @@ const Service = (props: Props) => {
                </div>
             </div>
             {/* <img src={imageAssets.Tour.src} alt="tour-img" /> */}
-         </div>
+         </div> : <div>You don't have premisson</div>
+         }
       </DefaultLayout>
    );
 };
