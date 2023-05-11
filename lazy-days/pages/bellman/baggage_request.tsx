@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -19,6 +19,28 @@ type Props = {
 const DeliveryForm = (props: Props) => {
    const router = useRouter();
 
+   const notify = (message: any) => {
+      if (message != "Add baggage form successfully.") {
+         toast.warning(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+         });
+      } else {
+         toast.success(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+         });
+      }
+   };
+
    const [packages, setPackages] = useState<PackageFormType>({
       packages: [],
    });
@@ -27,7 +49,7 @@ const DeliveryForm = (props: Props) => {
       setPackages(() => data);
    };
 
-   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+   const handleAdd = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
       const packageStr = packages.packages
@@ -42,7 +64,7 @@ const DeliveryForm = (props: Props) => {
 
       const formData: BaggageRequestType = {
          HanhLy: packageStr,
-         MaNv: "NV003",
+         MaNv: sessionStorage.getItem("Ma_NV"),
          MaPhieuDp: props.data.MA_PHIEU_DP,
          MaPhong: props.data.MA_PHONG,
          SoLuong: quantity,
@@ -50,28 +72,32 @@ const DeliveryForm = (props: Props) => {
       };
 
       axios
-         .post(
-            process.env.NEXT_PUBLIC_API + "Bellman/baggage_request",
-            formData
-         )
+         .post(process.env.NEXT_PUBLIC_API + "Bellman/baggage_request", {
+            MA_PHIEUDANGKYVANCHUYEN: formData.MaPhieudangkyvanchuyen,
+            MA_PHONG: formData.MaPhong,
+            MA_PHIEU_DP: formData.MaPhieuDp,
+            MA_NV: formData.MaNv,
+            HANH_LY: formData.HanhLy,
+            SO_LUONG: formData.SoLuong,
+         })
          .then(() => {
-            toast("Add baggage form successfully.", {
-               theme: "dark",
-               type: "success",
-            });
+            notify("Add baggage form successfully.");
             router.push("/bellman/baggage_forms");
          })
          .catch((ex) => {
-            toast(ex, {
-               theme: "dark",
-               type: "error",
-            });
+            notify(ex);
          });
    };
 
+   useEffect(() => {
+      if (sessionStorage.getItem("CHUC_VU") != "NHAN VIEN BELLMAN") {
+         router.push("/access-denied");
+      }
+   }, []);
+
    return (
       <DefaultLayout>
-         <form className="container mx-auto p-4 pt-6" onSubmit={handleSubmit}>
+         <form className="container mx-auto p-4 pt-6" onSubmit={handleAdd}>
             <div className="relative z-0 w-full mb-6 group">
                <label
                   htmlFor="countries"

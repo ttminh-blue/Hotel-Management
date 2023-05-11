@@ -24,16 +24,12 @@ type Props = {
 };
 
 const RowTableRoom = (props: Props) => {
-   const [re,setRe]= useState<boolean>(true)
-   const updateRe = ()=>{
-      setRe(()=>!re);
-   }
-   const url = process.env.NEXT_PUBLIC_API;
-   const handCheckIn = () => {
-      axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
-      props.updateCheck();
-      updateRe()
-      toast.success(`Booking ROOM ${props.item.MA_PHONG} successfully`, {
+   const [re, setRe] = useState<boolean>(true);
+   const updateRe = () => {
+      setRe(() => !re);
+   };
+   const thongbao = (tb: string) => {
+      toast.success(tb, {
          position: "top-right",
          autoClose: 5000,
          hideProgressBar: false,
@@ -42,7 +38,13 @@ const RowTableRoom = (props: Props) => {
          draggable: true,
       });
    };
-
+   const url = process.env.NEXT_PUBLIC_API;
+   const handCheckIn = async () => {
+      await axios.post(`${url}Phong/update?phong=${props.item.MA_PHONG}`);
+      await props.updateCheck();
+      updateRe();
+      thongbao(`Booking ROOM ${props.item.MA_PHONG} successfully`);
+   };
 
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -62,7 +64,7 @@ const RowTableRoom = (props: Props) => {
             <div className="flex items-center">{props.item.LOAI}</div>
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <Ellipsis item={props.item.MA_PHONG} re={re}/> /{" "}
+            <Ellipsis item={props.item.MA_PHONG} re={re} /> /{" "}
             {props.item.SO_LUONG_DAP_UNG}
          </td>
 
@@ -100,7 +102,7 @@ const RowTableRoom = (props: Props) => {
                   </Button>
                )}
                {props.item.TRANG_THAI === "Occupied" && (
-                  <Modal phong={props.item.MA_PHONG} updateRe={updateRe}/>
+                  <Modal phong={props.item.MA_PHONG} updateRe={handCheckIn} />
                )}
 
                {/* <Button className="ml-2">

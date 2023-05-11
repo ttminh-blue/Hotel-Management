@@ -33,22 +33,22 @@ namespace lazy_days_API.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
-        [HttpGet("CMND")]
-        public async Task<IActionResult> GetCMND(string cmnd)
-        {
-            try
-            {
-                await using SqlConnection connection = _sqlFactory.CreateConnection();
-                var result = await connection.QueryAsync($"select phong.* from phong, chitietphong,KHACHHANG where phong.MA_PHONG=CHITIETPHONG.MA_PHONG and CHITIETPHONG.MA_KH=KHACHHANG.MA_KH and KHACHHANG.CMND like '%{cmnd}%'");
-                if (result == null) return NotFound();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("customers")]
+		[HttpGet("CMND")]
+		public async Task<IActionResult> GetCMND(string cmnd)
+		{
+			try
+			{
+				await using SqlConnection connection = _sqlFactory.CreateConnection();
+				var result = await connection.QueryAsync($"select phong.* from phong, chitietphong,KHACHHANG where phong.MA_PHONG=CHITIETPHONG.MA_PHONG and CHITIETPHONG.MA_KH=KHACHHANG.MA_KH and KHACHHANG.CMND like '%{cmnd}%'");
+				if (result == null) return NotFound();
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		[HttpGet("customers")]
 		public async Task<IActionResult> GetCustomer(string phong)
 		{
 			try
@@ -69,7 +69,7 @@ namespace lazy_days_API.Controllers
 			try
 			{
 				await using SqlConnection connection = _sqlFactory.CreateConnection();
-				var result = await connection.ExecuteAsync("UPDATE PHONG SET TRANG_THAI='Received' WHERE MA_PHONG=@Phong", new { Phong = phong });
+				var result = await connection.ExecuteAsync("UPDATE PHONG SET TRANG_THAI='Occupied' WHERE MA_PHONG=@Phong", new { Phong = phong });
 
 				return Ok(result);
 			}
@@ -79,51 +79,51 @@ namespace lazy_days_API.Controllers
 			}
 		}
 		[HttpPost("add")]
-        public async Task<IActionResult> AddMem (string phong,string makh)
-        {
-            try
-            {
-                await using SqlConnection connection = _sqlFactory.CreateConnection();
-                var result = await connection.ExecuteAsync("INSERT INTO CHITIETPHONG VALUES(@phong,@makh)", new {phong=phong,makh=makh});
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpOptions]
-        public async Task<IActionResult> GetGuarantee()
-        {
-            try
-            {
-                await using SqlConnection connection = _sqlFactory.CreateConnection();
-                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='Available' and LOAI='GUARANTEE'");
-                if (result == null) return NotFound();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpPut]
-        public async Task<IActionResult> GetNotGuarantee()
-        {
-            try
-            {
-                await using SqlConnection connection = _sqlFactory.CreateConnection();
-                var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='Available' and LOAI='NOT GUARANTEE'");
-                if (result == null) return NotFound();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+		public async Task<IActionResult> AddMem(string phong, string makh)
+		{
+			try
+			{
+				await using SqlConnection connection = _sqlFactory.CreateConnection();
+				var result = await connection.ExecuteAsync("INSERT INTO CHITIETPHONG VALUES(@phong,@makh)", new { phong = phong, makh = makh });
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		[HttpOptions]
+		public async Task<IActionResult> GetGuarantee()
+		{
+			try
+			{
+				await using SqlConnection connection = _sqlFactory.CreateConnection();
+				var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='Available' and LOAI='GUARANTEE'");
+				if (result == null) return NotFound();
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		[HttpPut]
+		public async Task<IActionResult> GetNotGuarantee()
+		{
+			try
+			{
+				await using SqlConnection connection = _sqlFactory.CreateConnection();
+				var result = await connection.QueryAsync("Select * from Phong where TRANG_THAI='Available' and LOAI='NOT GUARANTEE'");
+				if (result == null) return NotFound();
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
 
-        [HttpGet("{Id}")]
+		[HttpGet("{Id}")]
 		public async Task<IActionResult> Get([FromRoute] string Id)
 		{
 			try
@@ -169,12 +169,12 @@ namespace lazy_days_API.Controllers
 					newId += maxId.ToString();
 				}
 
-				phong.MaPhong = newId;
+				phong.MA_PHONG = newId;
 
 
+				string queryStr = "Insert into Phong(MA_PHONG, TEN_PHONG, SO_LUONG_DAP_UNG, LOAI, TRANG_THAI) " +
+					"VALUES (@MA_PHONG, @TEN_PHONG, @SO_LUONG_DAP_UNG, @LOAI, @TRANG_THAI)";
 
-				string queryStr = "Insert into Phong(MA_PHONG, TEN_PHONG, SO_LUONG_DAP_UNG, LOAI, TRANG_THAI, GIA) " +
-					"VALUES (@MaPhong, @TenPhong, @SoLuongDapUng, @Loai, @TrangThai, @Gia)";
 				await sqlConnection.ExecuteAsync(queryStr, phong);
 
 				return Ok("Added successfully .");

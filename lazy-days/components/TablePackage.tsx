@@ -41,7 +41,7 @@ const TablePackage = (props: Props) => {
       }
    };
 
-   const handleEditChanged = (index: number) => {
+   const handleEditPackage = (index: number) => {
       setEditState(() => index.toString());
       setEditTempData(() => formData.packages[index]);
    };
@@ -65,7 +65,7 @@ const TablePackage = (props: Props) => {
       });
    };
 
-   const handleSaveEditedChanged = (index: number) => {
+   const handleSavePackageEditChanged = (index: number) => {
       setFormData((prev) => {
          const newPackages: any = prev.packages.map((val, id) => {
             if (id === index) return editTempData;
@@ -110,6 +110,10 @@ const TablePackage = (props: Props) => {
          }));
          setPackageDeliver(packageInitialValue);
       }
+   };
+
+   const handleClearPackage = () => {
+      setPackageDeliver(() => packageInitialValue);
    };
 
    const handleDeletePackage = (index: number) => {
@@ -179,9 +183,7 @@ const TablePackage = (props: Props) => {
                </Table.Cell>
                <Table.Cell>
                   <button
-                     onClick={() => {
-                        setPackageDeliver(() => packageInitialValue);
-                     }}
+                     onClick={handleClearPackage}
                      type="button"
                      className="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400"
                   >
@@ -225,7 +227,7 @@ const TablePackage = (props: Props) => {
                               <Table.Cell>
                                  <button
                                     onClick={() =>
-                                       handleSaveEditedChanged(index)
+                                       handleSavePackageEditChanged(index)
                                     }
                                     type="button"
                                     className="font-medium text-blue-600 hover:text-blue-400 dark:text-blue-500"
@@ -244,7 +246,7 @@ const TablePackage = (props: Props) => {
                               </Table.Cell>
                               <Table.Cell>
                                  <button
-                                    onClick={() => handleEditChanged(index)}
+                                    onClick={() => handleEditPackage(index)}
                                     type="button"
                                     className="font-medium text-blue-600 hover:text-blue-400 dark:text-blue-500"
                                  >

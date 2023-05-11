@@ -2,6 +2,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import { BellmanAssignmentRoom } from "@/types/UserType";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 type Props = {
@@ -9,6 +10,14 @@ type Props = {
 };
 
 const ArrangeBill = (props: Props) => {
+   const router = useRouter();
+
+   useEffect(() => {
+      if (sessionStorage.getItem("CHUC_VU") != "NHAN VIEN BELLMAN") {
+         router.push("/access-denied");
+      }
+   }, []);
+
    return (
       <DefaultLayout>
          <div className="bg-gray-100">

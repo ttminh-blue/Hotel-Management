@@ -85,7 +85,7 @@ export type PackageFormType = {
 export type BaggageRequestType = {
    MaPhong: string,
    MaPhieuDp: string,
-   MaNv: string,
+   MaNv: string | null,
    SoLuong: number,
    HanhLy: string,
    MaPhieudangkyvanchuyen: string

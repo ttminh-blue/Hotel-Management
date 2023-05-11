@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import RowTableAssignmentRoom from "@/components/RowTableAssignmentRoom";
 import { useQuery } from "react-query";
+import { useRouter } from "next/router";
 type Props = {};
 
 const RoomAssignmentManagement = (props: Props) => {
    const [check, setCheck] = useState(false);
 
-   const refreshAPI = () => {
+   const refreshApi = () => {
       setCheck(() => !check);
    };
 
@@ -22,6 +23,13 @@ const RoomAssignmentManagement = (props: Props) => {
             )
          ).data
    );
+   const router = useRouter();
+
+   useEffect(() => {
+      if (sessionStorage.getItem("CHUC_VU") != "NHAN VIEN BELLMAN") {
+         router.push("/access-denied");
+      }
+   }, []);
 
    return (
       <DefaultLayout>
@@ -116,7 +124,7 @@ const RoomAssignmentManagement = (props: Props) => {
                               roomAssignmentQuery.data.map((item, index) => {
                                  return (
                                     <RowTableAssignmentRoom
-                                       refreshFunc={refreshAPI}
+                                       refreshFunc={refreshApi}
                                        item={item}
                                        key={index}
                                     />

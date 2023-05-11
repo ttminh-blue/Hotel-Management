@@ -12,27 +12,44 @@ type Props = {
 
 const CleanRoom = (props: Props) => {
    const router = useRouter();
-   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+
+   const notify = (message: any) => {
+      if (message != "Create cleanning request successfully.") {
+         toast.warning(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+         });
+      } else {
+         toast.success(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+         });
+      }
+   };
+
+   const handleAddRequest = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (props.data.MA_PHONG) {
          axios
             .post(process.env.NEXT_PUBLIC_API + "Bellman/cleanning_request", {
                maPcdvs: "",
-               maNvbellman: "NV003",
+               maNvbellman: sessionStorage.getItem("Ma_NV"),
                maPhong: props.data.MA_PHONG,
             })
             .then(() => {
-               toast("Create cleanning request successfully.", {
-                  theme: "dark",
-                  type: "success",
-               });
-               router.push("/clean");
+               notify("Create cleanning request successfully.");
+               router.push("/clean_requests");
             })
             .catch((error) => {
-               toast(error, {
-                  theme: "dark",
-                  type: "error",
-               });
+               notify(error);
             });
       }
    };
@@ -45,18 +62,16 @@ const CleanRoom = (props: Props) => {
 
    return (
       <DefaultLayout>
-         <form className="container mx-auto p-4 pt-6" onSubmit={handleSubmit}>
+         <form
+            className="container mx-auto p-4 pt-6"
+            onSubmit={handleAddRequest}
+         >
             <div className="grid md:grid-cols-2 md:gap-6"></div>
 
             <div className="relative z-0 w-full mb-6 group">
-               <label
-                  htmlFor="countries"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-               >
-                  Select rooms
-               </label>
                <select
                   id="countries"
+                  disabled
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                >
                   {props.data && (

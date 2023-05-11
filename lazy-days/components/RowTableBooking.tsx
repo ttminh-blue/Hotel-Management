@@ -1,15 +1,9 @@
 import { BookingGet, RoomType } from "@/types/UserType";
-import {
-   faMoneyBill,
-   faPen,
-   faPenToSquare,
-   faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {} from "@fortawesome/free-regular-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
 import { Button, Select } from "flowbite-react";
-import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import axios from "axios";
@@ -20,22 +14,23 @@ type Props = {
    item: BookingGet;
    dropdownN: RoomType[];
    dropdownG: RoomType[];
-   check: boolean;
    updateCheck: Function;
 };
 const url = process.env.NEXT_PUBLIC_API;
 const RowTableBooking = (props: Props) => {
    const phong = useRef<HTMLSelectElement>(null);
-   
-   const [re,setRe]= useState<boolean>(true)
-   const handleAllocate = async () => {
+
+   const [re, setRe] = useState<boolean>(true);
+   const handleClickAllocate = async () => {
+      console.log(sessionStorage.getItem("Ma_NV"));
       let data = {
-         MaNvql: "NV001",
-         MaPhieuDp: props.item.MA_PHIEU_DP,
-         MaPhong: phong.current?.value,
-         NgayPhanPhong: null,
-         NgayNhan: null,
+         mA_NVQL: sessionStorage.getItem("Ma_NV"),
+         mA_PHIEU_DP: props.item.MA_PHIEU_DP,
+         mA_PHONG: phong.current?.value,
+         ngaY_PHAN_PHONG: null,
+         ngaY_NHAN: null,
       };
+
       const config = {
          headers: {
             "content-type": "application/json",
@@ -43,33 +38,27 @@ const RowTableBooking = (props: Props) => {
          },
       };
       const postGrantRoom = async () => {
-         console.log(phong.current?.value[0] !=='P')
-         if(phong.current?.value[0] !=='P' ){
-            toast.warning(
-               `Allocate Room Fail(Please select Room)`,
-               {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-               }
-            );
-            setRe(!re)
-            return;
-         }
-         else {
+         if (phong.current?.value[0] !== "P") {
+            toast.warning(`Allocate Room Fail(Please select Room)`, {
+               position: "top-right",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+            });
+            setRe(!re);
+         } else {
             await axios
-            .post(`${url}phanphong`, data, config)
-            .then((response) => {
-               console.log(response.data);
-            })
-            .then((json) => console.log(json));
-            setRe(!re)
+               .post(`${url}phanphong`, data, config)
+               .then((response) => {
+                  console.log(response.data);
+               })
+               .then((json) => console.log(json));
+            setRe(!re);
             props.updateCheck();
             toast.success(
-               `Grant ROOM ${phong.current?.value} to ID Booking ${props.item.MA_PHIEU_DP}`,
+               `Allocate ROOM ${phong.current?.value} to ID Booking ${props.item.MA_PHIEU_DP}`,
                {
                   position: "top-right",
                   autoClose: 5000,
@@ -80,11 +69,8 @@ const RowTableBooking = (props: Props) => {
                }
             );
          }
-        
       };
-      postGrantRoom();
-     
-     
+      await postGrantRoom();
    };
    return (
       <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -105,11 +91,6 @@ const RowTableBooking = (props: Props) => {
                {moment(props.item.NGAY_DAT).format("MM/DD/YYYY")}
             </span>
          </td>
-         <td className="px-4 py-2">
-            <span className=" text-blue-600 text-sm font-medium px-2 py-0.5 rounded">
-               {moment(props.item.NGAY_TRA_PHONG).format("MM/DD/YYYY")}
-            </span>
-         </td>
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {props.item.LOAIPHONG}
@@ -118,9 +99,10 @@ const RowTableBooking = (props: Props) => {
             {props.item.TIEN_COC}
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <select
+            <Select
                id={props.item.MA_PHIEU_DP}
                ref={phong}
+               key={props.item.MA_PHIEU_DP}
                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md"
             >
                <option value="" selected disabled>
@@ -137,11 +119,11 @@ const RowTableBooking = (props: Props) => {
                           {phong.MA_PHONG}
                        </option>
                     ))}
-            </select>
+            </Select>
          </td>
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div>
-               <Button className="w-40 mr-2" onClick={handleAllocate}>
+               <Button className="w-40 mr-2" onClick={handleClickAllocate}>
                   <FontAwesomeIcon
                      className="w-4 h-4 mr-1"
                      icon={faPenToSquare}

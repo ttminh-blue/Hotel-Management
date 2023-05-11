@@ -148,6 +148,9 @@ const FormTour = (props: Props) => {
             data-modal-target="defaultModal" data-modal-toggle="defaultModal"
             type="button"
             disabled={props.en === false}
+            onClick={()=>{
+               console.log("AAAA")
+            }}
          >
             Register
          </button>

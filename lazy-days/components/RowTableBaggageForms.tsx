@@ -1,11 +1,5 @@
-import { BaggageFormType, BookingGet } from "@/types/UserType";
-import {
-   faMoneyBill,
-   faPen,
-   faPenToSquare,
-   faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BaggageFormType } from "@/types/UserType";
+
 import {} from "@fortawesome/free-regular-svg-icons";
 import {} from "@fortawesome/fontawesome-svg-core";
 import React from "react";

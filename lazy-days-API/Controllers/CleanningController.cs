@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using lazy_days_API.Models.DTO;
 using lazy_days_API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
