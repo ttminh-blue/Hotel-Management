@@ -1,49 +1,58 @@
 import RowTableBooking from "@/components/RowTableBooking";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { BookingGet, RoomType } from "@/types/UserType";
-import React, { useState,useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 type Props = {};
 
 
 const BookingManage = (props: Props) => {
-   const [booking, setBooking]= useState<BookingGet[]>([]);
+   const [booking, setBooking] = useState<BookingGet[]>([]);
    const [roomG, setRoomG] = useState<RoomType[]>([])
-   const [roomN,setRoomN] = useState<RoomType[]>([])
-   const [check,setCheck] = useState<boolean>(true);
+   const [roomN, setRoomN] = useState<RoomType[]>([])
+   const [check, setCheck] = useState<boolean>(true);
    const updateCheck = () => {
-      setCheck(()=>!check);
-    };
+      setCheck(() => !check);
+   };
    const url = process.env.NEXT_PUBLIC_API;
    const getData = async () => {
       await axios.get(`${url}booking`)
-        .then((response) => { 
-          setBooking(()=>response.data)
-          console.log(response.data)
-        }).then(json => console.log(json))
-    }
-    const getDataRoomG = async () => {
+         .then((response) => {
+            setBooking(() => response.data)
+            console.log(response.data)
+         }).then(json => console.log(json))
+   }
+   const getDataRoomG = async () => {
       await axios.options(`${url}phong`)
-        .then((response) => {
-          setRoomG(()=>response.data)
-          console.log(response.data)
-        }).then(json => console.log(json))
-    }
-    const getDataRoomN = async () => {
+         .then((response) => {
+            setRoomG(() => response.data)
+            console.log(response.data)
+         }).then(json => console.log(json))
+   }
+   const getDataRoomN = async () => {
       await axios.put(`${url}phong`)
-        .then((response) => {
-          setRoomN(()=>response.data)
-          console.log(response.data)
-        }).then(json => console.log(json))
-    }
-    const get = async() => {
+         .then((response) => {
+            setRoomN(() => response.data)
+            console.log(response.data)
+         }).then(json => console.log(json))
+   }
+   const get = async () => {
       await getData();
       getDataRoomG();
       getDataRoomN();
-    }
-    useEffect(()=>{
-     get();
-    },[check])
+   }
+
+   const [chucVu, setChucVu] = useState<string | null | undefined>();
+
+   useEffect(() => {
+      setChucVu(() => sessionStorage.getItem("CHUC_VU"));
+   }, []);
+
+
+
+   useEffect(() => {
+      get();
+   }, [check])
    return (
       <DefaultLayout>
          <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
@@ -119,26 +128,26 @@ const BookingManage = (props: Props) => {
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                            <tr>
                               <th scope="col" className="p-4">
-                                 
+
                               </th>
                               <th scope="col" className="px-4 py-3">
                                  Booking Code
                               </th>
                               <th scope="col" className="px-4 py-3">
-                                 ID 
+                                 ID
                               </th>
                               <th scope="col" className="px-4 py-3">
                                  Check-in Date
                               </th>
-                              
+
                               <th scope="col" className="px-4 py-3">
-                              Type Room
+                                 Type Room
                               </th>
                               <th scope="col" className="px-4 py-3">
-                              Deposit
+                                 Deposit
                               </th>
                               <th scope="col" className="px-4 py-3">
-                              Choice Room
+                                 Choice Room
                               </th>
                               <th scope="col" className="px-4 py-3">
                                  Grant
@@ -146,11 +155,18 @@ const BookingManage = (props: Props) => {
                            </tr>
                         </thead>
                         <tbody>
-                           {booking.map((item, index) => {
-                              return (
-                                 <RowTableBooking item={item} key={index} dropdownN={roomN} dropdownG={roomG} updateCheck={updateCheck}/>
-                              );
-                           })}
+                           { chucVu && 
+                              chucVu === "QUAN LY PHONG" && (
+                                 <>
+                                    {booking.map((item, index) => {
+                                       return (
+                                          <RowTableBooking item={item} key={index} dropdownN={roomN} dropdownG={roomG} updateCheck={updateCheck} />
+                                       );
+                                    })}
+                                 </>
+                              )
+                           }
+
                         </tbody>
                      </table>
                   </div>

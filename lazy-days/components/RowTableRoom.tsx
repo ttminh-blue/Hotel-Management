@@ -90,7 +90,10 @@ const RowTableRoom = (props: Props) => {
 
          <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <div className="flex justify-center">
-               {props.item.TRANG_THAI === "Booked" && (
+               {
+                 sessionStorage.getItem("CHUC_VU")&&sessionStorage.getItem("CHUC_VU") === "LE TAN" &&(
+                     <>
+                     {props.item.TRANG_THAI === "Booked" && (
                   <Button
                      className="w-40 mr-2 bg-blue-600  hover:bg-blue-800 "
                      onClick={handCheckIn}
@@ -105,6 +108,10 @@ const RowTableRoom = (props: Props) => {
                {props.item.TRANG_THAI === "Occupied" && (
                   <Modal phong={props.item.MA_PHONG} updateRe={handCheckIn} />
                )}
+                     </>
+                  )
+               }
+               
 
                {/* <Button className="ml-2">
                   <FontAwesomeIcon className="ml-1" icon={faTrash} />
